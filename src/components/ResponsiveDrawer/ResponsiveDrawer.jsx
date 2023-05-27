@@ -13,17 +13,15 @@ function ResponsiveDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const drawerWidth = 400;
+  const drawerWidth = 240;
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  
-  const container = typeof window !== 'undefined' ? () => window().document.body : undefined;
-  
-  //const container = window !== undefined ? () => window().document.body : undefined;
 
-  const [tabValue, setTabValue] = React.useState(0);
+  const container = window !== undefined ? () => window().document.body : undefined;
+
+  const [tabvalue, setTabValue] = React.useState(0);
 
   const handleTabChange = (event, newTabValue) => {
     setTabValue(newTabValue);
@@ -57,7 +55,7 @@ function ResponsiveDrawer(props) {
   }
 
   return (
-    <Box sx={{ display: 'flex', padding: 2}}>
+    <Box sx={{ display: 'flex' }}>
 
       <AppBar
         position="fixed"
@@ -115,7 +113,7 @@ function ResponsiveDrawer(props) {
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)`, margin: 0 } }}
       >
         <Toolbar />
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

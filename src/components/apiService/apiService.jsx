@@ -2,8 +2,8 @@ import axios from "axios";
 
 
 export const getAllHousing = async () => {
-  const { data } = await axios.get("http://localhost:8000/API/housing");
-  console.log("Datos obtenidos:", data);
+  const {data}  = await axios.get("http://localhost:8000/API/housing");
+  console.log("Data en getAllHousing:", data);
   return data;
 }
 
