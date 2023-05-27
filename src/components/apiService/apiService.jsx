@@ -1,23 +1,24 @@
 import axios from "axios";
 
 
-export const getAllHouses = async () => {
+export const getAllHousing = async () => {
   const { data } = await axios.get("http://localhost:8000/API/housing");
+  console.log("Datos obtenidos:", data);
   return data;
 }
 
-export const updateHouse = async (_id, body) => {
+export const updateHousing = async (_id, body) => {
   const { data } = await axios.put(`http://localhost:8000/API/housing/${_id}`, body);
   return data;
 }
 
 
-export const deleteHouse = async (_id, body) => {
+export const deleteHousing = async (_id, body) => {
   const { data } = await axios.put(`http://localhost:8000/API/housing/${_id}`, body);
   return data;
 }
 
-export const addHouse = async (body) => {
+export const addHousing = async (body) => {
   const { data } = await axios.post(`http://localhost:8000/API/housing/`, body);
   return data;
 }

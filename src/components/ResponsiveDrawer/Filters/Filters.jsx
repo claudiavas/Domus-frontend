@@ -1,7 +1,6 @@
 import { Divider, Toolbar } from "@mui/material";
 
 function Filters(props) {
-    const drawerWidth = 240;
 
     return (
   

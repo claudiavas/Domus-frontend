@@ -1,25 +1,29 @@
-import * as React from 'react';
+import React from 'react';
+
 import PropTypes from 'prop-types';
 import { AppBar, Box, Drawer, IconButton, Toolbar, Typography, Tabs, Tab } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 
 import Filters from './Filters/Filters';
-import Card from './HousingList/Card/Card';
+import HousingList from './HousingList/HousingList';
+import { useState } from 'react';
 
 
 function ResponsiveDrawer(props) {
   const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  const drawerWidth = 240;
+  const drawerWidth = 400;
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+  
+  const container = typeof window !== 'undefined' ? () => window().document.body : undefined;
+  
+  //const container = window !== undefined ? () => window().document.body : undefined;
 
-  const container = window !== undefined ? () => window().document.body : undefined;
-
-  const [tabvalue, setTabValue] = React.useState(0);
+  const [tabValue, setTabValue] = React.useState(0);
 
   const handleTabChange = (event, newTabValue) => {
     setTabValue(newTabValue);
@@ -53,7 +57,7 @@ function ResponsiveDrawer(props) {
   }
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', padding: 2}}>
 
       <AppBar
         position="fixed"
@@ -70,7 +74,7 @@ function ResponsiveDrawer(props) {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: 'none' } }}
           >
-            <MenuIcon />
+            <ManageSearchIcon style={{ fontSize: '30px' }} />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
             Responsive drawer
@@ -89,7 +93,7 @@ function ResponsiveDrawer(props) {
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+          keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
@@ -115,16 +119,17 @@ function ResponsiveDrawer(props) {
       >
         <Toolbar />
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs value={tabvalue} onChange={handleTabChange} aria-label="tabs">
+            <Tabs value={tabValue} onChange={handleTabChange} aria-label="tabs">
               <Tab label="Inmuebles" {...a11yProps(0)} />
               <Tab label="Requerimientos" {...a11yProps(1)} />
             </Tabs>
           </Box>
-          <TabPanel value={tabvalue} index={0}>
-            Inmuebles
-            <Card/>
+          <TabPanel value={tabValue} index={0}>
+            
+            <HousingList/>          
+                         
           </TabPanel>
-          <TabPanel value={tabvalue} index={1}>
+          <TabPanel value={tabValue} index={1}>
             Requerimientos
           </TabPanel>
       </Box>
