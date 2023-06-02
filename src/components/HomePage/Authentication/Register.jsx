@@ -30,7 +30,7 @@ export function Register() {
     
     
     try {
-      const response = await axios.post("http://localhost:8000/register", {
+      const response = await axios.post("http://localhost:8000/users/register", {
         email: email.value,
         password: password.value,
         name: name.value,
