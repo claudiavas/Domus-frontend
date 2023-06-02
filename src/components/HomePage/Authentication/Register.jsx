@@ -1,5 +1,4 @@
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -11,20 +10,47 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Copyright from '../../Footer/Copyright';
+import { Copyright } from '../Footer/Copyright';
+import LoadingButton from '@mui/lab/LoadingButton';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
 
 
 const defaultTheme = createTheme();
 
-export default function SignUp() {
-  const handleSubmit = (event) => {
+export function Register() {
+  
+  const navigate = useNavigate()
+  const[error, setError] = useState('');
+  
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const { email, password, name, surname } = event.target.elements;
+    
+    
+    try {
+      const response = await axios.post("http://localhost:8000/register", {
+        email: email.value,
+        password: password.value,
+        name: name.value,
+        surname: surname.value
+      });
+      
+      const { token, user } = response.data;
+      // Guardar el token y los datos del usuario en el estado o en el almacenamiento local
+      window.localStorage.setItem("token", token)
+      navigate("/MainView")
+    } catch (error) {
+      setError(error.response.data.error.result);
+  
+      setTimeout(() => {
+        setError(error.response.data.result);
+        console.log("este es error", error)
+      }, 5000);
+   }
   };
+  
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -49,10 +75,10 @@ export default function SignUp() {
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="name"
                   required
                   fullWidth
-                  id="firstName"
+                  id="name"
                   label="Nombre"
                   autoFocus
                 />
@@ -61,9 +87,9 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="lastName"
+                  id="surname"
                   label="Apellidos"
-                  name="lastName"
+                  name="surname"
                   autoComplete="family-name"
                 />
               </Grid>
@@ -95,17 +121,18 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
-            <Button
+            <LoadingButton
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Registrarme
-            </Button>
+              <span>Registrarme</span>
+            </LoadingButton>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="./components/Authentication/SignIn/SignIn" variant="body2">
+                <Link onClick={() => navigate("/login")} variant="body2">
                   ¿Ya tienes una cuenta? Ingresa aquí
                 </Link>
               </Grid>
