@@ -1,15 +1,16 @@
 import React from 'react';
 
 import PropTypes from 'prop-types';
-import { AppBar, Box, Drawer, IconButton, Toolbar, Typography, Tabs, Tab } from '@mui/material';
+import { AppBar, Box, Button, Drawer, IconButton, Toolbar, Typography, Tabs, Tab } from '@mui/material';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
-
+import { AccountMenu } from './AccountMenu/AccountMenu';
 import Filters from './Filters/Filters';
 import HousingList from './HousingList/HousingList';
 import { useState } from 'react';
 
 
-function ResponsiveDrawer(props) {
+
+export function MainView(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -21,7 +22,7 @@ function ResponsiveDrawer(props) {
 
   const container = window !== undefined ? () => window().document.body : undefined;
 
-  const [tabvalue, setTabValue] = React.useState(0);
+  const [tabValue, setTabValue] = React.useState(0);
 
   const handleTabChange = (event, newTabValue) => {
     setTabValue(newTabValue);
@@ -63,9 +64,9 @@ function ResponsiveDrawer(props) {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
         }}
-      >
+      > 
         <Toolbar>
-          <IconButton
+         <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
@@ -77,6 +78,7 @@ function ResponsiveDrawer(props) {
           <Typography variant="h6" noWrap component="div">
             Responsive drawer
           </Typography>
+          {/* <AccountMenu/> */}
         </Toolbar>
       </AppBar>
       <Box
@@ -135,12 +137,10 @@ function ResponsiveDrawer(props) {
   );
 }
 
-ResponsiveDrawer.propTypes = {
+MainView.propTypes = {
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
    */
   window: PropTypes.func,
 };
-
-export default ResponsiveDrawer;

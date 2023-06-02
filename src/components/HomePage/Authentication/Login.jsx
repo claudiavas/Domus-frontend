@@ -1,5 +1,4 @@
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -11,21 +10,36 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Copyright from '../../Footer/Copyright';
-
-
+import { Copyright } from '../Footer/Copyright';
+import React, { useState } from 'react';
+import axios from 'axios';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { useNavigate } from "react-router-dom";
 
 const defaultTheme = createTheme();
 
-export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+export function Login() {
+  const[email, setEmail] = useState("");
+  const[password, setPassword] = useState("");
+  const[error, setError] = useState("");
+  const[isLoading, setLoading] = useState(false);
+  const navigate = useNavigate()
+
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post("http://localhost:8000/login", { email, password });
+      console.log("esto es response", response);
+      const token = response.data.token;
+      window.localStorage.setItem("token", token)
+      navigate("/MainView")
+    } catch (error) {
+      console.log("este es el error", error)
+      setTimeOut(() => {
+        setError(error.response.data.result)
+      }, 5000)
+    }
+    }
+  
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -69,24 +83,25 @@ export default function SignIn() {
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Recuérdame"
-            />
-            <Button
+            />        
+            <LoadingButton      
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Ingresar
-            </Button>
+              <span>Ingresar</span>
+            </LoadingButton>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
             <Grid container>
               <Grid item xs>
-                {/* // TODO Funcionalidad para recibir link para generar nuevo password */}
-                {/* <Link href="#" variant="body2">
+                {/* TODO: Pendiente esta funcionalidad */}
+                {/* <Link onClick={() => navigate("/forgotpassword")} variant="body2">
                   ¿Olvidaste tu password?
                 </Link> */}
               </Grid>
               <Grid item>
-                <Link href="./components/Authentication/SignUp/SignUp" variant="body2">
+                <Link onClick={() => navigate("/register")} variant="body2">
                   {"¿No tienes una cuenta? Regístrate"}
                 </Link>
               </Grid>
@@ -96,5 +111,6 @@ export default function SignIn() {
         <Copyright sx={{ mt: 8, mb: 4 }}/>
       </Container>
     </ThemeProvider>
+
   );
 }
