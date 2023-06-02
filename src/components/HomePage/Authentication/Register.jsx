@@ -30,7 +30,7 @@ export function Register() {
     
     
     try {
-      const response = await axios.post("http://localhost:8000/register", {
+      const response = await axios.post("http://localhost:8000/users/register", {
         email: email.value,
         password: password.value,
         name: name.value,
@@ -43,11 +43,11 @@ export function Register() {
       navigate("/MainView")
     } catch (error) {
       setError(error.response.data.error.result);
-  
-      setTimeout(() => {
+      console.log("El error es ", error )
+      /*setTimeout(() => {
         setError(error.response.data.result);
         console.log("este es error", error)
-      }, 5000);
+      }, 5000);*/
    }
   };
   

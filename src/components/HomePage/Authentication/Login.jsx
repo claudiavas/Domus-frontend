@@ -27,7 +27,7 @@ export function Login() {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post("http://localhost:8000/login", { email, password });
+      const response = await axios.post("http://localhost:8000/users/login", { email, password });
       console.log("esto es response", response);
       const token = response.data.token;
       window.localStorage.setItem("token", token)
