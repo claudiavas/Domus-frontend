@@ -5,13 +5,13 @@ const PhotoCarousel = () => {
   return (
     <Carousel showThumbs={false}>
       <span>
-        <img src=".\Imágenes\Casa 1.jfif" alt="Imagen 1" />
+        <img src="\Casa 1.jfif" alt="Imagen 1" />
       </span>
       <span>
-        <img src=".\Imágenes\Casa 2.jfif" alt="Imagen 2" />
+        <img src="\Casa 2.jfif" alt="Imagen 2" />
       </span>
       <span>
-        <img src=".\Imágenes\Casa 3.jfif" alt="Imagen 2" />
+        <img src="\Casa 3.jfif" alt="Imagen 2" />
       </span>
     </Carousel>
   );

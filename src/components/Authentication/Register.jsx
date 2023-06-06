@@ -10,7 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Copyright } from '../Footer/Copyright';
+import { Copyright } from '../HomePage/Footer/Copyright';
 import LoadingButton from '@mui/lab/LoadingButton';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -30,7 +30,7 @@ export function Register() {
     
     
     try {
-      const response = await axios.post("http://localhost:8000/register", {
+      const response = await axios.post("http://localhost:8000/users/register", {
         email: email.value,
         password: password.value,
         name: name.value,
@@ -42,13 +42,12 @@ export function Register() {
       window.localStorage.setItem("token", token)
       navigate("/MainView")
     } catch (error) {
-      setError(error.response.data.error.result);
-  
-      setTimeout(() => {
-        setError(error.response.data.result);
-        console.log("este es error", error)
-      }, 5000);
-   }
+        setError(error.response.data.error.result);
+        setTimeout(() => {  
+          setError("");
+        }, 5000)
+       }
+       setLoginState(true)
   };
   
 
