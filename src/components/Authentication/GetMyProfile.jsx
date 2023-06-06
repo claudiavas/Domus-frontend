@@ -8,7 +8,7 @@
 //   const getMyProfile = async () => {
 //   setLoading(true);
 //     try {
-//       const response = await axios.get("http://localhost:8000/me", {headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}})
+//       const response = await axios.get(`http://localhost:${process.env.PORT || 8000}/me`, {headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}})
 //       console.log("response", response)
 //       setProfile(response.data)
 //     } catch (error) {

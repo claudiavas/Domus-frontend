@@ -10,17 +10,14 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Copyright } from '../HomePage/Footer/Copyright';
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useNavigate } from "react-router-dom";
-import { AuthProvider } from '../Contexts/AuthContext';
 import { AuthContext } from '../Contexts/AuthContext';
+import { login } from '../apiService/apiService';
 
 const defaultTheme = createTheme();
 
 export function Login() {
-  const[email, setEmail] = useState("");
-  const[password, setPassword] = useState("");
   const[error, setError] = useState("");
   const[isLoading, setLoading] = useState(false);
   const navigate = useNavigate()
@@ -28,19 +25,21 @@ export function Login() {
 
   const handleSubmit = async () => {
     event.preventDefault();
-    const { email, password, name, surname } = event.target.elements;
+    const { email, password } = event.target.elements;
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:8000/users/login", { 
+      const response = await login({
         email: email.value, 
-        password: password.value });
+        password: password.value
+      })
       console.log("esto es response", response);
-      const token = response.data.token;
+      const token = response.token;
       window.localStorage.setItem("token", token);
       navigate("/MainView")
     } catch (error) {
       console.log("este es el error", error)
       setError(error.response.data.error.result);
+      console.log("esto es response", response)
       setTimeout(() => {  
         setError("");
       }, 5000)

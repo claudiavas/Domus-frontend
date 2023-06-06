@@ -8,8 +8,8 @@ import FullscreenOutlinedIcon from '@mui/icons-material/FullscreenOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 
-function HouseCard ({_id, province, municipality, population, neighborhood, 
-  description, currency, price, squareMeters, rooms, baths}) {
+function HouseCard ({province, municipality, population, neighborhood, 
+  description, currency, price, squareMeters, rooms}) {
     
     let currencySymbol = '';
     if (currency === 'USD') {

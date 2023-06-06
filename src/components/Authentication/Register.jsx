@@ -12,10 +12,10 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Copyright } from '../HomePage/Footer/Copyright';
 import LoadingButton from '@mui/lab/LoadingButton';
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import React, { useState } from 'react';
-
+import React, { useState, useContext } from 'react';
+import { register } from '../apiService/apiService';
+import { AuthContext } from '../Contexts/AuthContext';
 
 const defaultTheme = createTheme();
 
@@ -23,6 +23,7 @@ export function Register() {
   
   const navigate = useNavigate()
   const[error, setError] = useState('');
+  const { setLoginState } = useContext(AuthContext);
   
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -30,14 +31,14 @@ export function Register() {
     
     
     try {
-      const response = await axios.post("http://localhost:8000/users/register", {
+      const response = await register({
         email: email.value,
         password: password.value,
         name: name.value,
         surname: surname.value
       });
       
-      const { token, user } = response.data;
+      const token = response.token;
       // Guardar el token y los datos del usuario en el estado o en el almacenamiento local
       window.localStorage.setItem("token", token)
       navigate("/MainView")
