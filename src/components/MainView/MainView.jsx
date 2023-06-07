@@ -13,9 +13,9 @@ import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import Filters from './Filters/Filters';
 import { useState, useContext, useEffect } from 'react';
 import { HousingList } from './HousingList/HousingList';
-import { AuthProvider } from '../Contexts/AuthContext';
 import { AuthContext } from '../Contexts/AuthContext';
 import { useNavigate } from "react-router-dom";
+
 
 const drawerWidth = 240;
 
@@ -96,11 +96,10 @@ export function MainView(props) {
 
    //Lógica para regresar al usuario al login si no está autorizado...
 
-  useEffect(() => {
-    // Lógica para redireccionar al realizar el logout
-    { !loginState && navigate("/login") }
-  }, [logout]);
-
+   useEffect(() => {
+      loginState && navigate("/login")
+    }, []);
+  
   
   return (
       <Box sx={{ display: 'flex' }}>
