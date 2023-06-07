@@ -30,11 +30,11 @@ export const permanentDelete = async (_id) => {
 }
 
 export const login = async (body) => {
-  const { data } = await axios.post(`http://localhost:${PORT}/users/login`, body);
+  const { data } = await axios.post(`http://localhost:${PORT}/user/login`, body);
   return data;
 }
 
 export const register = async (body) => {
-  const { data } = await axios.post(`http://localhost:${PORT}/users/register`, body);
+  const { data } = await axios.post(`http://localhost:${PORT}/user/register`, body);
   return data;
 }

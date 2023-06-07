@@ -89,7 +89,6 @@ export function MainView(props) {
 
   const logout = () => {
     localStorage.removeItem('token');
-    //setProfile(null);
     setLoginState(false);
     console.log("logout ejecutándose")
    };
@@ -97,8 +96,8 @@ export function MainView(props) {
    //Lógica para regresar al usuario al login si no está autorizado...
 
    useEffect(() => {
-      loginState && navigate("/login")
-    }, []);
+      !loginState && navigate("/login")
+    }, [logout]);
   
   
   return (
