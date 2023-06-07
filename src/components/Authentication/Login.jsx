@@ -18,35 +18,39 @@ import { login } from '../apiService/apiService';
 const defaultTheme = createTheme();
 
 export function Login() {
-  const[error, setError] = useState("");
-  const[isLoading, setLoading] = useState(false);
-  const navigate = useNavigate()
+  const [error, setError] = useState("");
+  const [isLoading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const { setLoginState } = useContext(AuthContext);
+  const [isError, setIsError] = useState(false);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event) => { // Agregar el parámetro event
     event.preventDefault();
     const { email, password } = event.target.elements;
     setLoading(true);
+
     try {
       const response = await login({
-        email: email.value, 
+        email: email.value,
         password: password.value
-      })
+      });
       console.log("esto es response", response);
       const token = response.token;
       window.localStorage.setItem("token", token);
-      navigate("/MainView")
+      navigate("/MainView");
     } catch (error) {
-      console.log("este es el error", error)
+      console.log("este es el error", error);
       setError(error.response.data.error.result);
-      console.log("esto es response", response)
-      setTimeout(() => {  
+      setIsError(true);
+      setTimeout(() => {
         setError("");
-      }, 5000)
+        setIsError(false);
+        setLoading(false);
+      }, 5000);
     }
-    setLoading(false);
-    setLoginState(true)
-  }
+    setLoginState(true);
+  };
+
 
   return (
       <ThemeProvider theme={defaultTheme}>
@@ -88,7 +92,7 @@ export function Login() {
                 autoComplete="current-password"
               />
               <LoadingButton 
-                loading={isLoading}  
+                loading={isLoading && !isError}  
                 type="submit"
                 fullWidth
                 variant="contained"

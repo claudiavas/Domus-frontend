@@ -20,37 +20,42 @@ import { AuthContext } from '../Contexts/AuthContext';
 const defaultTheme = createTheme();
 
 export function Register() {
-  
-  const navigate = useNavigate()
-  const[error, setError] = useState('');
+  const navigate = useNavigate();
+  const [error, setError] = useState('');
   const { setLoginState } = useContext(AuthContext);
-  
+  const [isLoading, setLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [subscription, setSubscription] = useState(false); 
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const { email, password, name, surname } = event.target.elements;
-    
-    
+    setLoading(true);
+
     try {
       const response = await register({
         email: email.value,
         password: password.value,
         name: name.value,
-        surname: surname.value
+        surname: surname.value,
+        subscription: subscription
       });
-      
+
       const token = response.token;
-      // Guardar el token y los datos del usuario en el estado o en el almacenamiento local
-      window.localStorage.setItem("token", token)
-      navigate("/MainView")
+      window.localStorage.setItem("token", token);
+      navigate("/MainView");
     } catch (error) {
-        setError(error.response.data.error.result);
-        setTimeout(() => {  
-          setError("");
-        }, 5000)
-       }
-       setLoginState(true)
+      console.log("error", error)
+      setError(error.response.data.error.result);
+      setIsError(true);
+      setTimeout(() => {
+        setError("");
+        setIsError(false);
+        setLoading(false);
+      }, 5000);
+    }
+    setLoginState(true);
   };
-  
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -116,12 +121,20 @@ export function Register() {
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
+                  control={<Checkbox 
+                  value="allowExtraEmails"
+                  color="primary"
+                  id="subscription"
+                 name="subscription"
+                  checked={subscription}
+                  onChange={(event) => setSubscription(event.target.checked)}
+                  />}
                   label="Quiero recibir inspiración, promociones de marketing y actualizaciones via email."
                 />
               </Grid>
             </Grid>
             <LoadingButton
+              loading={isLoading && !isError} 
               type="submit"
               fullWidth
               variant="contained"

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const PORT = 8000
+const PORT = 8000;
 
 export const getAllHousing = async () => {
   const {data}  = await axios.get(`http://localhost:${PORT}/API/housing`);
