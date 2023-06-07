@@ -3,6 +3,90 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 
+
+
+//Location
+const locationsProvince = [
+    {
+      value: 'Madrid',
+      label: 'Madrid',
+    },
+    {
+      value: 'Barcelona',
+      label: 'Barcelona',
+    },
+
+  ];
+
+  const locationsMunicipio = [
+    {
+      value: 'Lliria',
+      label: 'Lliria',
+    },
+    {
+      value: 'Benisano',
+      label: 'Benisano',
+    },
+    {
+      value: 'Villar del Arzobispo',
+      label: 'Villar del Arzobispo',
+    },
+    
+  ];
+  
+  export function LocationFilter() {
+    return (
+      <Box
+        component="form"
+        sx={{
+          '& .MuiTextField-root': { m: 1, width: '25ch' },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <div>
+          <TextField
+            id="outlined-select-currency"
+            select
+            label="Provincia"
+            defaultValue=" "
+            //helperText="Selecciona un precio minimo"
+          >
+            {locationsProvince.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            id="outlined-select-currency-native"
+            select
+            label="Población"
+            defaultValue=" "
+            SelectProps={{
+              native: true,
+            }}
+            //helperText="Selecciona un precio maximo"
+          >
+            {locationsMunicipio.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </TextField>
+        </div>
+      </Box>
+    );
+    
+  }
+
+
+
+//End Location
+
+
+// Price filter
+
 const currencies = [
   {
     value: '10000€',
@@ -30,7 +114,7 @@ const currencies = [
   },
 ];
 
-export default function SelectTextFields() {
+export function PriceFilter() {
   return (
     <Box
       component="form"
@@ -73,4 +157,7 @@ export default function SelectTextFields() {
       </div>
     </Box>
   );
+  
 }
+
+///// End Price filter
