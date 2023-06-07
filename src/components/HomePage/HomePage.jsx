@@ -15,7 +15,7 @@ import { NavBar } from './NavBar/NavBar';
 const defaultTheme = createTheme();
 
 export function HomePage() {
-
+  
   const navigate = useNavigate();
 
   return (

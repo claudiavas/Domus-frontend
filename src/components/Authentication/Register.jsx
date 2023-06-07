@@ -10,47 +10,65 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Copyright } from '../Footer/Copyright';
+import { Copyright } from '../HomePage/Footer/Copyright';
 import LoadingButton from '@mui/lab/LoadingButton';
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import React, { useState } from 'react';
-
+import React, { useState, useContext } from 'react';
+import { register } from '../apiService/apiService';
+import { AuthContext } from '../Contexts/AuthContext';
 
 const defaultTheme = createTheme();
 
 export function Register() {
-  
-  const navigate = useNavigate()
-  const[error, setError] = useState('');
-  
+  const navigate = useNavigate();
+  const [error, setError] = useState('');
+  const { setLoginState } = useContext(AuthContext);
+  const [isLoading, setLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [subscription, setSubscription] = useState(false); 
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const { email, password, name, surname } = event.target.elements;
-    
-    
+    setLoading(true);
+
     try {
+<<<<<<< HEAD:src/components/HomePage/Authentication/Register.jsx
       const response = await axios.post("http://localhost:8000/users/register", {
+=======
+      const response = await register({
+>>>>>>> 62ef0865933052f98c422913731c100db7b5fbe5:src/components/Authentication/Register.jsx
         email: email.value,
         password: password.value,
         name: name.value,
-        surname: surname.value
+        surname: surname.value,
+        subscription: subscription
       });
-      
-      const { token, user } = response.data;
-      // Guardar el token y los datos del usuario en el estado o en el almacenamiento local
-      window.localStorage.setItem("token", token)
-      navigate("/MainView")
+
+      const token = response.token;
+      window.localStorage.setItem("token", token);
+      navigate("/MainView");
     } catch (error) {
+      console.log("error", error)
       setError(error.response.data.error.result);
+<<<<<<< HEAD:src/components/HomePage/Authentication/Register.jsx
       console.log("El error es ", error )
       /*setTimeout(() => {
         setError(error.response.data.result);
         console.log("este es error", error)
       }, 5000);*/
    }
+=======
+      setIsError(true);
+      setTimeout(() => {
+        setError("");
+        setIsError(false);
+        setLoading(false);
+      }, 5000);
+    }
+    setLoginState(true);
+>>>>>>> 62ef0865933052f98c422913731c100db7b5fbe5:src/components/Authentication/Register.jsx
   };
-  
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -116,12 +134,20 @@ export function Register() {
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
+                  control={<Checkbox 
+                  value="allowExtraEmails"
+                  color="primary"
+                  id="subscription"
+                 name="subscription"
+                  checked={subscription}
+                  onChange={(event) => setSubscription(event.target.checked)}
+                  />}
                   label="Quiero recibir inspiración, promociones de marketing y actualizaciones via email."
                 />
               </Grid>
             </Grid>
             <LoadingButton
+              loading={isLoading && !isError} 
               type="submit"
               fullWidth
               variant="contained"

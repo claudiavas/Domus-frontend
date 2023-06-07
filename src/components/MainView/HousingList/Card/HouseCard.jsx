@@ -8,8 +8,8 @@ import FullscreenOutlinedIcon from '@mui/icons-material/FullscreenOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 
-function HouseCard ({_id, province, municipality, population, neighborhood, 
-  description, currency, price, squareMeters, rooms, baths}) {
+function HouseCard ({province, municipality, population, neighborhood, 
+  description, currency, price, squareMeters, rooms}) {
     
     let currencySymbol = '';
     if (currency === 'USD') {
@@ -25,9 +25,8 @@ function HouseCard ({_id, province, municipality, population, neighborhood,
       sx={{
         flexGrow: 3,
         display: 'flex',
-        border: 1,
         padding: 0,
-        marginBottom: 1
+        marginBottom: 1.5
       }}
     >
     
@@ -38,10 +37,10 @@ function HouseCard ({_id, province, municipality, population, neighborhood,
         </Card>
       </span>
 
-      <span style={{ flex: '1 0 40%', marginLeft: '10px' }}>
+      <span style={{ flex: '1 0 40%', marginLeft: '10px', marginRight: '10px', padding: 0 }}>
         {/* CENTER */}
         
-        <span style={{ height: '80%', marginBottom: '10px' }}>
+        <span style={{ height: '80%' }}>
           {/* TOP, CENTER*/}
           <Card>
           <h4>{description}</h4>
@@ -52,7 +51,7 @@ function HouseCard ({_id, province, municipality, population, neighborhood,
             <h5>, {neighborhood}</h5>
           </div>
                     
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', margin: '0px', padding: 0  }}>
            <FullscreenOutlinedIcon/>
             <h5>{squareMeters} m2</h5>
             <span style={{ marginRight: '50px' }}></span>
@@ -63,13 +62,12 @@ function HouseCard ({_id, province, municipality, population, neighborhood,
           </Card>
         </span>
         
-        <span style={{ height: '20%'}}>
+        <span style={{ height: '20%' }}>
           {/* BOTTOM, CENTER */}
           <Card>
-          <div style={{ display: 'flex', marginLeft: '10px' }}>
-            <h4 style={{ color: "#1976d2"}}>
+          <div style={{ marginTop: '0px', padding: "4px"  }}>
+            <h4 style={{ margin: '0px', padding: 0, color: "#1976d2", display: "flex", justifyContent: 'space-between', alignItems: "center",}}>
               {currencySymbol} {price.toLocaleString('es-ES')}
-              <span style={{ marginRight: '120px' }}></span>
               <Button color="primary" variant="outlined">Ver Más</Button>
             </h4>
           </div>
@@ -77,7 +75,7 @@ function HouseCard ({_id, province, municipality, population, neighborhood,
         </span>
       </span>
 
-      <span style={{ flex: '1 0 20%' }}>
+      <span style={{ flex: '1 0 20%', margin: '0px', padding: 0  }}>
         {/* RIGHT */}
         <Card>
           Logo Inmobiliaria
@@ -85,7 +83,7 @@ function HouseCard ({_id, province, municipality, population, neighborhood,
           Nombre y Appellido Agente
           <br/>
          <LocalPhoneOutlinedIcon/>
-         <EmailOutlinedIcon from/>
+         <EmailOutlinedIcon/>
         </Card>
       </span>
 

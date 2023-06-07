@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import HouseCard from './Card/HouseCard';
 import { getAllHousing } from '../../apiService/apiService';
 
-export default function HousingList() {
+export function HousingList() {
   const [housing, setHousing] = useState([]);
   const [loading, setLoading] = useState(true);
 
