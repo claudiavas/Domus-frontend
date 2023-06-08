@@ -90,15 +90,18 @@ export function MainView(props) {
   const logout = () => {
     localStorage.removeItem('token');
     setLoginState(false);
+    navigate("/login")
+    console.log("loginState en MainView:", loginState)
     console.log("logout ejecutándose")
    };
 
+   
    //Lógica para regresar al usuario al login si no está autorizado...
 
-   useEffect(() => {
-      !loginState && navigate("/login")
-    }, [logout]);
-  
+   useEffect(() => { 
+    if (!localStorage.getItem('token')) {
+      navigate("/login")};
+  }, [loginState]);
   
   return (
       <Box sx={{ display: 'flex' }}>

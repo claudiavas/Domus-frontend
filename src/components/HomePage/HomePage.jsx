@@ -11,12 +11,25 @@ import Container from '@mui/material/Container';
 import { Copyright } from './Footer/Copyright';
 import { useNavigate } from "react-router-dom";
 import { NavBar } from './NavBar/NavBar';
+import { useEffect, useContext } from 'react';
+import { AuthContext } from '../Contexts/AuthContext';
 
 const defaultTheme = createTheme();
 
 export function HomePage() {
   
   const navigate = useNavigate();
+  const { loginState } = useContext(AuthContext);
+
+  //Lógica para enviar al usuario al mainview si está autorizado...
+
+  useEffect(() => {
+    if (!loginState || !localStorage.getItem('token')) {
+      navigate("/");
+    } else {
+      loginState && navigate("/mainview");
+    }
+  }, [loginState]);
 
   return (
     <ThemeProvider theme={defaultTheme}>
