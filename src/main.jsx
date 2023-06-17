@@ -10,10 +10,19 @@ import '@fontsource/roboto/700.css';
 import './index.css'
 
 import { CssBaseline } from '@mui/material';
+import { AuthProvider } from './components/Contexts/AuthContext.jsx';
+import { LocationProvider } from './components/Contexts/LocationContext.jsx';
+import { HousingProvider } from './components/Contexts/HousingContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <CssBaseline/>
-    <App />
+    <AuthProvider>
+      <LocationProvider>
+        <HousingProvider>
+          <App />
+        </HousingProvider>
+      </LocationProvider>
+    </AuthProvider>
   </React.StrictMode>,
 )

@@ -4,7 +4,6 @@ const PORT = 8000;
 
 export const getAllHousing = async () => {
   const {data}  = await axios.get(`http://localhost:${PORT}/API/housing`);
-  console.log("Data en getAllHousing:", data);
   return data;
 }
 
@@ -36,5 +35,15 @@ export const login = async (body) => {
 
 export const register = async (body) => {
   const { data } = await axios.post(`http://localhost:${PORT}/user/register`, body);
+  return data;
+}
+
+export const getCommunities = async () => { 
+  const { data } = await axios.get('https://apiv1.geoapi.es/comunidades?type=JSON&key=eb280e481fbc76bc3be11e0e4b108687b76439c4d70beb2fbab3d7e56d772760&sandbox=0');
+  return data;
+} 
+ 
+export const getProvinces = async () => { 
+  const { data } = await axios.get('https://apiv1.geoapi.es/provincias?type=JSON&key=eb280e481fbc76bc3be11e0e4b108687b76439c4d70beb2fbab3d7e56d772760&sandbox=0'); 
   return data;
 }

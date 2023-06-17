@@ -9,13 +9,9 @@ export const AuthProvider = ({ children }) => {
   // Verificar si el usuario tiene un token en el localStorage
   useEffect(() => {
     const token = localStorage.getItem('token');
-    console.log("token en AuthContext:", token);
     setLoginState(true);
   }, []);
   
-  useEffect(() => {
-    console.log("loginState en AuthContext:", loginState);
-  }, [loginState]);
   
   useEffect(() => {
     setChecking(false);
@@ -34,5 +30,3 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-
-

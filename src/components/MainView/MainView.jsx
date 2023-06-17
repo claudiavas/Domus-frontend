@@ -8,7 +8,8 @@ import Tooltip from '@mui/material/Tooltip';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Container } from '@mui/material';
 import PropTypes from 'prop-types';
-import { AppBar, Box, Drawer, IconButton, Toolbar, Typography, Tabs, Tab } from '@mui/material';
+import { AppBar, Box, Drawer, IconButton, Toolbar, Typography, Tabs, Tab, Fab } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import Filters from './Filters/Filters';
 import { useState, useContext, useEffect } from 'react';
@@ -238,7 +239,16 @@ export function MainView(props) {
             </Box>
             <TabPanel value={tabValue} index={0}>
               
-              <HousingList/>          
+              <HousingList/>  
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', paddingBottom: '16px' }}>
+              <Fab
+                color="primary"
+                onClick={() => navigate("/addhousing")}
+                aria-label="add"
+              >
+                <AddIcon />
+              </Fab>
+              </Box>                
                           
             </TabPanel>
             <TabPanel value={tabValue} index={1}>

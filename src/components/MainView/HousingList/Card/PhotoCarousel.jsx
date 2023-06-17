@@ -1,9 +1,10 @@
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
-const PhotoCarousel = () => {
-  return (
-    <Carousel showThumbs={false}>
+export const PhotoCarousel = ({ showThumbs }) => {
+  
+return (
+    <Carousel showThumbs={showThumbs}>
       <span>
         <img src="\Casa 1.jfif" alt="Imagen 1" />
       </span>
@@ -16,5 +17,3 @@ const PhotoCarousel = () => {
     </Carousel>
   );
 };
-
-export default PhotoCarousel;

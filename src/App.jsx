@@ -6,14 +6,13 @@ import { Login } from './components/Authentication/Login';
 // import { ForgotPassword } from './components/HomePage/Authentication/ForgotPassword';
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { HomePage } from './components/HomePage/HomePage';
-import { HousingDetails } from './components/HousingDetails/HousingDetails';
+import { HousingDetails } from './components/MainView/HousingDetails/HousingDetails';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
-import { AuthProvider } from './components/Contexts/AuthContext';
+import { AddHousing } from './components/MainView/AddHousing/AddHousing';
 
 const App = () => {
 
 return (
-  <AuthProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage/>}></Route>
@@ -22,10 +21,10 @@ return (
         {/* <Route path="/forgotpassword" element={<ForgotPass/>}></Route> */}
         <Route path="/mainview" element={<MainView/>}></Route>
         <Route path="/housingdetails/:slug" element={<HousingDetails/>}></Route>
+        <Route path="/addHousing" element={<AddHousing/>}></Route>
         <Route path="*" element={<PageNotFound/>}></Route>
       </Routes>
     </BrowserRouter>
-  </AuthProvider>
 )
 }
 
