@@ -1,189 +1,177 @@
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
-import { LocationContext } from '../../Contexts/LocationContext'
-import { HousingContext } from '../../Contexts/HousingContext'
-import { TextField, Button, FormControl, InputLabel, Select, MenuItem, Checkbox, FormControlLabel, Paper, Grid, RadioGroup, Radio } from '@mui/material/';
+import { LocationContext } from '../../Contexts/LocationContext';
+import { HousingContext } from '../../Contexts/HousingContext';
+import { TextField, Button, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Paper, Grid, Switch } from '@mui/material/';
+import { addHousing } from '../../apiService/apiService';
 //import { useForm } from 'react-hook-form';
+//import { yupResolver } from '@hookform/resolvers/yup';
 //import * as Yup from 'yup';
 
 export const AddHousing = () => {
 
   const { provinces } = useContext(LocationContext);
-  const { housing } = useContext(HousingContext);
-
-console.log("Este es provinces en AddHousing", provinces);
+  const { housing, setHousing } = useContext(HousingContext);
 
   const [municipalities, setMunicipalities] = useState([]);
+  const [neighborhoods, setNeighborhoods] = useState([]);
+  const [zipCodes, setZipCodes] = useState([]);
+  const [roads, setRoads] = useState([]);
+
   const [selectedMunicipality, setSelectedMunicipality] = useState([]);
   const [selectedProvince, setSelectedProvince] = useState([]);
-  const [errors, setErrors] = useState({});
-  
-  
+  const [selectedNeighborhood, setSelectedNeighborhood] = useState([]);
+  const [selectedZipCode, setSelectedZipCode] = useState([]);
+    
   const [formData, setFormData] = useState({
-    realEstate: '',
-    type: '',
-    transaction: '',
-    currency: '',
-    price: '',
-    squareMeters: '',
-    description: '',
+    realEstate: 'realEstate1', // TODO: HACER QUE MUESTRE EL VALOR DE LA INMOBILIARIA DEL USUARIO EN VEZ DE realEstate1
     country: 'España',
-    community: '',
-    province: '',
-    municipality: '',
-    population: '',
-    neighborhood: '',
-    zipCode: '',
-    roadType: '',
-    roadName: '',
-    houseNumber: '',
-    floorLevel: '',
-    floorNumber: '',
-    door: '',
-    stair: '',
-    facing: '',
-    propertyAge: '',
-    rooms: '',
-    baths: '',
-    garages: '',
-    condition: '',
-    furnished: '',
-    kitchenEquipment: '',
-    closets: false,
-    airConditioned: false,
-    heating: false,
-    elevator: false,
-    outsideView: false,
-    garden: false,
-    pool: false,
-    terrace: false,
-    storage: false,
-    accessible: false,
     });
 
 
   // VALIDACIONES
 
   // const validationSchema = Yup.object().shape({
-  //   realEstate: Yup.string().required('Por favor, selecciona una inmobiliaria'),
   //   type: Yup.string().required('Por favor, selecciona un tipo de inmueble'),
   //   transaction: Yup.string().required('Por favor, selecciona un tipo de transacción'),
   //   currency: Yup.string().required('Por favor, selecciona una moneda'),
   //   price: Yup.number().required('Por favor, ingresa un precio').positive('El precio debe ser un valor positivo'),
   //   squareMeters: Yup.number().required('Por favor, ingresa los metros cuadrados').positive('Los metros cuadrados deben ser un valor positivo'),
-  //   description: Yup.string(),
+  //   description: Yup.string().optional(),
   //   country: Yup.string().required('Por favor, ingresa el país'),
-  //   province: Yup.string().required('Por favor, selecciona una provincia'),
-  //   municipality: Yup.string().required('Por favor, selecciona un municipio'),
-  //   population: Yup.string().required('Por favor, ingresa la población'),
-  //   neighborhood: Yup.string().required('Por favor, ingresa el barrio'),
-  //   zipCode: Yup.string(),
-  //   roadType: Yup.string(),
-  //   roadName: Yup.string(),
-  //   houseNumber: Yup.string(),
-  //   floorNumber: Yup.string(),
-  //   door: Yup.string(),
-  //   stair: Yup.string(),
+  //   province: Yup.mixed().required('Por favor, selecciona una provincia'),
+  //   municipality: Yup.mixed().required('Por favor, selecciona un municipio'),
+  //   neighborhood: Yup.mixed().required('Por favor, ingresa el barrio'),
   //   rooms: Yup.number().required('Por favor, ingresa el número de habitaciones').integer('El número de habitaciones debe ser un valor entero').positive('El número de habitaciones debe ser un valor positivo'),
-  //   baths: Yup.number().integer('El número de baños debe ser un valor entero').positive('El número de baños debe ser un valor positivo'),
-  //   garages: Yup.number().integer('El número de garajes debe ser un valor entero').positive('El número de garajes debe ser un valor positivo'),
-  //   floorLevel: Yup.string(),
-  //   facing: Yup.string(),
-  //   propertyAge: Yup.string(),
-  //   condition: Yup.string(),
-  //   furnished: Yup.string(),
-  //   kitchenEquipment: Yup.string(),
-  // });
+  //   baths: Yup.number()
+  //   .integer('El número de baños debe ser un valor entero')
+  //   .min(0, 'El número de baños debe ser un valor positivo')
+  //   .nullable()
+  //   .default(null)
+  //   .optional(),
+  //   garages: Yup.number()
+  //   .integer('El número de baños debe ser un valor entero')
+  //   .min(0, 'El número de baños debe ser un valor positivo')
+  //   .nullable()
+  //   .default(null)
+  //   .optional(),
+  //   });
+
+
+  // const { handleSubmit, setError, formState: { errors } } = useForm({
+  //     resolver: yupResolver(validationSchema)
+  //   });
 
   const handleSubmit = async (event) => {
-    event.preventDefault();        
-    // Lógica para enviar el formulario al servidor
+    event.preventDefault();     
+    console.log(formData, formData)
+    // Borrar los errores previos antes de la validación
+    // clearErrors();   
     try {
-      await validationSchema.validate(formData, { abortEarly: false });
-     axios.post('URL_DEL_ENDPOINT', formData)
-       .then((response) => {
-         // Aquí puedes realizar acciones adicionales después de enviar el formulario,
-         // como mostrar una notificación de éxito o redireccionar a otra página.
-         console.log(response.data);
-       })
-       .catch((error) => {
-         // Manejo de errores en caso de que falle el envío del formulario
-         console.error(error);
-       });
-    
-     setHousing([...housing, formData]); // Actualizar el estado de housing en el contexto
-      // Si la validación es exitosa, puedes continuar con el envío del formulario
-      // ...
-    } catch (error) {
-      // Si la validación falla, puedes obtener los errores y mostrarlos en tu interfaz
-      const validationErrors = {};
-  
-      error.inner.forEach((err) => {
-        validationErrors[err.path] = err.message;
-      });
-  
-      setErrors(validationErrors);
+      // await validationSchema.validate(formData, { abortEarly: false });
+      const response = await addHousing(formData);
+      console.log(formData, formData)
+      setHousing([...housing, formData]); // Actualizar el estado de housing en el contexto
+    } catch(error) {
+      console.error(error);
     }
   };
+    
+  //   } catch (error) {
+  //     error.inner.forEach((err) => {
+  //       setError(err.path, {
+  //         type: 'manual',
+  //         message: err.message
+  //       });
+  //     })
+  //   }
+  // };
 
     const handleChange = (event) => {
       const { name, value, type, checked } = event.target;
       const fieldValue = type === 'checkbox' ? checked : value;
-  
+    
+      switch (name) {
+        case 'province':
+          setSelectedProvince(value);
+          break;
+        case 'municipality':
+          setSelectedMunicipality(value);
+          break;
+        case 'neighborhood':
+          setSelectedNeighborhood(value);
+          break;
+        case 'zipCode':
+          setSelectedZipCode(value);
+          break;
+      }
+      
       setFormData((prevFormData) => ({
         ...prevFormData,
         [name]: fieldValue,
       }));
     };
-
-    const handleCheckboxChange = (event) => {
-      const { name, checked } = event.target;
-      setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: checked,
-    }));
-    };
- 
-    const handleProvinceChange = (event) => {
-      const selectedValue = event.target.value;
-      setSelectedProvince(selectedValue);
-      console.log("Esta es la provincia seleccionada:", selectedValue);
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        province: selectedValue.PRO,
-      }));
-    };
-
-    const handleMunicipalityChange = (event) => {
-      const selectedValue = event.target.value;
-      setSelectedMunicipality(selectedValue);
-      console.log("esta es la municipalidad seleccionada", selectedValue);
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        municipality: selectedValue.DMUN50,
-      }));
-    };
-
-    const fetchMunicipalities = async () => {
+    
+    
+  const fetchMunicipalities = async () => {
       try {
-        console.log("selectedProvince en fetchMunicipalities:", selectedProvince);
         const { data } = await axios.get(`https://apiv1.geoapi.es/municipios?CPRO=${selectedProvince.CPRO}&type=JSON&key=eb280e481fbc76bc3be11e0e4b108687b76439c4d70beb2fbab3d7e56d772760&sandbox=0`);
-        console.log("Data en getMunicipalities:", data);
         setMunicipalities(data.data);
-        console.log("Data en fetchMunicipalities:", data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const fetchNeighborhoods = async () => {
+      try {
+        const { data } = await axios.get(`https://apiv1.geoapi.es/nucleos?CPRO=${selectedProvince.CPRO}&CMUM=${selectedMunicipality.CMUM}&NENTSI50=${selectedMunicipality.DMUN50}&type=JSON&key=eb280e481fbc76bc3be11e0e4b108687b76439c4d70beb2fbab3d7e56d772760&sandbox=0`);
+        setNeighborhoods(data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const fetchZipCodes = async () => {
+      try {
+        const { data } = await axios.get(`https://apiv1.geoapi.es/cps?CPRO=${selectedProvince.CPRO}&CMUM=${selectedMunicipality.CMUM}&CUN=${selectedNeighborhood.CUN}&type=JSON&key=eb280e481fbc76bc3be11e0e4b108687b76439c4d70beb2fbab3d7e56d772760&sandbox=0`);  
+        setZipCodes(data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const fetchRoads = async () => {
+      try {
+        const { data } = await axios.get(`https://apiv1.geoapi.es/calles?CPRO=${selectedProvince.CPRO}&CMUM=${selectedMunicipality.CMUM}&CUN=${selectedNeighborhood.CUN}&CPOS=${selectedZipCode.CPOS}&type=JSON&key=eb280e481fbc76bc3be11e0e4b108687b76439c4d70beb2fbab3d7e56d772760&sandbox=0`);  
+        setRoads(data.data);
       } catch (error) {
         console.error(error);
       }
     };
 
    useEffect(() => {
-    fetchMunicipalities()
-      .then(() => {
-        console.log(municipalities);
-      });
+    if (selectedProvince) {
+      fetchMunicipalities();
+    }
   }, [selectedProvince]);
 
+    useEffect(() => {
+      if (selectedMunicipality) {
+        fetchNeighborhoods();
+      }
+    }, [selectedMunicipality]);
 
+    useEffect(() => {
+      if (selectedNeighborhood) {
+        fetchZipCodes();
+      }
+    }, [selectedNeighborhood]);
+
+    useEffect(() => {
+      if (selectedZipCode) {
+        fetchRoads();
+      }
+    }, [selectedZipCode]);
 
     return (
 
@@ -191,7 +179,7 @@ console.log("Este es provinces en AddHousing", provinces);
 
       <div style={{ margin: '0 3rem 3rem 3rem' }}>
         <h1 style={{ marginTop: 0, background: '#1976d2', color: 'white', padding: '0.5rem' }}>Añadir Propiedad</h1>
-  
+
         <form onSubmit={handleSubmit}>
           
 {/* TRANSACTION */}
@@ -206,12 +194,11 @@ console.log("Este es provinces en AddHousing", provinces);
                   name="realEstate"
                   value={formData.realEstate}
                   onChange={handleChange}
-                  //error={!!errors.realEstate}
                   labelId="realEstate-label"
                 >
                   // TODO: HACER QUE MUESTRE EL VALOR DE LA INMOBILIARIA DEL USUARIO EN VEZ DE realEstate1
                   <MenuItem value="realEstate1">Real Estate 1</MenuItem> 
-                  <MenuItem value="Independiente">Publicación independiente</MenuItem>
+                  <MenuItem value="independent_agent">Agente independiente</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -221,10 +208,11 @@ console.log("Este es provinces en AddHousing", provinces);
                 <InputLabel id="type-label">Tipo de inmueble*</InputLabel>
                 <Select
                   name="type"
-                  label="Tipo"
                   value={formData.type}
                   onChange={handleChange}
-                  //error={!!errors.type}
+                  // error={!!errors.type}
+                  // helpertext={errors.type}
+  
                   labelId="type-label"
                 >
                   <MenuItem value="apartment">Piso</MenuItem> 
@@ -242,14 +230,14 @@ console.log("Este es provinces en AddHousing", provinces);
                 <InputLabel id="transaction-label">Tipo de transacción*</InputLabel>
                 <Select
                   name="transaction"
-                  label="Tipo de Transacción"
                   value={formData.transaction}
                   onChange={handleChange}
-                  //error={!!errors.transaction}
+                  // error={!!errors.transaction}
+                  // helpertext={errors.transaction}
                   labelId="transaction-label"
                 >
                   <MenuItem value="sell">Venta</MenuItem> 
-                  <MenuItem value="buy">Compra</MenuItem>
+                  <MenuItem value="rent">Alquiler</MenuItem>
                   <MenuItem value="vacation_rentals">Alquiler Vacacional</MenuItem>
                 </Select>
                 </FormControl>
@@ -272,7 +260,8 @@ console.log("Este es provinces en AddHousing", provinces);
                 name="currency"
                 value={formData.currency}
                 onChange={handleChange}
-                //error={!!errors.currency}
+                // error={!!errors.currency}
+                // helpertext={errors.currency}
                 labelId="currency-label"
               >
                 <MenuItem value="EUR">EUR</MenuItem>
@@ -288,7 +277,8 @@ console.log("Este es provinces en AddHousing", provinces);
               label="Precio*"
               value={formData.price}
               onChange={handleChange}
-              //error={!!errors.price}
+              // error={!!errors.price}
+              // helpertext={errors.price}
             />
             </FormControl>
             </Grid>
@@ -300,7 +290,8 @@ console.log("Este es provinces en AddHousing", provinces);
                   label="Metros Cuadrados*"
                   value={formData.squareMeters}
                   onChange={handleChange}
-                  //error={!!errors.squareMeters}
+                  // error={!!errors.squareMeters}
+                  // helpertext={errors.squareMeters}
                 />
               </FormControl>
             </Grid>
@@ -312,7 +303,6 @@ console.log("Este es provinces en AddHousing", provinces);
               label="Descripción"
               value={formData.description}
               onChange={handleChange}
-              //error={!!errors.description}
             />
             </FormControl>
             </Grid>
@@ -326,26 +316,28 @@ console.log("Este es provinces en AddHousing", provinces);
           <Grid container spacing={1}>
 
             <Grid item xs={12} sm={6} md={4} lg={4}>
-            <FormControl style={{ width: '75%' }}> 
+            <FormControl style={{ width: '90%' }}> 
               <TextField
               name="country"
               label="País*"
               value={formData.country}
               onChange={handleChange}
-              //error={!!errors.country}
+              // error={!!errors.country}
+              // helpertext={errors.country}
             />
             </FormControl>
              </Grid>
 
             <Grid item xs={12} sm={6} md={4} lg={4}>
-              <FormControl style={{ width: '75%' }}>
+              <FormControl style={{ width: '90%' }}>
                 <InputLabel id="province-label">Provincia*</InputLabel>
                 <Select
                   labelId="province-label"
                   name="province"
-                  value={event.target.value}
-                  onChange={handleProvinceChange}
-                  //error={!!errors.province}
+                  value={formData.province}
+                  onChange={handleChange}
+                  // error={!!errors.province}
+                  // helpertext={errors.province}
                 >
                   
                   {provinces.map((province) => (
@@ -358,150 +350,142 @@ console.log("Este es provinces en AddHousing", provinces);
               </FormControl>
             </Grid>
 
-            {/* <Grid item xs={12} sm={6} md={4} lg={4}>
-              <FormControl style={{ width: '75%' }}>
+            <Grid item xs={12} sm={6} md={4} lg={4}>
+              <FormControl style={{ width: '90%' }}>
                 <InputLabel id="municipality-label">Municipio*</InputLabel>
                 <Select
                   labelId="municipality-label"
                   name="municipality"
-                  value={selectedMunicipality}
-                  onChange={handleMunicipalityChange}
-                  //error={!!errors.municipality}
+                  value={formData.municipality}
+                  onChange={handleChange}
+                  // error={!!errors.municipality}
+                  // helpertext={errors.municipality}
                 >
                   
                 {municipalities.map((municipality) => (
-                    <MenuItem key={municipality.CMUM} value={municipality}>
-                      {municipality.DMUN50}
-                    </MenuItem>
-                  ))}
+                  <MenuItem key={municipality.CMUM} value={municipality}>
+                    {municipality.DMUN50}
+                  </MenuItem>
+                ))}
                  
                 </Select>
               </FormControl>
-            </Grid> */}
+            </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={4}>
-          <FormControl style={{ width: '75%' }}>
-            <TextField
-              name="population"
-              label="Población*"
-              value={formData.population}
-              onChange={handleChange}
-              //error={!!errors.population}
-              disabled={!formData.municipality}
-            />
+          <FormControl style={{ width: '90%' }}>
+          <InputLabel id="neighborhood-label">Barrio*</InputLabel>
+              <Select
+                labelId="neighborhood-label*"
+                name="neighborhood"
+                value={formData.neighborhood}
+                onChange={handleChange}
+                // error={!!errors.neighborhood} 
+                // helpertext={errors.neighborhood}
+            >
+          
+            {neighborhoods.map((neighborhood) => (
+              <MenuItem key={neighborhood.CUN} value={neighborhood}>
+                {neighborhood.NNUCLE50}
+              </MenuItem>
+            ))}
+
+              </Select>
           </FormControl>
         </Grid>
 
         <Grid item xs={12} sm={6} md={4} lg={4}>
-          <FormControl style={{ width: '75%' }}>
-            <TextField
-              name="neighborhood"
-              label="Barrio*"
-              value={formData.neighborhood}
-              onChange={handleChange}
-              //error={!!errors.neighborhood} 
-              disabled={!formData.population}
-            />
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={4} lg={4}>
-          <FormControl style={{ width: '75%' }}>
-            <TextField
+          <FormControl style={{ width: '90%' }}>
+            <InputLabel id="zipCode-label">Código Postal</InputLabel>
+              <Select
+              labelId="zipCode-label"
               name="zipCode"
-              label="Código Postal"
               value={formData.zipCode}
               onChange={handleChange}
-              //error={!!errors.zipCode}
-              disabled={!formData.neighborhood}
-            />
+              // error={!!errors.zipCode}
+              // helpertext={errors.zipCode}
+             >
+
+            {zipCodes.map((zipCode) => (
+              <MenuItem key={zipCode.CPOS} value={zipCode}>
+                {zipCode.CPOS}
+              </MenuItem>
+            ))}
+
+              </Select>
           </FormControl>
         </Grid>
 
-          </Grid>
-        </Paper>
-    
-{/* ADDRESS */}
-
-        <Paper elevation={3} style={{ padding: '1rem', marginBottom: '0.6rem'}}>
-          <Grid container spacing={1}>
 
             <Grid item xs={12} sm={6} md={6} lg={4}>
-            <FormControl style={{ width: '75%' }}> 
-              <InputLabel id="roadType-label">Tipo de Vía</InputLabel>
+            <FormControl style={{ width: '90%' }}> 
+              <InputLabel id="roadName-label">Vía</InputLabel>
               
-      
-            <Select
-                name="roadType"
-                value={formData.roadType}
+                <Select
+                labelId="roadName-label"
+                name="roadName"
+                value={formData.roadName}
                 onChange={handleChange}
-                //error={!!errors.roadType}
-                labelId="roadType-label"
+                // error={!!errors.roadName}
+                // helpertext={errors.roadName}
               >
-                <MenuItem value="roadType1">Tipo de Vía 1</MenuItem>
-                <MenuItem value="roadType2">Tipo de Vía 2</MenuItem>
-                {/* Agrega más opciones aquí */}
+              {roads.map((road) => (
+              <MenuItem key={road.NVIAC} value={road}>
+                 {`${road.NVIAC} (${road.TVIA})`}
+              </MenuItem>
+            ))}
               </Select>
             </FormControl>
             </Grid>
       
-            <Grid item xs={12} sm={6} md={6} lg={4}>
-            <FormControl style={{ width: '75%' }}> 
-             <TextField
-              name="roadName"
-              label="Nombre de Vía"
-              value={formData.roadName}
-              onChange={handleChange}
-              //error={!!errors.roadName}
-            />
-            </FormControl>
-            </Grid>
-
-      
-            <Grid item xs={12} sm={6} md={6} lg={4}>
-            <FormControl style={{ width: '75%' }}> 
+            <Grid item xs={12} sm={6} md={6} lg={3}>
+            <FormControl style={{ width: '85%' }}> 
             <TextField
               name="houseNumber"
               label="Número de Casa"
               value={formData.houseNumber}
               onChange={handleChange}
-              //error={!!errors.houseNumber}
+              // error={!!errors.houseNumber}
+              // helpertext={errors.houseNumber}
             />
             </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={6} md={6} lg={4}>
-            <FormControl style={{ width: '75%' }}> 
+            <Grid item xs={12} sm={6} md={6} lg={3}>
+            <FormControl style={{ width: '85%' }}> 
             <TextField
               name="floorNumber"
               label="Número de Piso"
               value={formData.floorNumber}
               onChange={handleChange}
-              //error={!!errors.floorNumber}
+              // error={!!errors.floorNumber}
+              // helpertext={errors.floorNumber}
             />
             </FormControl>
             </Grid>
       
-            <Grid item xs={12} sm={6} md={6} lg={4}>
-            <FormControl style={{ width: '75%' }}> 
+            <Grid item xs={12} sm={6} md={6} lg={3}>
+            <FormControl style={{ width: '85%' }}> 
             <TextField
               name="door"
               label="Puerta"
               value={formData.door}
               onChange={handleChange}
-              //error={!!errors.door}
+              // error={!!errors.door}
+              // helpertext={errors.door}
             />
             </FormControl>
             </Grid>
       
-            <Grid item xs={12} sm={6} md={6} lg={4}>
-            <FormControl style={{ width: '75%' }}> 
+            <Grid item xs={12} sm={6} md={6} lg={3}>
+            <FormControl style={{ width: '85%' }}> 
             <TextField
               name="stair"
               label="Escalera"
               value={formData.stair}
               onChange={handleChange}
-              //error={!!errors.stair}
+              // error={!!errors.stair}
+              // helpertext={errors.stair}
             />
             </FormControl>
             </Grid>
@@ -521,7 +505,8 @@ console.log("Este es provinces en AddHousing", provinces);
               label="Habitaciones*"
               value={formData.rooms}
               onChange={handleChange}
-              //error={!!errors.rooms}
+              // error={!!errors.rooms}
+              // helpertext={errors.rooms}
             />
             </FormControl>
             </Grid>
@@ -534,7 +519,8 @@ console.log("Este es provinces en AddHousing", provinces);
               label="Baños"
               value={formData.baths}
               onChange={handleChange}
-              //error={!!errors.baths}
+              // error={!!errors.baths}
+              // helpertext={errors.baths}
             />
             </FormControl>
             </Grid>
@@ -546,7 +532,8 @@ console.log("Este es provinces en AddHousing", provinces);
               label="Garajes"
               value={formData.garages}
               onChange={handleChange}
-              //error={!!errors.garages}
+              // error={!!errors.garages}
+              // helpertext={errors.garages}
             />
             </FormControl>
             </Grid>
@@ -559,7 +546,6 @@ console.log("Este es provinces en AddHousing", provinces);
                 name="floorLevel"
                 value={formData.floorLevel}
                 onChange={handleChange}
-                //error={!!errors.floorLevel}
                 labelId="floorLevel-label"
               >
                 <MenuItem value="top_floor">Último Piso</MenuItem>
@@ -573,26 +559,40 @@ console.log("Este es provinces en AddHousing", provinces);
       
             <Grid item xs={12} sm={6} md={6} lg={4}>
             <FormControl style={{ width: '75%' }}> 
-            <TextField
+            <InputLabel id="facing-label">Orientación</InputLabel>
+              <Select
               name="facing"
-              label="Orientación"
+              labelId="facing-label"
               value={formData.facing}
               onChange={handleChange}
-              //error={!!errors.facing}
-            />
+            >
+              <MenuItem value="north">Norte</MenuItem>
+              <MenuItem value="south">Sur</MenuItem>
+              <MenuItem value="east">Este</MenuItem>
+              <MenuItem value="west">Oeste</MenuItem>
+
+              </Select>
             </FormControl>
             </Grid>
 
       
             <Grid item xs={12} sm={6} md={6} lg={4}>
             <FormControl style={{ width: '75%' }}> 
-            <TextField
+            <InputLabel id="propertyAge-label">Antigüedad</InputLabel>
+              <Select
               name="propertyAge"
-              label="Antigüedad de la Propiedad"
+              labelId="propertyAge-label"
               value={formData.propertyAge}
               onChange={handleChange}
-              //error={!!errors.propertyAge}
-            />
+
+            >
+              <MenuItem value="new">Nuevo</MenuItem>
+              <MenuItem value="up_to_5 years">Hasta 5 años</MenuItem>
+              <MenuItem value="6_to_10 years">De 6 a 10 años</MenuItem>
+              <MenuItem value="11_to_20 years">De 11 a 20 años</MenuItem>
+              <MenuItem value="more_than_20 years">Más de 20 años</MenuItem>
+
+              </Select>  
             </FormControl>
             </Grid>
       
@@ -603,7 +603,6 @@ console.log("Este es provinces en AddHousing", provinces);
                 name="condition"
                 value={formData.condition}
                 onChange={handleChange}
-                //error={!!errors.condition}
                 labelId="condition-label"
               >
                 <MenuItem value="new">Nuevo</MenuItem>
@@ -620,7 +619,6 @@ console.log("Este es provinces en AddHousing", provinces);
                 name="furnished"
                 value={formData.furnished}
                 onChange={handleChange}
-                //error={!!errors.furnished}
                 labelId="furnished-label"
               >
                 <MenuItem value="unfurnished">Sin Amueblar</MenuItem>
@@ -637,7 +635,6 @@ console.log("Este es provinces en AddHousing", provinces);
                 name="kitchenEquipment"
                 value={formData.kitchenEquipment}
                 onChange={handleChange}
-                //error={!!errors.kitchenEquipment}
                 labelId="kitchenEquipment-label"
               >
                 <MenuItem value="standard_equipment">Equipamiento Estándar</MenuItem>
@@ -656,13 +653,14 @@ console.log("Este es provinces en AddHousing", provinces);
           <Grid container spacing={1}>
 
             
-            <Grid item xs={12} sm={6} md={6} lg={3}>
-            <FormControlLabel style={{ width: '75%' }}
+            <Grid item xs={12} sm={6} md={6} lg={2.4}>
+            <FormControlLabel style={{ width: '100%' }}
                 control={
-                <Checkbox
+                <Switch
                   name="airConditioned"
+                  type="checkbox"
                   checked={formData.airConditioned}
-                  onChange={handleCheckboxChange}
+                  onChange={handleChange}
                 />
               }
               label="Aire Acondicionado"
@@ -670,91 +668,91 @@ console.log("Este es provinces en AddHousing", provinces);
             </Grid>
 
       
-            <Grid item xs={12} sm={6} md={6} lg={3}>
-            <FormControlLabel style={{ width: '75%' }}
+            <Grid item xs={12} sm={6} md={6} lg={2.4}>
+            <FormControlLabel style={{ width: '100%' }}
               control={
-                <Checkbox
+                <Switch
                   name="heating"
                   checked={formData.heating}
-                  onChange={handleCheckboxChange}
+                  onChange={handleChange}
                 />
               }
               label="Calefacción"
             />
             </Grid>
       
-            <Grid item xs={12} sm={6} md={6} lg={3}>
-            <FormControlLabel style={{ width: '75%' }}
+            <Grid item xs={12} sm={6} md={6} lg={2.4}>
+            <FormControlLabel style={{ width: '100%' }}
               control={
-                <Checkbox
+                <Switch
                   name="elevator"
                   checked={formData.elevator}
-                  onChange={handleCheckboxChange}
+                  onChange={handleChange}
                 />
               }
               label="Ascensor"
             />
             </Grid>
       
-            <Grid item xs={12} sm={6} md={6} lg={3}>
-            <FormControlLabel
+            <Grid item xs={12} sm={6} md={6} lg={2.4}>
+            <FormControlLabel style={{ width: '100%' }}
               control={
-                <Checkbox
+                <Switch
                   name="storage"
                   checked={formData.storage}
-                  onChange={handleCheckboxChange}
+                  onChange={handleChange}
                 />
               }
               label="Trastero"
             />
             </Grid>
 
-            <Grid item xs={12} sm={6} md={6} lg={3}>
-            <FormControlLabel style={{ width: '75%' }}
+            <Grid item xs={12} sm={6} md={6} lg={2.4}>
+            <FormControlLabel style={{ width: '100%' }}
               control={
-                <Checkbox
+                <Switch
                   name="outsideView"
                   checked={formData.outsideView}
-                  onChange={handleCheckboxChange}
+                  onChange={handleChange}
                 />
               }
               label="Vistas al Exterior"
             />
             </Grid>
       
-            <Grid item xs={12} sm={6} md={6} lg={3}>
-            <FormControlLabel
+            <Grid item xs={12} sm={6} md={6} lg={2.4}>
+            <FormControlLabel style={{ width: '100%' }}
               control={
-                <Checkbox
+                <Switch
                   name="garden"
                   checked={formData.garden}
-                  onChange={handleCheckboxChange}
+                  onChange={handleChange}
                 />
               }
               label="Jardín"
             />
             </Grid>
 
-            <Grid item xs={12} sm={6} md={6} lg={3}>
-            <FormControlLabel
+            <Grid item xs={12} sm={6} md={6} lg={2.4}>
+            <FormControlLabel style={{ width: '100%' }}
               control={
-                <Checkbox
+                <Switch
                   name="pool"
                   checked={formData.pool}
-                  onChange={handleCheckboxChange}
+                  onChange={handleChange}
                 />
               }
               label="Piscina"
             />
             </Grid>
       
-            <Grid item xs={12} sm={6} md={6} lg={3}>
-            <FormControlLabel
+            <Grid item xs={12} sm={6} md={6} lg={2.4}>
+            <FormControlLabel style={{ width: '100%' }}
               control={
-                <Checkbox
+                <Switch
                   name="terrace"
                   checked={formData.terrace}
-                  onChange={handleCheckboxChange}
+                  onChange={handleChange}
                 />
               }
               label="Terraza"
@@ -762,26 +760,26 @@ console.log("Este es provinces en AddHousing", provinces);
             </Grid>
 
 
-            <Grid item xs={12} sm={6} md={6} lg={3}>
-            <FormControlLabel style={{ width: '75%' }}
+            <Grid item xs={12} sm={6} md={6} lg={2.4}>
+            <FormControlLabel style={{ width: '100%' }}
               control={
-                <Checkbox
+                <Switch
                   name="closets"
                   checked={formData.closets}
-                  onChange={handleCheckboxChange}
+                  onChange={handleChange}
                 />
               }
               label="Armarios Empotrados"
             />
             </Grid>
       
-            <Grid item xs={12} sm={6} md={6} lg={3}>
-            <FormControlLabel
+            <Grid item xs={12} sm={6} md={6} lg={2.4}>
+            <FormControlLabel style={{ width: '100%' }}
               control={
-                <Checkbox
+                <Switch
                   name="accessible"
                   checked={formData.accessible}
-                  onChange={handleCheckboxChange}
+                  onChange={handleChange}
                 />
               }
               label="Accesible"
@@ -791,15 +789,15 @@ console.log("Este es provinces en AddHousing", provinces);
             </Grid>
             </Paper>
       
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+{/* BOTÓN ENVIAR */}
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
 
-      <Button variant="contained" color="primary" type="submit">
-        Enviar
-      </Button>
+              <Button variant="contained" color="primary" type="submit">
+                Enviar
+              </Button>
 
-    </div>
-    </div>
+            </div>
+   
         </form>
       </div>
     )

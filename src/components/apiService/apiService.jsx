@@ -19,7 +19,7 @@ export const deleteHousing = async (_id, body) => {
 }
 
 export const addHousing = async (body) => {
-  const { data } = await axios.post(`http://localhost:${PORT}`, body);
+  const { data } = await axios.post(`http://localhost:${PORT}/API/housing`, body);
   return data;
 }
 

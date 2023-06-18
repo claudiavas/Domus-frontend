@@ -5,6 +5,7 @@ export const HousingContext = createContext();
 
 export const HousingProvider = ({ children }) => {
     const [housing, setHousing] = useState([]);
+    //const [isLoading, setIsLoading] = useState(true); // Variable de estado para indicar si los datos están cargando
 
   const fetchHousing = async () => {
     try {
@@ -22,11 +23,18 @@ export const HousingProvider = ({ children }) => {
 
   const contextValue = {
     housing,
+    setHousing
   };
 
   return (
     <HousingContext.Provider value={contextValue}>
-      {children}
+     {children}
     </HousingContext.Provider>
   );
 };
+
+      // {isLoading ? ( // Mostrar "Cargando..." mientras los datos se están cargando
+      // <div>Cargando...</div>
+      // ) : (
+      // children // Renderizar los componentes hijos una vez que los datos se hayan cargado
+      // )}
