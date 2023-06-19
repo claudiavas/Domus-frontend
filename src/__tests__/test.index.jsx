@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { AuthContext } from '../Contexts/AuthContext';
-import { Register } from './Register';
-import { register } from '../apiService/apiService';
+import { AuthContext } from '../components/contexts/AuthContext';
+import { Register } from '../components/Authentication/Register.jsx';
+import { register } from '../components/apiService/apiService';
 import { act } from 'react-dom/test-utils';
 
 jest.mock('../apiService/apiService');
