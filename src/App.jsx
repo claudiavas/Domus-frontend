@@ -12,6 +12,7 @@ import { AddHousing } from './components/MainView/AddHousing/AddHousing';
 
 const App = () => {
 
+
 return (
     <BrowserRouter>
       <Routes>
@@ -20,7 +21,7 @@ return (
         <Route path="/register" element={<Register/>}></Route>
         {/* <Route path="/forgotpassword" element={<ForgotPass/>}></Route> */}
         <Route path="/mainview" element={<MainView/>}></Route>
-        <Route path="/housingdetails/:slug" element={<HousingDetails/>}></Route>
+        <Route path="/housingdetails/:_id" element={<HousingDetails/>}></Route>
         <Route path="/addHousing" element={<AddHousing/>}></Route>
         <Route path="*" element={<PageNotFound/>}></Route>
       </Routes>

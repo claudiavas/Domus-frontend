@@ -3,12 +3,17 @@ import axios from "axios";
 const PORT = 8000;
 
 export const getAllHousing = async () => {
-  const {data}  = await axios.get(`http://localhost:${PORT}/API/housing`);
+  const {data}  = await axios.get(`http://localhost:${PORT}/api/housing`);
+  return data;
+}
+
+export const getHouse = async (_id) => {
+  const {data}  = await axios.get(`http://localhost:${PORT}/api/housing/${_id}`);
   return data;
 }
 
 export const updateHousing = async (_id, body) => {
-  const { data } = await axios.put(`http://localhost:${PORT}/${_id}`, body);
+  const { data } = await axios.put(`http://localhost:${PORT}/api/housing/${_id}`, body);
   return data;
 }
 
@@ -19,7 +24,7 @@ export const deleteHousing = async (_id, body) => {
 }
 
 export const addHousing = async (body) => {
-  const { data } = await axios.post(`http://localhost:${PORT}/API/housing`, body);
+  const { data } = await axios.post(`http://localhost:${PORT}/api/housing`, body);
   return data;
 }
 

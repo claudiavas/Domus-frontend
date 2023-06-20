@@ -1,59 +1,75 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
-import { Grid, Typography } from '@mui/material/';
-import { PhotoCarousel } from '../HousingList/Card/PhotoCarousel';
+import { Grid, Typography, TextField, Input } from '@mui/material/';
 import Paper from '@mui/material/Paper';
+import { getHouse, updateHousing } from '../../apiService/apiService';
+import { PhotoGallery } from './PhotoGallery';
+import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
 
 export const HousingDetails = () => {
 
-  const { slug } = useParams(); // Recibiendo los parámetros del slug
+  const { _id } = useParams(); // Obtener el parámetro de la URL
 
-  const [housingData, setHousingData] = useState(null);
+  const [housingData, setHousingData] = useState({});
 
-  const showThumbsValue = true;
 
-  //const { images, type, transaction, country, community, province, municipality, population } = housingData;
-
+  const fetchHouse = async () => {
+    try {
+      const response = await getHouse(_id);
+      setHousingData(response);
+      console.log("housingData en fetchHouse", housingData)
+    } catch(error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-
-    // axios.get(`/api/housing/${slug}`)
-    //   .then(response => {
-    //     setHousingData(response.data);
-    //   })
-    //   .catch(error => {
-    //     console.error(error);
-    //   });
-
-    const fakeHousingData = {
-      images: [],
-      type: 'apartment',
-      transaction: 'sale',
-      country: 'Spain',
-      community: 'Community Name',
-      province: 'Province Name',
-      municipality: 'Municipality Name',
-      population: 'Population Name',
-      // Agrega el resto de los campos del modelo aquí
-    };
-    
-    setHousingData(fakeHousingData);
-  }, [slug]);
-
-  const fakeRealEstateData = {
-    name: 'Real Estate Name',
-    // Agrega el resto de los campos del modelo de inmobiliaria aquí
-  };
-
-  const fakeUserData = {
-    name: 'User Name',
-    // Agrega el resto de los campos del modelo de usuario aquí
-  };
+    fetchHouse()
+  }, [_id]);
 
 
   if (!housingData) {
     return <div>Loading...</div>;
   }
+
+  // MODO DE EDICIÓN
+
+  const [editMode, setEditMode] = useState(false);
+
+  const [formData, setFormData] = useState({
+    realEstate: 'realEstate1', // TODO: HACER QUE MUESTRE EL VALOR DE LA INMOBILIARIA DEL USUARIO EN VEZ DE realEstate1
+    country: 'España',
+    description: housingData.description,
+    });
+
+  const handleFieldChange = (fieldName, e) => {
+    const newFormData = e.target.value !== undefined ? e.target.value : ''; // Verificar si es undefined
+    setFormData((prevState) => ({
+      ...prevState,
+      [fieldName]: newFormData,
+    }));
+    console.log("formData en handleFieldChange", formData)
+  };
+
+  // const handlePermanentDelete = async (_id) => {
+  //   await permanentDelete(_id);
+  //   await tasksGetter();
+  // }
+
+  const onUpdate = async () => {
+    await updateHousing(_id, formData);
+  };
+
+  const editPopup = async () => {
+    if (!editMode) {
+      setEditMode(true);
+    } else {
+      await onUpdate();
+      //await tasksGetter();
+      setEditMode(false);
+    }
+    }
 
   return (
 
@@ -62,85 +78,96 @@ export const HousingDetails = () => {
     <div style={{ margin: '0 3rem 3rem 3rem' }}>
     <h1 style={{ marginTop: 0, background: '#1976d2', color: 'white', padding: '0.5rem' }}>Detalle del Inmueble</h1>
 
+    <PhotoGallery />
+
+    <IconButton onClick={editPopup} aria-label="Editar" size="small">
+          <EditIcon titleAccess="editar"/>
+    </IconButton>
+    
     <Grid container spacing={3}>
       <Grid item xs={8} style={{ gridColumn: '1 / span 8' }}>
-      <PhotoCarousel showThumbs={showThumbsValue} />
-        {housingData.images.map((image, index) => (
-          <img key={index} src={image} alt={`Property Image ${index}`} />
-        ))}
+    
+       <Paper elevation={3} style={{  padding: '1rem', marginBottom: '0.6rem'}}>
+         {/* Datos del inmueble */}
+
+         {!editMode ? 
+              housingData.description && <Typography variant="h6">{housingData.description}</Typography> :
+                <Input
+                name="description"
+                label="Descripción"
+                value={formData.description}
+                onChange={(e) => handleFieldChange('description', e)}
+              />
+         }
+
+         <br></br>
+         <Typography variant="h6">Características</Typography>         
+        
+          {housingData.type && <Typography>Tipo de inmueble: {housingData.type}</Typography>}
+          {housingData.transaction && <Typography>Transacción: {housingData.transaction}</Typography>}
+          {housingData.currency && <Typography>Moneda: {housingData.currency}</Typography>}
+          {housingData.price && <Typography>Precio: {housingData.price}</Typography>}
+          {housingData.squareMeters && <Typography>Metros cuadrados: {housingData.squareMeters}</Typography>}
+          {housingData.country && <Typography>País: {housingData.country}</Typography>}
+          {housingData.province && <Typography>Provincia: {housingData.province}</Typography>}
+          {housingData.municipality && <Typography>Municipalidad: {housingData.municipality}</Typography>}
+          {housingData.neighborhood && <Typography>Barrio: {housingData.neighborhood}</Typography>}
+          {housingData.zipCode && <Typography>Código Postal: {housingData.zipCode}</Typography>}
+          {housingData.roadName && <Typography>Vía: {housingData.roadName}</Typography>}
+          {housingData.houseNumber && <Typography>Número de portal: {housingData.houseNumber}</Typography>}
+          {housingData.floor && <Typography>Piso: {housingData.floor}</Typography>}
+          {housingData.door && <Typography>Puerta: {housingData.door}</Typography>}
+          {housingData.stair && <Typography>Escalera: {housingData.stair}</Typography>}
+          {housingData.rooms && <Typography>Dormitorios: {housingData.rooms}</Typography>}
+          {housingData.baths && <Typography>Baños: {housingData.baths}</Typography>}
+          {housingData.garage && <Typography>Garages: {housingData.garage}</Typography>}
+          {housingData.floorLevel && <Typography>Nivel de piso: {housingData.floorLevel}</Typography>}
+          {housingData.facing && <Typography>Orientación: {housingData.facing}</Typography>}
+          {housingData.propertyAge && <Typography>Antigüedad del inmueble: {housingData.propertyAge}</Typography>}
+          {housingData.condition && <Typography>Condición: {housingData.condition}</Typography>}
+          {housingData.furnished && <Typography>Amueblado: {housingData.furnished}</Typography>}
+          {housingData.kitchenEquipment && <Typography>Equipamiento de cocina: {housingData.kitchenEquipment}</Typography>}
+          {housingData.airConditioned && <Typography>Aire acondicionado: {housingData.airConditioned}</Typography>}
+          {housingData.heating && <Typography>Calefacción: {housingData.heating}</Typography>}
+          {housingData.elevator && <Typography>Ascensor: {housingData.elevator}</Typography>}
+          {housingData.storage && <Typography>Trastero: {housingData.storage}</Typography>}
+          {housingData.outsideview && <Typography>Vista Exterior: {housingData.outsideview}</Typography>}
+          {housingData.garden && <Typography>Jardín: {housingData.garden}</Typography>}
+          {housingData.pool && <Typography>Piscina: {housingData.pool}</Typography>}
+          {housingData.terrace && <Typography>Terraza: {housingData.terrace}</Typography>}
+          {housingData.closets && <Typography>Closets: {housingData.closets}</Typography>}
+          {housingData.accesible && <Typography>Accesible: {housingData.accesible}</Typography>}
+        </Paper> 
       </Grid>
 
-      <Paper style={{ height: '300px', overflowY: 'scroll' }}>
-      {/* Contenido de la columna */}
-   
-      <Grid item xs={8} style={{ gridColumn: '1 / span 8' }}>
-        {/* Datos del inmueble */}
-        <Typography variant="h6">Property Details</Typography>
-        <Typography>Type: {housingData.type}</Typography>
-        <Typography>Transaction: {housingData.transaction}</Typography>
-        <Typography>Country: {housingData.country}</Typography>
-        <Typography>Community: {housingData.community}</Typography>
-        <Typography>Province: {housingData.province}</Typography>
-        <Typography>Municipality: {housingData.municipality}</Typography>
-        <Typography>Population: {housingData.population}</Typography>
-        <Typography variant="h6">Property Details</Typography>
-        <Typography>Type: {housingData.type}</Typography>
-        <Typography>Transaction: {housingData.transaction}</Typography>
-        <Typography>Country: {housingData.country}</Typography>
-        <Typography>Community: {housingData.community}</Typography>
-        <Typography>Province: {housingData.province}</Typography>
-        <Typography>Municipality: {housingData.municipality}</Typography>
-        <Typography>Population: {housingData.population}</Typography>
-        <Typography variant="h6">Property Details</Typography>
-        <Typography>Type: {housingData.type}</Typography>
-        <Typography>Transaction: {housingData.transaction}</Typography>
-        <Typography>Country: {housingData.country}</Typography>
-        <Typography>Community: {housingData.community}</Typography>
-        <Typography>Province: {housingData.province}</Typography>
-        <Typography>Municipality: {housingData.municipality}</Typography>
-        <Typography>Population: {housingData.population}</Typography>
-        <Typography variant="h6">Property Details</Typography>
-        <Typography>Type: {housingData.type}</Typography>
-        <Typography>Transaction: {housingData.transaction}</Typography>
-        <Typography>Country: {housingData.country}</Typography>
-        <Typography>Community: {housingData.community}</Typography>
-        <Typography>Province: {housingData.province}</Typography>
-        <Typography>Municipality: {housingData.municipality}</Typography>
-        <Typography>Population: {housingData.population}</Typography>
-        <Typography variant="h6">Property Details</Typography>
-        <Typography>Type: {housingData.type}</Typography>
-        <Typography>Transaction: {housingData.transaction}</Typography>
-        <Typography>Country: {housingData.country}</Typography>
-        <Typography>Community: {housingData.community}</Typography>
-        <Typography>Province: {housingData.province}</Typography>
-        <Typography>Municipality: {housingData.municipality}</Typography>
-        <Typography>Population: {housingData.population}</Typography>
-        <Typography variant="h6">Property Details</Typography>
-        <Typography>Type: {housingData.type}</Typography>
-        <Typography>Transaction: {housingData.transaction}</Typography>
-        <Typography>Country: {housingData.country}</Typography>
-        <Typography>Community: {housingData.community}</Typography>
-        <Typography>Province: {housingData.province}</Typography>
-        <Typography>Municipality: {housingData.municipality}</Typography>
-        <Typography>Population: {housingData.population}</Typography>
-        {/* Agrega el resto de los campos del modelo de inmueble aquí */}
-      </Grid>
-
-      </Paper>
-
+     
       <Grid item xs={4} style={{ gridColumn: '9 / span 4' }}>
-        {/* Datos de la inmobiliaria */}
-        <Typography variant="h6">Real Estate Details</Typography>
-        <Typography>Name: {fakeRealEstateData.name}</Typography>
-        {/* Agrega el resto de los campos del modelo de inmobiliaria aquí */}
+        
+        <Paper
+          elevation={3}
+          style={{
+            position: 'sticky',
+            top: 0,
+            zIndex: 100,
+            backgroundColor: 'white',
+            padding: '1rem', 
+            marginBottom: '0.6rem'
+          }}>
+
+          {/* Datos de la inmobiliaria */}
+          <p>DATOS DE LA INMOBILIARIA</p>
+          <br/>
+          <br/>
+          <br/>
+          {/* Datos del usuario */}
+          <p>DATOS DEL USUARIO</p>
+       
+        </Paper>
       </Grid>
-      <Grid item xs={4} style={{ gridColumn: '9 / span 4' }}>
-        {/* Datos del usuario */}
-        <Typography variant="h6">User Details</Typography>
-        <Typography>Name: {fakeUserData.name}</Typography>
-        {/* Agrega el resto de los campos del modelo de usuario aquí */}
-      </Grid>
+     
+
     </Grid>
+  
   </div>
   );
 };
