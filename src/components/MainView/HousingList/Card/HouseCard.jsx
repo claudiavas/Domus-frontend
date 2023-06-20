@@ -49,9 +49,9 @@ function HouseCard ({province, municipality, population, neighborhood,
           <h4>{description}</h4>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <LocationOnOutlinedIcon style={{ marginRight: '5px' }} />
-            {municipality !== province ? <h5>{province}, {municipality} </h5> : <h5>{province} </h5>}
+            {/* {municipality !== province ? <h5>{province}, {municipality} </h5> : <h5>{province} </h5>}
             {population !== municipality && <h5>, {population} </h5>}
-            <h5>, {neighborhood}</h5>
+            <h5>, {neighborhood}</h5> */}
           </div>
                     
           <div style={{ display: 'flex', alignItems: 'center', margin: '0px', padding: 0  }}>
