@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import HouseCard from './Card/HouseCard';
 import { getAllHousing } from '../../apiService/apiService';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 
 export function HousingList() {
   const [housing, setHousing] = useState([]);
@@ -34,7 +34,7 @@ export function HousingList() {
   return (
     <span>
       {housing.map((house) => (
-        <Link to={`/housingdetails/${house._id}`} key={house._id}>
+        //<Link to={`/housingdetails/${house._id}`} key={house._id}>
         <HouseCard
           key={house._id}
           _id={house._id}
@@ -50,7 +50,7 @@ export function HousingList() {
           rooms={house.rooms}
           baths={house.baths}
         />
-        </Link>
+        // </Link>
       ))}
     </span>
   );

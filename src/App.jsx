@@ -9,6 +9,9 @@ import { HomePage } from './components/HomePage/HomePage';
 import { HousingDetails } from './components/MainView/HousingDetails/HousingDetails';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
 import { AddHousing } from './components/MainView/AddHousing/AddHousing';
+// import { HouseCard } from './components/MainView/HousingList/Card/HouseCard';
+import { HousingList } from './components/MainView/HousingList/HousingList';
+import { UpdateHousing } from './components/MainView/HousingDetails/UpdateHousing';
 
 const App = () => {
 
@@ -19,9 +22,11 @@ return (
         <Route path="/" element={<HomePage/>}></Route>
         <Route path="/login" element={<Login/>}></Route>
         <Route path="/register" element={<Register/>}></Route>
+        <Route path="/housinglist" element={<HousingList/>}></Route>
         {/* <Route path="/forgotpassword" element={<ForgotPass/>}></Route> */}
         <Route path="/mainview" element={<MainView/>}></Route>
         <Route path="/housingdetails/:_id" element={<HousingDetails/>}></Route>
+        <Route path="/updatehousing/:_id" element={<UpdateHousing/>}></Route>
         <Route path="/addHousing" element={<AddHousing/>}></Route>
         <Route path="*" element={<PageNotFound/>}></Route>
       </Routes>

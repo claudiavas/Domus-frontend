@@ -5,20 +5,22 @@ import Paper from '@mui/material/Paper';
 import { getHouse, updateHousing } from '../../apiService/apiService';
 import { PhotoGallery } from './PhotoGallery';
 import IconButton from "@mui/material/IconButton";
-import EditIcon from "@mui/icons-material/Edit";
+import { Link } from "react-router-dom";
+import Box from '@mui/material/Box';
+import Fab from '@mui/material/Fab';
+import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from "react-router-dom";
 
 export const HousingDetails = () => {
 
+  const navigate = useNavigate()
   const { _id } = useParams(); // Obtener el parámetro de la URL
-
   const [housingData, setHousingData] = useState({});
-
 
   const fetchHouse = async () => {
     try {
       const response = await getHouse(_id);
       setHousingData(response);
-      console.log("housingData en fetchHouse", housingData)
     } catch(error) {
       console.error(error);
     }
@@ -28,6 +30,9 @@ export const HousingDetails = () => {
     fetchHouse()
   }, [_id]);
 
+  useEffect(() => {
+    console.log("housingData en useEffect", housingData)
+  }, [housingData]);
 
   if (!housingData) {
     return <div>Loading...</div>;
@@ -109,11 +114,11 @@ export const HousingDetails = () => {
           {housingData.price && <Typography>Precio: {housingData.price}</Typography>}
           {housingData.squareMeters && <Typography>Metros cuadrados: {housingData.squareMeters}</Typography>}
           {housingData.country && <Typography>País: {housingData.country}</Typography>}
-          {housingData.province && <Typography>Provincia: {housingData.province}</Typography>}
-          {housingData.municipality && <Typography>Municipalidad: {housingData.municipality}</Typography>}
-          {housingData.neighborhood && <Typography>Barrio: {housingData.neighborhood}</Typography>}
-          {housingData.zipCode && <Typography>Código Postal: {housingData.zipCode}</Typography>}
-          {housingData.roadName && <Typography>Vía: {housingData.roadName}</Typography>}
+          {/* {housingData.province && <Typography>Provincia: {housingData.province}</Typography>} */}
+          {/* {housingData.municipality && <Typography>Municipalidad: {housingData.municipality}</Typography>} */}
+          {/* {housingData.neighborhood && <Typography>Barrio: {housingData.neighborhood}</Typography>} */}
+          {/* {housingData.zipCode && <Typography>Código Postal: {housingData.zipCode}</Typography>} */}
+          {/* {housingData.roadName && <Typography>Vía: {housingData.roadName}</Typography>} */}
           {housingData.houseNumber && <Typography>Número de portal: {housingData.houseNumber}</Typography>}
           {housingData.floor && <Typography>Piso: {housingData.floor}</Typography>}
           {housingData.door && <Typography>Puerta: {housingData.door}</Typography>}
@@ -136,7 +141,7 @@ export const HousingDetails = () => {
           {housingData.pool && <Typography>Piscina: {housingData.pool}</Typography>}
           {housingData.terrace && <Typography>Terraza: {housingData.terrace}</Typography>}
           {housingData.closets && <Typography>Closets: {housingData.closets}</Typography>}
-          {housingData.accesible && <Typography>Accesible: {housingData.accesible}</Typography>}
+          {housingData.accessible && <Typography>Accesible: {housingData.accessible}</Typography>}
         </Paper> 
       </Grid>
 
@@ -167,6 +172,16 @@ export const HousingDetails = () => {
      
 
     </Grid>
+
+    <Link to={`/updatehousing/${_id}`} state={{ housingData }}>
+      <Box sx={{  position: 'fixed', right: '20px', bottom: '20px', zIndex: '9999' }}>
+        <Fab 
+          color="secondary"
+          aria-label="edit">
+          <EditIcon />
+        </Fab>
+      </Box>
+    </Link>
   
   </div>
   );

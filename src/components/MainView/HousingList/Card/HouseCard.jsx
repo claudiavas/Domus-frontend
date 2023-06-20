@@ -8,7 +8,7 @@ import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { useNavigate } from "react-router-dom";
 
-function HouseCard ({province, municipality, population, neighborhood, 
+function HouseCard ({_id, province, municipality, population, neighborhood, 
   description, currency, price, squareMeters, rooms}) {
     
     const navigate = useNavigate()
@@ -71,7 +71,7 @@ function HouseCard ({province, municipality, population, neighborhood,
           <div style={{ marginTop: '0px', padding: "4px"  }}>
             <h4 style={{ margin: '0px', padding: 0, color: "#1976d2", display: "flex", justifyContent: 'space-between', alignItems: "center",}}>
               {currencySymbol} {price.toLocaleString('es-ES')}
-              <Button onClick={() => navigate("/housingdetails/example")} color="primary" variant="outlined">Ver Más</Button>
+              <Button onClick={() => navigate(`/housingdetails/${_id}`)} color="primary" variant="outlined">Ver Más</Button>
             </h4>
           </div>
           </Card>

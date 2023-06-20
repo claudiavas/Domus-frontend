@@ -240,7 +240,7 @@ export function MainView(props) {
             <TabPanel value={tabValue} index={0}>
               
               <HousingList/>  
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end', paddingBottom: '16px' }}>
+              <Box sx={{ position: 'fixed', right: '20px', bottom: '20px', zIndex: '9999' }}>
               <Fab
                 color="primary"
                 onClick={() => navigate("/addhousing")}
