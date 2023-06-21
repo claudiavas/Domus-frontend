@@ -6,26 +6,31 @@ import { Login } from './components/Authentication/Login';
 // import { ForgotPassword } from './components/HomePage/Authentication/ForgotPassword';
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { HomePage } from './components/HomePage/HomePage';
-import { HousingDetails } from './components/HousingDetails/HousingDetails';
+import { HousingDetails } from './components/MainView/HousingDetails/HousingDetails';
 import { PageNotFound } from './components/PageNotFound/PageNotFound';
-import { AuthProvider } from './components/Contexts/AuthContext';
+import { AddHousing } from './components/MainView/AddHousing/AddHousing';
+// import { HouseCard } from './components/MainView/HousingList/Card/HouseCard';
+import { HousingList } from './components/MainView/HousingList/HousingList';
+import { UpdateHousing } from './components/MainView/HousingDetails/UpdateHousing';
 
 const App = () => {
 
+
 return (
-  <AuthProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage/>}></Route>
         <Route path="/login" element={<Login/>}></Route>
         <Route path="/register" element={<Register/>}></Route>
+        <Route path="/housinglist" element={<HousingList/>}></Route>
         {/* <Route path="/forgotpassword" element={<ForgotPass/>}></Route> */}
         <Route path="/mainview" element={<MainView/>}></Route>
-        <Route path="/housingdetails/:slug" element={<HousingDetails/>}></Route>
+        <Route path="/housingdetails/:_id" element={<HousingDetails/>}></Route>
+        <Route path="/updatehousing/:_id" element={<UpdateHousing/>}></Route>
+        <Route path="/addHousing" element={<AddHousing/>}></Route>
         <Route path="*" element={<PageNotFound/>}></Route>
       </Routes>
     </BrowserRouter>
-  </AuthProvider>
 )
 }
 

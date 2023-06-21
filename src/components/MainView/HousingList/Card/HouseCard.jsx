@@ -1,16 +1,19 @@
 import * as React from 'react';
 import { Button, CardActionArea, CardActions, Box, Card, CardContent, CardMedia, Divider } from '@mui/material';
-import PhotoCarousel from './PhotoCarousel';
-import ShowerOutlinedIcon from '@mui/icons-material/ShowerOutlined';
+import { PhotoCarousel } from './PhotoCarousel';
 import BedOutlinedIcon from '@mui/icons-material/BedOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import FullscreenOutlinedIcon from '@mui/icons-material/FullscreenOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import { useNavigate } from "react-router-dom";
 
-function HouseCard ({province, municipality, population, neighborhood, 
+function HouseCard ({_id, province, municipality, population, neighborhood, 
   description, currency, price, squareMeters, rooms}) {
     
+    const navigate = useNavigate()
+    const showThumbsValue = false;
+
     let currencySymbol = '';
     if (currency === 'USD') {
       currencySymbol = '$';
@@ -33,7 +36,7 @@ function HouseCard ({province, municipality, population, neighborhood,
       <span style={{ flex: '1 0 40%'}}>
         {/* LEFT SIDE */}
         <Card>
-          <PhotoCarousel/>
+        <PhotoCarousel showThumbs={showThumbsValue} />
         </Card>
       </span>
 
@@ -46,9 +49,9 @@ function HouseCard ({province, municipality, population, neighborhood,
           <h4>{description}</h4>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <LocationOnOutlinedIcon style={{ marginRight: '5px' }} />
-            {municipality !== province ? <h5>{province}, {municipality} </h5> : <h5>{province} </h5>}
+            {/* {municipality !== province ? <h5>{province}, {municipality} </h5> : <h5>{province} </h5>}
             {population !== municipality && <h5>, {population} </h5>}
-            <h5>, {neighborhood}</h5>
+            <h5>, {neighborhood}</h5> */}
           </div>
                     
           <div style={{ display: 'flex', alignItems: 'center', margin: '0px', padding: 0  }}>
@@ -68,7 +71,7 @@ function HouseCard ({province, municipality, population, neighborhood,
           <div style={{ marginTop: '0px', padding: "4px"  }}>
             <h4 style={{ margin: '0px', padding: 0, color: "#1976d2", display: "flex", justifyContent: 'space-between', alignItems: "center",}}>
               {currencySymbol} {price.toLocaleString('es-ES')}
-              <Button color="primary" variant="outlined">Ver Más</Button>
+              <Button onClick={() => navigate(`/housingdetails/${_id}`)} color="primary" variant="outlined">Ver Más</Button>
             </h4>
           </div>
           </Card>
