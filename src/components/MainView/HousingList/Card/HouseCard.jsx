@@ -70,7 +70,7 @@ function HouseCard ({_id, province, municipality, population, neighborhood,
           <Card>
           <div style={{ marginTop: '0px', padding: "4px"  }}>
             <h4 style={{ margin: '0px', padding: 0, color: "#1976d2", display: "flex", justifyContent: 'space-between', alignItems: "center",}}>
-              {currencySymbol} {price.toLocaleString('es-ES')}
+            {currencySymbol} {price}
               <Button onClick={() => navigate(`/housingdetails/${_id}`)} color="primary" variant="outlined">Ver Más</Button>
             </h4>
           </div>

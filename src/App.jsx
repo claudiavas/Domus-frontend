@@ -12,6 +12,7 @@ import { AddHousing } from './components/MainView/AddHousing/AddHousing';
 // import { HouseCard } from './components/MainView/HousingList/Card/HouseCard';
 import { HousingList } from './components/MainView/HousingList/HousingList';
 import { UpdateHousing } from './components/MainView/HousingDetails/UpdateHousing';
+import { EditUserProfile } from './components/MainView/UserProfile/EditUserProfile';
 
 const App = () => {
 
@@ -24,6 +25,7 @@ return (
         <Route path="/register" element={<Register/>}></Route>
         <Route path="/housinglist" element={<HousingList/>}></Route>
         {/* <Route path="/forgotpassword" element={<ForgotPass/>}></Route> */}
+        <Route path="/userprofile" element={<EditUserProfile/>}></Route>
         <Route path="/mainview" element={<MainView/>}></Route>
         <Route path="/housingdetails/:_id" element={<HousingDetails/>}></Route>
         <Route path="/updatehousing/:_id" element={<UpdateHousing/>}></Route>

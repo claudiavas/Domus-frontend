@@ -17,7 +17,6 @@ import { HousingList } from './HousingList/HousingList';
 import { AuthContext } from '../Contexts/AuthContext';
 import { useNavigate } from "react-router-dom";
 
-
 const drawerWidth = 240;
 
 export function MainView(props) {
@@ -179,7 +178,9 @@ export function MainView(props) {
                   anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 >
 
-                  <MenuItem onClick={handleClose}>
+                  <MenuItem onClick={() => (
+                    navigate("/userprofile")
+                  )}>
                     <Avatar /> Mi perfil
                   </MenuItem>
                   <Divider />
