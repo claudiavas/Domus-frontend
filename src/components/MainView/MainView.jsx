@@ -121,7 +121,7 @@ export function MainView(props) {
               onClick={handleDrawerToggle}
               sx={{ mr: 2, display: { sm: 'none' } }}
             >
-              <ManageSearchIcon style={{ fontSize: '30px' }} />
+             <ManageSearchIcon style={{ fontSize: '30px' }} />
             </IconButton>
             <Container sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
               <Typography variant="h6" noWrap component="div">
