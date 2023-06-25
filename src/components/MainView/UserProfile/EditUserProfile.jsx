@@ -65,114 +65,120 @@ export const EditUserProfile = () => {
 
           {/*  DOCUMENTS */}
 
-          <Paper elevation={3} style={{ padding: '3rem', marginLeft: "1rem", marginBottom: '15rem', marginTop: '1rem' }}>
+          <Paper elevation={3} style={{ padding: '3rem', marginLeft: "1rem", marginBottom: '2rem', marginTop: '1rem' }}>
             <InputLabel id="Agent-label" htmlFor="documentType">Tipo Documento*</InputLabel>
 
-            <Grid container spacing={1} top={"2rem"} bottom={"2rem"}>
-              <Grid item xs={12} sm={6} md={6} lg={2}>
-                <FormControl style={{ width: '80%' }}>
-                  <Select
-                    name="DocumentType"
-                    label="Document Type"
-                    value={formData.agent}
-                    onChange={handleChange}
-                    labelId="DocumentType-l"
-                    fullWidth
-                    SelectProps={{ native: true }}
-                  >
-                    <MenuItem value="DNI">DNI</MenuItem>
-                    <MenuItem value="NIE">NIE</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
+            <div style={{ margin: '0rem 2rem 2rem 2rem' }}>
+              <Grid container spacing={1} top={"2rem"} bottom={"2rem"}>
+                <Grid item xs={12} sm={6} md={6} lg={2}>
+                  <FormControl style={{ width: '82%' }}>
+                    <Select
+                      name="DocumentType"
+                      label="Document Type"
+                      value={formData.agent}
+                      onChange={handleChange}
+                      labelId="DocumentType-l"
+                      fullWidth
+                      SelectProps={{ native: true }}
+                    >
+                      <MenuItem value="DNI">DNI</MenuItem>
+                      <MenuItem value="NIE">NIE</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
 
-              <Grid item xs={12} sm={6} md={6} lg={3}>
-                <FormControl style={{ width: '90%' }}>
-                  <TextField
-                    name="documentNumber"
-                    label="Document Number"
-                    value={formData.documentNumber}
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                </FormControl>
-              </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={3}>
+                  <FormControl style={{ width: '95%' }}>
+                    <TextField
+                      name="documentNumber"
+                      label="Document Number"
+                      value={formData.documentNumber}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </FormControl>
+                </Grid>
 
-              <Grid item xs={12} sm={6} md={6} lg={3}>
-                <FormControl style={{ width: '100%' }}>
-                  <TextField
-                    name="agentRegistrationNumber"
-                    label="Agent Registration Number"
-                    value={formData.agentRegistrationNumber || ''}
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={6} md={6} lg={3}>
-                <FormControl style={{ width: '130%' }}>
-                  <TextField
-                    name="AgentRegistrationComunidadAutonoma"
-                    label="Agent Registration Comunidad Autonoma"
-                    value={formData.agentRegistrationNumber || ''}
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                </FormControl>
-              </Grid>
-            </Grid> {/*Grid container*/}
+                <Grid item xs={12} sm={6} md={6} lg={3}>
+                  <FormControl style={{ width: '100%' }}>
+                    <TextField
+                      name="agentRegistrationNumber"
+                      label="Agent Registration Number"
+                      value={formData.agentRegistrationNumber || ''}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </FormControl>
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={6} lg={3}>
+                  <FormControl style={{ width: '130%' }}>
+                    <TextField
+                      name="AgentRegistrationComunidadAutonoma"
+                      label="Agent Registration Comunidad Autonoma"
+                      value={formData.agentRegistrationNumber || ''}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </FormControl>
+                </Grid>
+
+              </Grid> {/*Grid container*/}
+            </div>
 
             {/*  CONTACT */}
-            <Grid container spacing={2} bottom={"2rem"} >
-              <Grid item xs={12} sm={6} md={6} lg={3}>
-                <FormControl style={{ width: '100%' }}>
-                  <TextField
-                    name="name"
-                    label="Name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={6} md={6} lg={3}>
-                <FormControl style={{ width: '135%' }}>
-                  <TextField
-                    name="surname"
-                    label="Surname"
-                    value={formData.surname}
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                </FormControl>
-              </Grid>
-            </Grid> {/*Grid container*/}
-
-            <Grid container spacing={2} bottom={"2rem"} >
-              <Grid item xs={12} sm={6} md={6} lg={3}>
-                <FormControl style={{ width: '100%' }}>
-                  <TextField
-                    name="mainOfficeCountry"
-                    label="Country"
-                    value={formData.mainOfficeCountry || ''}
-                    onChange={handleChange}
-                    fullWidth
-                 />
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={6} md={6} lg={3}>
-                <FormControl style={{ width: '100%' }}>
-                  <TextField
-                    name="mainOfficeProvince"
-                    label="Province"
-                    value={formData.mainOfficeProvince || ''}
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                </FormControl>
+            <div style={{ margin: '0rem 2rem 2rem 2rem' }}>
+              <Grid container spacing={2} style={{ display: 'flex', flexDirection: 'row' }}>
+                <Grid item xs={12} sm={6} md={6} lg={5}>
+                  <FormControl style={{ width: '100%' }}>
+                    <TextField
+                      name="name"
+                      label="Name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={3}>
-                  <FormControl style={{ width: '50%' }}>
+                <Grid item xs={12} sm={6} md={6} lg={5}>
+                  <FormControl style={{ width: '138%' }}>
+                    <TextField
+                      name="surname"
+                      label="Surname"
+                      value={formData.surname}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid> {/*Grid container*/}
+            </div>
+            <div style={{ margin: '0rem 2rem 2rem 2rem' }}>
+              <Grid container spacing={2} style={{ display: 'flex', flexDirection: 'row' }}>
+                <Grid item xs={12} sm={6} md={6} lg={4}>
+                  <FormControl style={{ width: '100%' }}>
+                    <TextField
+                      name="mainOfficeCountry"
+                      label="Country"
+                      value={formData.mainOfficeCountry || ''}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={4}>
+                  <FormControl style={{ width: '90%' }}>
+                    <TextField
+                      name="mainOfficeProvince"
+                      label="Province"
+                      value={formData.mainOfficeProvince || ''}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={4}>
+                  <FormControl style={{ width: '60%' }}>
                     <TextField
                       name="mainOfficeZipCode"
                       label="Zip Code"
@@ -182,18 +188,62 @@ export const EditUserProfile = () => {
                     />
                   </FormControl>
                 </Grid>
-               </Grid> {/*Grid container*/} 
-              </Paper>
-              </Container>
-              </form>
-              {/* Botón de envío */}
-              <div style={{ display: "flex", justifyContent: "flex-end", height: '2rem' }}>   {/* Esto es un hack para que el botón no tape los campos de texto */}
-                <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>
-                  Enviar
-                </Button>
-              </div>             
+              </Grid> {/*Grid container*/}
+            </div>
 
-          {/*  </Box>*/}
+            <div style={{ margin: '0rem 2rem 2rem 2rem' }}>
+            <Grid container spacing={2} style={{ display: 'flex', flexDirection: 'row' }}>
+              <Grid container spacing={3} bottom={"2rem"} >
+                <Grid item xs={12} sm={6} md={6} lg={6}>
+                  <FormControl style={{ width: '100%' }}>
+                    <TextField
+                      name="email"
+                      label="Email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={2}>
+                  <FormControl style={{ width: '100%' }}>
+                    <TextField
+                      name="phone"
+                      label="Phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={2}>
+                  <FormControl style={{ width: '105%' }}>
+                    <TextField
+                      name="mobile"
+                      label="Mobile"
+                      value={formData.mobile}
+                      onChange={handleChange}
+                      fullWidth
+                    />
+                  </FormControl>
+                </Grid>
+
+
+              </Grid> {/*Grid container*/}
+            </Grid>
+            </div>
+
+          </Paper>
+        </Container>
+      </form>
+      {/* Botón de envío */}
+      <div style={{ display: "flex", justifyContent: "flex-end", height: '2rem' }}>   {/* Esto es un hack para que el botón no tape los campos de texto */}
+        <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>
+          Enviar
+        </Button>
+      </div>
+
+      {/*  </Box>*/}
 
 
 
