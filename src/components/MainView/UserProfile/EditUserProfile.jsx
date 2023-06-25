@@ -25,51 +25,51 @@ export const EditUserProfile = () => {
     // HEADINGS
 
     <div style={{ margin: '0rem 3rem 3rem 3rem' }}>
-      <h1 style={{ marginTop: 0, background: '#1976d2', color: 'white', padding: '0.1rem' }}>Editar Perfil</h1>
-      <form onSubmit={handleSubmit}>
-        {/* Avatar + search icon  */}
-        <Container fixed>
-          {/*  <Box sx={{ display: 'flex' }}>*/}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-            <Avatar
-              style={{ marginBottom: '6px', width: '100px', height: '100px' }}
-              alt="User Avatar"
-              src="/profile.jpg"
-            />
-            <input
-              accept="image/*"
-              style={{ display: 'none' }}
-              id="contained-button-file"
-              multiple
-              type="file"
-            />
-            <div style={{ display: 'grid', gap: '1px', justifyItems: 'left' }}>
-              <label htmlFor="contained-button-file">
-                <Button
-                  style={{ marginTop: '10px' }}
-                  variant="contained"
-                  color="primary"
-                  component="span"
-                >
-                  Upload
-                </Button>
-              </label>
-              <input accept="image/*" style={{ display: 'none' }} id="icon-button-file" type="file" />
-              <label htmlFor="icon-button-file" style={{ marginTop: '16px' }}>
-                {/*  <IconButton color="primary" aria-label="upload picture" component="span">
-                  <PhotoCamera />
-                </IconButton>*/}
-              </label>
+        <h1 style={{ marginTop: 0, background: '#1976d2', color: 'white', padding: '0.1rem' }}>Editar Perfil</h1>
+        <form onSubmit={handleSubmit}>
+          {/* Avatar + search icon  */}
+          <Container fixed>
+            {/*  <Box sx={{ display: 'flex' }}>*/}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+              <Avatar
+                style={{ marginBottom: '6px', width: '100px', height: '100px' }}
+                alt="User Avatar"
+                src="/profile.jpg"
+              />
+              <input
+                accept="image/*"
+                style={{ display: 'none' }}
+                id="contained-button-file"
+                multiple
+                type="file"
+              />
+              <div style={{ display: 'grid', gap: '1px', justifyItems: 'left' }}>
+                <label htmlFor="contained-button-file">
+                  <Button
+                    style={{ marginTop: '10px' }}
+                    variant="contained"
+                    color="primary"
+                    component="span"
+                  >
+                    Upload
+                  </Button>
+                </label>
+                <input accept="image/*" style={{ display: 'none' }} id="icon-button-file" type="file" />
+                <label htmlFor="icon-button-file" style={{ marginTop: '16px' }}>
+                  {/*  <IconButton color="primary" aria-label="upload picture" component="span">
+                    <PhotoCamera />
+                  </IconButton>*/}
+                </label>
+              </div>
             </div>
-          </div>
-
+           
           {/*  DOCUMENTS */}
-
+          {/*  </Box>*/}
           <Paper elevation={3} style={{ padding: '3rem', marginLeft: "1rem", marginBottom: '2rem', marginTop: '1rem' }}>
             <InputLabel id="Agent-label" htmlFor="documentType">Tipo Documento*</InputLabel>
 
             <div style={{ margin: '0rem 2rem 2rem 2rem' }}>
-              <Grid container spacing={1} top={"2rem"} bottom={"2rem"}>
+              <Grid container spacing={2} style={{ display: 'flex', flexDirection: 'row' }}>
                 <Grid item xs={12} sm={6} md={6} lg={2}>
                   <FormControl style={{ width: '82%' }}>
                     <Select
@@ -88,7 +88,7 @@ export const EditUserProfile = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={6} lg={3}>
-                  <FormControl style={{ width: '95%' }}>
+                  <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="documentNumber"
                       label="Document Number"
@@ -99,7 +99,7 @@ export const EditUserProfile = () => {
                   </FormControl>
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={6} lg={3}>
+                <Grid item xs={12} sm={6} md={6} lg={4}>
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="agentRegistrationNumber"
@@ -112,7 +112,7 @@ export const EditUserProfile = () => {
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={6} lg={3}>
-                  <FormControl style={{ width: '130%' }}>
+                  <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="AgentRegistrationComunidadAutonoma"
                       label="Agent Registration Comunidad Autonoma"
@@ -129,7 +129,7 @@ export const EditUserProfile = () => {
             {/*  CONTACT */}
             <div style={{ margin: '0rem 2rem 2rem 2rem' }}>
               <Grid container spacing={2} style={{ display: 'flex', flexDirection: 'row' }}>
-                <Grid item xs={12} sm={6} md={6} lg={5}>
+                <Grid item xs={12} sm={6} md={6} lg={6}>
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="name"
@@ -140,8 +140,8 @@ export const EditUserProfile = () => {
                     />
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={5}>
-                  <FormControl style={{ width: '138%' }}>
+                <Grid item xs={12} sm={6} md={6} lg={6}>
+                  <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="surname"
                       label="Surname"
@@ -153,9 +153,11 @@ export const EditUserProfile = () => {
                 </Grid>
               </Grid> {/*Grid container*/}
             </div>
+
+            {/*  CONTACT */}
             <div style={{ margin: '0rem 2rem 2rem 2rem' }}>
               <Grid container spacing={2} style={{ display: 'flex', flexDirection: 'row' }}>
-                <Grid item xs={12} sm={6} md={6} lg={4}>
+                <Grid item xs={12} sm={6} md={6} lg={6}>
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="mainOfficeCountry"
@@ -167,7 +169,7 @@ export const EditUserProfile = () => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={4}>
-                  <FormControl style={{ width: '90%' }}>
+                  <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="mainOfficeProvince"
                       label="Province"
@@ -177,8 +179,8 @@ export const EditUserProfile = () => {
                     />
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={4}>
-                  <FormControl style={{ width: '60%' }}>
+                <Grid item xs={12} sm={6} md={6} lg={2}>
+                  <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="mainOfficeZipCode"
                       label="Zip Code"
@@ -192,8 +194,7 @@ export const EditUserProfile = () => {
             </div>
 
             <div style={{ margin: '0rem 2rem 2rem 2rem' }}>
-            <Grid container spacing={2} style={{ display: 'flex', flexDirection: 'row' }}>
-              <Grid container spacing={3} bottom={"2rem"} >
+              <Grid container spacing={2} bottom={"2rem"} >
                 <Grid item xs={12} sm={6} md={6} lg={6}>
                   <FormControl style={{ width: '100%' }}>
                     <TextField
@@ -205,7 +206,7 @@ export const EditUserProfile = () => {
                     />
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={2}>
+                <Grid item xs={12} sm={6} md={6} lg={3}>
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="phone"
@@ -216,8 +217,8 @@ export const EditUserProfile = () => {
                     />
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={2}>
-                  <FormControl style={{ width: '105%' }}>
+                <Grid item xs={12} sm={6} md={6} lg={3}>
+                  <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="mobile"
                       label="Mobile"
@@ -227,26 +228,49 @@ export const EditUserProfile = () => {
                     />
                   </FormControl>
                 </Grid>
+              </Grid> {/*Grid container*/}  
+               </div>
+
+                <div style={{ margin: '2rem 2rem 2rem 2rem' }}>
+                  <Grid container spacing={2} style={{ display: 'flex', flexDirection: 'row' }}>
+                    <Grid item xs={12} sm={6} md={6} lg={6}>
+                      <FormControl style={{ width: '100%' }}>
+                        <TextField
+                          name="password"
+                          label="Password"
+                          value={formData.password}
+                          onChange={handleChange}
+                          fullWidth
+                        />
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={6} lg={6}>
+                      <FormControl style={{ width: '100%' }}>
+                        <TextField
+                          name="confirmPassword"
+                          label="Confirm Password"
+                          value={formData.confirmPassword}
+                          onChange={handleChange}
+                          fullWidth
+                        />
+                      </FormControl>
+                    </Grid>
+                  </Grid>
+                </div>        
+      </Paper>
+    </Container>
+  </form >
+  {/* Botón de envío */ }
+  < div style = {{ display: "flex", justifyContent: "flex-end", height: '2rem' }}> {/* Esto es un hack para que el botón no tape los campos de texto */ }
+    < Button type = "submit" variant = "contained" color = "primary" onClick = { handleSubmit } >
+      Enviar
+        </Button >
+      </div >
+
+  {/*  </Box>*/ }
 
 
-              </Grid> {/*Grid container*/}
-            </Grid>
-            </div>
 
-          </Paper>
-        </Container>
-      </form>
-      {/* Botón de envío */}
-      <div style={{ display: "flex", justifyContent: "flex-end", height: '2rem' }}>   {/* Esto es un hack para que el botón no tape los campos de texto */}
-        <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>
-          Enviar
-        </Button>
-      </div>
-
-      {/*  </Box>*/}
-
-
-
-    </div>
+    </div >
   )
 };
