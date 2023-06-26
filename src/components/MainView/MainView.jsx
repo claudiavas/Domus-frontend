@@ -16,6 +16,7 @@ import { useState, useContext, useEffect } from 'react';
 import { HousingList } from './HousingList/HousingList';
 import { AuthContext } from '../Contexts/AuthContext';
 import { useNavigate } from "react-router-dom";
+import DomainAddIcon from '@mui/icons-material/DomainAdd';
 
 
 const drawerWidth = 240;
@@ -188,6 +189,12 @@ export function MainView(props) {
                       <LogoutIcon fontSize="small" />
                     </ListItemIcon>
                     Logout
+                  </MenuItem>
+                  <MenuItem onClick={()=>navigate("/addrealestate")}>
+                    <Box display="flex" alignItems="center">
+                      <DomainAddIcon color="action" fontSize="small"/>
+                      <Box marginLeft={2}>Inmobiliaria</Box>
+                    </Box>
                   </MenuItem>
                 </Menu>
               </React.Fragment>

@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { getAllHousing } from '../apiService/apiService';
+import { getActiveHousing } from '../apiService/apiService';
 
 export const HousingContext = createContext();
 
@@ -9,7 +9,7 @@ export const HousingProvider = ({ children }) => {
 
   const fetchHousing = async () => {
     try {
-      const data = await getAllHousing();
+      const data = await getActiveHousing();
       setHousing(data.data);
     } catch (error) {
       console.error(error);
