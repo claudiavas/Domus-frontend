@@ -238,7 +238,7 @@ export const UpdateHousing = () => {
           <Grid container spacing={1}>
 
             <Grid item xs={12} sm={6} md={6} lg={3}>
-              <FormControl style={{ width: '75%' }}>
+              {/* <FormControl style={{ width: '75%' }}>
                 <InputLabel id="realEstate-label">Inmobiliaria*</InputLabel>
                 <Select
                   name="realEstate"
@@ -250,7 +250,7 @@ export const UpdateHousing = () => {
                   <MenuItem value="realEstate1">Real Estate 1</MenuItem> 
                   <MenuItem value="independent_agent">Agente independiente</MenuItem>
                 </Select>
-              </FormControl>
+              </FormControl> */}
             </Grid>
             
             <Grid item xs={12} sm={6} md={6} lg={3}>

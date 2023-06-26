@@ -13,6 +13,7 @@ import { AddHousing } from './components/MainView/AddHousing/AddHousing';
 import { HousingList } from './components/MainView/HousingList/HousingList';
 import { UpdateHousing } from './components/MainView/HousingDetails/UpdateHousing';
 import { EditUserProfile } from './components/MainView/UserProfile/EditUserProfile';
+import { AddRealEstate } from './components/MainView/RealEstate/AddRealEstate';
 
 const App = () => {
 
@@ -28,6 +29,7 @@ return (
         <Route path="/userprofile" element={<EditUserProfile/>}></Route>
         <Route path="/mainview" element={<MainView/>}></Route>
         <Route path="/housingdetails/:_id" element={<HousingDetails/>}></Route>
+        <Route path="/addrealestate/" element={<AddRealEstate/>}></Route>
         <Route path="/updatehousing/:_id" element={<UpdateHousing/>}></Route>
         <Route path="/addHousing" element={<AddHousing/>}></Route>
         <Route path="*" element={<PageNotFound/>}></Route>
