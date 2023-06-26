@@ -24,26 +24,28 @@ export const EditUserProfile = () => {
 
     // HEADINGS
 
-    <div style={{ margin: '0rem 3rem 3rem 3rem' }}>
+    <div style={{ margin: '0rem 0rem 3rem 0rem' }}>
+
       <h1 style={{ marginTop: 0, background: '#1976d2', color: 'white', padding: '0.1rem' }}>Editar Perfil</h1>
 
       {/* Avatar + search icon  */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', margin: '2rem 10rem 0rem 10rem'}}>
         {/* Avatar */}
+        <div style={{ display: 'grid', gap: '1px', justifyItems: 'center', marginLeft: '14px' }}>
         <Avatar
-          style={{ marginBottom: '2px', width: '80px', height: '80px' }}
+          style={{ marginBottom: '2px', width: '80px', height: '80px'}}
           alt="User Avatar"
           src="/profile.jpg"
         />
-
+       </div>
         {/* Upload button */}
-        <div style={{ display: 'grid', gap: '1px', justifyItems: 'left', marginLeft: '14px' }}>
+        <div style={{ display: 'grid', gap: '1px', justifyItems: 'center', marginLeft: '14px' }}>
           <label htmlFor="contained-button-file">
             <Button
               style={{ marginTop: '8px' }}
               variant="contained"
               color="primary"
-              component="span"
+              component="span"              
             >
               Upload
             </Button>
@@ -258,7 +260,7 @@ export const EditUserProfile = () => {
       </Container>
 
       {/* Botón de envío */}
-      < div style={{ display: "flex", justifyContent: "flex-end", height: '2rem' }}> {/* Esto es un hack para que el botón no tape los campos de texto */}
+      < div style={{ display: "flex", justifyContent: "flex-end", height: '2rem', margin: '0rem 10rem 0rem 0rem'  }}> {/* Esto es un hack para que el botón no tape los campos de texto */}
         < Button type="submit" variant="contained" color="primary" onClick={handleSubmit} >
           Enviar
         </Button >
