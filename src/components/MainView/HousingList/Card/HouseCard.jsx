@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Button, CardActionArea, CardActions, Box, Card, CardContent, CardMedia, Divider } from '@mui/material';
+import React, { useContext } from 'react';
+import { Button, CardActionArea, CardActions, Box, Card, CardContent, CardMedia, Divider, Avatar } from '@mui/material';
 import { PhotoCarousel } from './PhotoCarousel';
 import BedOutlinedIcon from '@mui/icons-material/BedOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
@@ -7,12 +7,18 @@ import FullscreenOutlinedIcon from '@mui/icons-material/FullscreenOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from '../../../Contexts/AuthContext';
 
-function HouseCard ({_id, province, municipality, population, neighborhood, 
+
+export function HouseCard ({_id, province, municipality, population, neighborhood, 
   description, currency, price, squareMeters, rooms}) {
     
     const navigate = useNavigate()
     const showThumbsValue = false;
+
+    const { profile } = useContext(AuthContext);
+
+    console.log("profile", profile)
 
     let currencySymbol = '';
     if (currency === 'USD') {
@@ -70,7 +76,7 @@ function HouseCard ({_id, province, municipality, population, neighborhood,
           <Card>
           <div style={{ marginTop: '0px', padding: "4px"  }}>
             <h4 style={{ margin: '0px', padding: 0, color: "#1976d2", display: "flex", justifyContent: 'space-between', alignItems: "center",}}>
-            {currencySymbol} {price}
+              {currencySymbol} {price.toLocaleString('es-ES')}
               <Button onClick={() => navigate(`/housingdetails/${_id}`)} color="primary" variant="outlined">Ver Más</Button>
             </h4>
           </div>
@@ -90,8 +96,9 @@ function HouseCard ({_id, province, municipality, population, neighborhood,
         </Card>
       </span>
 
-    </Box>
 
-  )}
 
-export default HouseCard;
+        </Box>
+      )
+}
+      

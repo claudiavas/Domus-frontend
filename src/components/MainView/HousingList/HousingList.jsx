@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
-import HouseCard from './Card/HouseCard';
-import { getAllHousing } from '../../apiService/apiService';
+import { HouseCard } from './Card/HouseCard';
+import { getActiveHousing } from '../../apiService/apiService';
 //import { Link } from 'react-router-dom';
 
 export function HousingList() {
   const [housing, setHousing] = useState([]);
   const [loading, setLoading] = useState(true);
+  console.log("housing", housing)
 
   const fetchHousing = async () => {
     try {
-      const data = await getAllHousing();
+      const data = await getActiveHousing();
       setHousing(data);
       setLoading(false); // Indicar que la carga ha finalizado
     } catch (error) {

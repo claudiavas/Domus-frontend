@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import { Grid, Typography, TextField, Input } from '@mui/material/';
 import Paper from '@mui/material/Paper';
-import { getHouse, updateHousing } from '../../apiService/apiService';
+import { getActiveHousing, getHouse, updateHousing } from '../../apiService/apiService';
 import { PhotoGallery } from './PhotoGallery';
 import IconButton from "@mui/material/IconButton";
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
@@ -30,9 +31,6 @@ export const HousingDetails = () => {
     fetchHouse()
   }, [_id]);
 
-  useEffect(() => {
-    console.log("housingData en useEffect", housingData)
-  }, [housingData]);
 
   if (!housingData) {
     return <div>Loading...</div>;
@@ -62,26 +60,47 @@ export const HousingDetails = () => {
   //   await tasksGetter();
   // }
 
-  const onUpdate = async () => {
-    await updateHousing(_id, formData);
-  };
-
+  
   const editPopup = async () => {
     if (!editMode) {
       setEditMode(true);
     } else {
-      await onUpdate();
-      //await tasksGetter();
+      await updateHousing(_id, formData);
+      //await getActiveHousing();
       setEditMode(false);
     }
     }
+
+
+    const handleDeleteHousing = async (_id, status) => {
+      updateHousing(_id, { status: "DELETED" });
+      await setFormData((prevState) => ({
+        ...prevState,
+        status: "DELETED",
+      }));
+      alert("Vivienda eliminada correctamente")
+      navigate("/mainview");
+  }
+
+  // PENDIENTE DE IMPLEMENTACIÓN Y VER DÓNDE IRÍA EL BOTÓN  
+  // const handlePermanentDelete = async (_id) => {
+  //     await permanentDelete(_id);
+  //     await getActiveHousing();
+  //   }
+
 
   return (
 
     //  HEADING
 
     <div style={{ margin: '0 3rem 3rem 3rem' }}>
-    <h1 style={{ marginTop: 0, background: '#1976d2', color: 'white', padding: '0.5rem' }}>Detalle del Inmueble</h1>
+      <h1 style={{ marginTop: 0, background: '#1976d2', color: 'white', padding: '0.5rem', display: 'flex', justifyContent: 'space-between' }}>
+        <span>Detalle del Inmueble</span>
+        <IconButton color="inherit" aria-label="eliminar">
+          <DeleteIcon onClick={() => (handleDeleteHousing(_id))}/>
+        </IconButton>
+      </h1>
+
 
     <PhotoGallery />
 
