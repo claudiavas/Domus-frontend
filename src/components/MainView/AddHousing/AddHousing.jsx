@@ -1,37 +1,31 @@
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { LocationContext } from '../../Contexts/LocationContext';
-import { AuthContext } from '../../Contexts/AuthContext';
+import { HousingContext } from '../../Contexts/HousingContext';
 import { TextField, Button, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Paper, Grid, Switch } from '@mui/material/';
 import { addHousing } from '../../apiService/apiService';
-import { useNavigate } from 'react-router-dom';
-import { Images } from '../Images/Images';
-
 //import { useForm } from 'react-hook-form';
 //import { yupResolver } from '@hookform/resolvers/yup';
 //import * as Yup from 'yup';
 
 export const AddHousing = () => {
 
-  const navigate = useNavigate();
   const { provinces } = useContext(LocationContext);
-  const { profile } = useContext(AuthContext);
+  const { housing, setHousing } = useContext(HousingContext);
+
   const [municipalities, setMunicipalities] = useState([]);
-  const [populations, setPopulations] = useState([]);
   const [neighborhoods, setNeighborhoods] = useState([]);
   const [zipCodes, setZipCodes] = useState([]);
   const [roads, setRoads] = useState([]);
 
-  const [selectedProvince, setSelectedProvince] = useState();
-  const [selectedMunicipality, setSelectedMunicipality] = useState();
-  const [selectedPopulation, setSelectedPopulation] = useState();
-  const [selectedNeighborhood, setSelectedNeighborhood] = useState();
-  const [selectedZipCode, setSelectedZipCode] = useState();
+  const [selectedMunicipality, setSelectedMunicipality] = useState([]);
+  const [selectedProvince, setSelectedProvince] = useState([]);
+  const [selectedNeighborhood, setSelectedNeighborhood] = useState([]);
+  const [selectedZipCode, setSelectedZipCode] = useState([]);
     
   const [formData, setFormData] = useState({
+    realEstate: 'realEstate1', // TODO: HACER QUE MUESTRE EL VALOR DE LA INMOBILIARIA DEL USUARIO EN VEZ DE realEstate1
     country: 'España',
-    showRealEstateLogo: true,
-    user: profile._id,
     });
 
 
@@ -76,9 +70,8 @@ export const AddHousing = () => {
     try {
       // await validationSchema.validate(formData, { abortEarly: false });
       const response = await addHousing(formData);
-      const newhouseid = response.house._id;
-      console.log("id", newhouseid)
-      navigate(`/housingdetails/${newhouseid}`);
+      console.log(formData, formData)
+      setHousing([...housing, formData]); // Actualizar el estado de housing en el contexto
     } catch(error) {
       console.error(error);
     }
@@ -105,9 +98,6 @@ export const AddHousing = () => {
         case 'municipality':
           setSelectedMunicipality(value);
           break;
-        case 'population':
-          setSelectedPopulation(value);
-          break;
         case 'neighborhood':
           setSelectedNeighborhood(value);
           break;
@@ -132,18 +122,9 @@ export const AddHousing = () => {
       }
     };
 
-    const fetchPopulations = async () => {
-      try {
-        const { data } = await axios.get(`https://apiv1.geoapi.es/poblaciones?CPRO=${selectedProvince.CPRO}&CMUM=${selectedMunicipality.CMUM}&type=JSON&key=eb280e481fbc76bc3be11e0e4b108687b76439c4d70beb2fbab3d7e56d772760&sandbox=0`);
-        setPopulations(data.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     const fetchNeighborhoods = async () => {
       try {
-        const { data } = await axios.get(`https://apiv1.geoapi.es/nucleos?CPRO=${selectedProvince.CPRO}&CMUM=${selectedMunicipality.CMUM}&NENTSI50=${selectedPopulation.NENTSI50}&type=JSON&key=eb280e481fbc76bc3be11e0e4b108687b76439c4d70beb2fbab3d7e56d772760&sandbox=0`);
+        const { data } = await axios.get(`https://apiv1.geoapi.es/nucleos?CPRO=${selectedProvince.CPRO}&CMUM=${selectedMunicipality.CMUM}&NENTSI50=${selectedMunicipality.DMUN50}&type=JSON&key=eb280e481fbc76bc3be11e0e4b108687b76439c4d70beb2fbab3d7e56d772760&sandbox=0`);
         setNeighborhoods(data.data);
       } catch (error) {
         console.error(error);
@@ -174,17 +155,11 @@ export const AddHousing = () => {
     }
   }, [selectedProvince]);
 
-  useEffect(() => {
-    if (selectedMunicipality) {
-      fetchPopulations();
-    }
-  }, [selectedMunicipality]);
-
-  useEffect(() => {
-    if (selectedPopulation) {
-       fetchNeighborhoods();
+    useEffect(() => {
+      if (selectedMunicipality) {
+        fetchNeighborhoods();
       }
-  }, [selectedPopulation]);
+    }, [selectedMunicipality]);
 
     useEffect(() => {
       if (selectedNeighborhood) {
@@ -198,33 +173,43 @@ export const AddHousing = () => {
       }
     }, [selectedZipCode]);
 
-
     return (
 
 //  HEADING
 
       <div style={{ margin: '0 3rem 3rem 3rem' }}>
         <h1 style={{ marginTop: 0, background: '#1976d2', color: 'white', padding: '0.5rem' }}>Añadir Propiedad</h1>
-        {/* <input type="hidden" name="userId" value={formData.profile._id} /> */}
+
         <form onSubmit={handleSubmit}>
           
 {/* TRANSACTION */}
 
-        <Paper elevation={3} style={{ padding: '1rem', marginBottom: '0.6rem' }}>
-        <Grid container spacing={1}>
-        
-        <Grid item xs={12} sm={12} md={8} lg={8}>
-        <Grid container spacing={1}>
-          
+        <Paper elevation={3} style={{ padding: '1rem', marginBottom: '0.6rem'}}>
+          <Grid container spacing={1}>
+
+            <Grid item xs={12} sm={6} md={6} lg={3}>
+              <FormControl style={{ width: '75%' }}>
+                <InputLabel id="realEstate-label">Inmobiliaria*</InputLabel>
+                <Select
+                  name="realEstate"
+                  value={formData.realEstate}
+                  onChange={handleChange}
+                  labelId="realEstate-label"
+                >
+                  // TODO: HACER QUE MUESTRE EL VALOR DE LA INMOBILIARIA DEL USUARIO EN VEZ DE realEstate1
+                  <MenuItem value="realEstate1">Real Estate 1</MenuItem> 
+                  <MenuItem value="independent_agent">Agente independiente</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
             
-            <Grid item xs={12} sm={6} md={6} lg={4}>
+            <Grid item xs={12} sm={6} md={6} lg={3}>
               <FormControl style={{ width: '75%' }}> 
                 <InputLabel id="type-label">Tipo de inmueble*</InputLabel>
                 <Select
                   name="type"
                   value={formData.type}
                   onChange={handleChange}
-                  label="Tipo de inmueble*"
                   // error={!!errors.type}
                   // helpertext={errors.type}
   
@@ -240,46 +225,41 @@ export const AddHousing = () => {
               </FormControl>
             </Grid>
            
-            <Grid item xs={12} sm={6} md={4} lg={4} >
+            <Grid item xs={12} sm={6} md={4} lg={3} >
               <FormControl style={{ width: '75%' }}>
                 <InputLabel id="transaction-label">Tipo de transacción*</InputLabel>
                 <Select
                   name="transaction"
                   value={formData.transaction}
                   onChange={handleChange}
-                  label="Tipo de transacción*"
                   // error={!!errors.transaction}
                   // helpertext={errors.transaction}
                   labelId="transaction-label"
                 >
-                  <MenuItem value="sale">Venta</MenuItem> 
+                  <MenuItem value="sell">Venta</MenuItem> 
                   <MenuItem value="rent">Alquiler</MenuItem>
                   <MenuItem value="vacation_rentals">Alquiler Vacacional</MenuItem>
                 </Select>
                 </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={6} md={6} lg={4}>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={formData.showRealEstateLogo}
-                  onChange={handleChange}
-                  name="showRealEstateLogo"
-                />
-              }
-              label="Mostrar Logo de Inmobiliaria"
-            />
-          </Grid>
-          
-             <Grid item xs={12} sm={6} md={6} lg={4}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <Button 
+                style={{ gridRow: "4 / span 3", justifySelf: 'center', verticalAlign: 'center', width: '75%' }}
+                variant="outlined" 
+                color="primary"
+              >
+                Cargar Imágenes
+              </Button>
+            </Grid>
+
+             <Grid item xs={12} sm={6} md={6} lg={3}>
             <FormControl style={{ width: '75%' }}> 
              <InputLabel id="currency-label">Moneda*</InputLabel>
               <Select
                 name="currency"
                 value={formData.currency}
                 onChange={handleChange}
-                label="Moneda*"
                 // error={!!errors.currency}
                 // helpertext={errors.currency}
                 labelId="currency-label"
@@ -290,58 +270,46 @@ export const AddHousing = () => {
             </FormControl>
             </Grid>
       
-            <Grid item xs={12} sm={6} md={6} lg={4}>
+            <Grid item xs={12} sm={6} md={6} lg={3}>
             <FormControl style={{ width: '75%' }}> 
-                <TextField
-                  name="price"
-                  label="Precio*"
-                  value={formData.price}
-                  onChange={handleChange}
-                  type="number"
-                  // error={!!errors.price}
-                  // helpertext={errors.price}
-                />
+            <TextField
+              name="price"
+              label="Precio*"
+              value={formData.price}
+              onChange={handleChange}
+              // error={!!errors.price}
+              // helpertext={errors.price}
+            />
             </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={6} md={6} lg={4}>
+            <Grid item xs={12} sm={6} md={6} lg={3}>
             <FormControl style={{ width: '75%' }}> 
                  <TextField
                   name="squareMeters"
                   label="Metros Cuadrados*"
                   value={formData.squareMeters}
                   onChange={handleChange}
-                  type="number"
                   // error={!!errors.squareMeters}
                   // helpertext={errors.squareMeters}
                 />
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={12} md={12} lg={12}>
+            <Grid item xs={12} sm={12} md={12} lg={9}>
             <FormControl style={{ width: '92%' }}> 
             <TextField
               name="description"
               label="Descripción"
               value={formData.description}
               onChange={handleChange}
-              multiline
             />
             </FormControl>
             </Grid>
-          </Grid>
-          </Grid>
 
-          <Grid item xs={12} sm={12} md={4} lg={4}> 
-          <Grid container spacing={1}>
-            <Grid item xs={12} sm={12} md={12} lg={12}>
-              <Images />
-            </Grid>
           </Grid>
-        </Grid>
-        </Grid>
-        </Paper>        
-
+        </Paper>
+        
 {/* LOCATION */}
 
         <Paper elevation={3} style={{ padding: '1rem', marginBottom: '0.6rem'}}>
@@ -366,7 +334,6 @@ export const AddHousing = () => {
                 <Select
                   labelId="province-label"
                   name="province"
-                  label="Provincia*"
                   value={formData.province}
                   onChange={handleChange}
                   // error={!!errors.province}
@@ -389,7 +356,6 @@ export const AddHousing = () => {
                 <Select
                   labelId="municipality-label"
                   name="municipality"
-                  label="Municipio*"
                   value={formData.municipality}
                   onChange={handleChange}
                   // error={!!errors.municipality}
@@ -406,36 +372,12 @@ export const AddHousing = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={6} md={4} lg={4}>
-              <FormControl style={{ width: '90%' }}>
-              <InputLabel id="population-label">Población*</InputLabel>
-                  <Select
-                    labelId="population-label*"
-                    name="population"
-                    label="Población*"
-                    value={formData.population}
-                    onChange={handleChange}
-                    // error={!!errors.population} 
-                    // helpertext={errors.population}
-                >
-              
-                {populations.map((population) => (
-                  <MenuItem key={population.CUN} value={population}>
-                    {population.NENTSI50}
-                  </MenuItem>
-                ))}
-
-                  </Select>
-              </FormControl>
-            </Grid>
-
         <Grid item xs={12} sm={6} md={4} lg={4}>
           <FormControl style={{ width: '90%' }}>
           <InputLabel id="neighborhood-label">Barrio*</InputLabel>
               <Select
                 labelId="neighborhood-label*"
                 name="neighborhood"
-                label="Barrio*"
                 value={formData.neighborhood}
                 onChange={handleChange}
                 // error={!!errors.neighborhood} 
@@ -452,38 +394,36 @@ export const AddHousing = () => {
           </FormControl>
         </Grid>
 
-          <Grid item xs={12} sm={6} md={4} lg={4}>
-            <FormControl style={{ width: '90%' }}>
-              <InputLabel id="zipCode-label">Código Postal</InputLabel>
-                <Select
-                 labelId="zipCode-label"
-                 name="zipCode"
-                 label="Código Postal"
-                 value={formData.zipCode}
-                 onChange={handleChange}
-                 // error={!!errors.zipCode}
-                 // helpertext={errors.zipCode}
-              >
-                
-              {zipCodes.map((zipCode) => (
-                <MenuItem key={zipCode.CPOS} value={zipCode}>
-                  {zipCode.CPOS}
-                </MenuItem>
-              ))}
+        <Grid item xs={12} sm={6} md={4} lg={4}>
+          <FormControl style={{ width: '90%' }}>
+            <InputLabel id="zipCode-label">Código Postal</InputLabel>
+              <Select
+              labelId="zipCode-label"
+              name="zipCode"
+              value={formData.zipCode}
+              onChange={handleChange}
+              // error={!!errors.zipCode}
+              // helpertext={errors.zipCode}
+             >
 
-                </Select>
-            </FormControl>
-          </Grid>
+            {zipCodes.map((zipCode) => (
+              <MenuItem key={zipCode.CPOS} value={zipCode}>
+                {zipCode.CPOS}
+              </MenuItem>
+            ))}
+
+              </Select>
+          </FormControl>
+        </Grid>
 
 
-            <Grid item xs={12} sm={12} md={12} lg={12}>
-            <FormControl style={{ width: '97%' }}> 
+            <Grid item xs={12} sm={6} md={6} lg={4}>
+            <FormControl style={{ width: '90%' }}> 
               <InputLabel id="roadName-label">Vía</InputLabel>
               
                 <Select
                 labelId="roadName-label"
                 name="roadName"
-                label="Vía"
                 value={formData.roadName}
                 onChange={handleChange}
                 // error={!!errors.roadName}
@@ -505,7 +445,6 @@ export const AddHousing = () => {
               label="Número de portal"
               value={formData.houseNumber}
               onChange={handleChange}
-              type="number"
               // error={!!errors.houseNumber}
               // helpertext={errors.houseNumber}
             />
@@ -519,7 +458,6 @@ export const AddHousing = () => {
               label="Número de Piso"
               value={formData.floorNumber}
               onChange={handleChange}
-              type="number"
               // error={!!errors.floorNumber}
               // helpertext={errors.floorNumber}
             />
@@ -567,7 +505,6 @@ export const AddHousing = () => {
               label="Habitaciones*"
               value={formData.rooms}
               onChange={handleChange}
-              type="number"
               // error={!!errors.rooms}
               // helpertext={errors.rooms}
             />
@@ -582,7 +519,6 @@ export const AddHousing = () => {
               label="Baños"
               value={formData.baths}
               onChange={handleChange}
-              type="number"
               // error={!!errors.baths}
               // helpertext={errors.baths}
             />
@@ -596,7 +532,6 @@ export const AddHousing = () => {
               label="Garajes"
               value={formData.garages}
               onChange={handleChange}
-              type="number"
               // error={!!errors.garages}
               // helpertext={errors.garages}
             />
@@ -609,7 +544,6 @@ export const AddHousing = () => {
               <InputLabel id="floorLevel-label">Nivel del Piso</InputLabel>
               <Select
                 name="floorLevel"
-                label="Nivel del Piso"
                 value={formData.floorLevel}
                 onChange={handleChange}
                 labelId="floorLevel-label"
@@ -628,7 +562,6 @@ export const AddHousing = () => {
             <InputLabel id="facing-label">Orientación</InputLabel>
               <Select
               name="facing"
-              label="Orientación"
               labelId="facing-label"
               value={formData.facing}
               onChange={handleChange}
@@ -648,7 +581,6 @@ export const AddHousing = () => {
             <InputLabel id="propertyAge-label">Antigüedad</InputLabel>
               <Select
               name="propertyAge"
-              label="Antigüedad"
               labelId="propertyAge-label"
               value={formData.propertyAge}
               onChange={handleChange}
@@ -669,7 +601,6 @@ export const AddHousing = () => {
               <InputLabel id="condition-label">Estado</InputLabel>
               <Select
                 name="condition"
-                label="Estado"
                 value={formData.condition}
                 onChange={handleChange}
                 labelId="condition-label"
@@ -686,7 +617,6 @@ export const AddHousing = () => {
               <InputLabel id="furnished-label">Amueblado</InputLabel>
               <Select
                 name="furnished"
-                label="Amueblado"
                 value={formData.furnished}
                 onChange={handleChange}
                 labelId="furnished-label"
@@ -703,7 +633,6 @@ export const AddHousing = () => {
               <InputLabel id="kitchenEquipment-label">Equipamiento de Cocina</InputLabel>
               <Select
                 name="kitchenEquipment"
-                label="Equipamiento de Cocina"
                 value={formData.kitchenEquipment}
                 onChange={handleChange}
                 labelId="kitchenEquipment-label"
@@ -721,23 +650,22 @@ export const AddHousing = () => {
 {/* CARACTERÍSTICAS ADICIONALES */}
 
             <Paper elevation={3} style={{ padding: '1rem', marginBottom: '0.6rem'}}>
-              <Grid container spacing={1}>
+          <Grid container spacing={1}>
 
-                
-                <Grid item xs={12} sm={6} md={6} lg={2.4}>
-                <FormControlLabel style={{ width: '100%' }}
-                    control={
-                    <Switch
-                      name="airConditioned"
-                      type="checkbox"
-                      checked={formData.airConditioned}
-                      onChange={handleChange}
-                    />
-                  }
-                  label="Aire Acondicionado"
+            
+            <Grid item xs={12} sm={6} md={6} lg={2.4}>
+            <FormControlLabel style={{ width: '100%' }}
+                control={
+                <Switch
+                  name="airConditioned"
+                  type="checkbox"
+                  checked={formData.airConditioned}
+                  onChange={handleChange}
                 />
-                </Grid>
-
+              }
+              label="Aire Acondicionado"
+            />
+          </Grid>
       
             <Grid item xs={12} sm={6} md={6} lg={2.4}>
             <FormControlLabel style={{ width: '100%' }}
