@@ -456,13 +456,13 @@ export const AddHousing = () => {
             <FormControl style={{ width: '90%' }}>
               <InputLabel id="zipCode-label">Código Postal</InputLabel>
                 <Select
-                labelId="zipCode-label"
-                name="zipCode"
-                label="Código Postal"
-                value={formData.zipCode}
-                onChange={handleChange}
-                // error={!!errors.zipCode}
-                // helpertext={errors.zipCode}
+                 labelId="zipCode-label"
+                 name="zipCode"
+                 label="Código Postal"
+                 value={formData.zipCode}
+                 onChange={handleChange}
+                 // error={!!errors.zipCode}
+                 // helpertext={errors.zipCode}
               >
                 
               {zipCodes.map((zipCode) => (
