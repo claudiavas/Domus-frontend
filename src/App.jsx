@@ -12,7 +12,6 @@ import { AddHousing } from './components/MainView/AddHousing/AddHousing';
 // import { HouseCard } from './components/MainView/HousingList/Card/HouseCard';
 import { HousingList } from './components/MainView/HousingList/HousingList';
 import { UpdateHousing } from './components/MainView/HousingDetails/UpdateHousing';
-import { AddRealEstate } from './components/MainView/RealEstate/AddRealEstate';
 
 const App = () => {
 
@@ -27,7 +26,6 @@ return (
         {/* <Route path="/forgotpassword" element={<ForgotPass/>}></Route> */}
         <Route path="/mainview" element={<MainView/>}></Route>
         <Route path="/housingdetails/:_id" element={<HousingDetails/>}></Route>
-        <Route path="/addrealestate/" element={<AddRealEstate/>}></Route>
         <Route path="/updatehousing/:_id" element={<UpdateHousing/>}></Route>
         <Route path="/addHousing" element={<AddHousing/>}></Route>
         <Route path="*" element={<PageNotFound/>}></Route>
