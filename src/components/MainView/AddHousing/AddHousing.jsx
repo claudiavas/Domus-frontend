@@ -665,7 +665,7 @@ export const AddHousing = () => {
               }
               label="Aire Acondicionado"
             />
-           </Grid>
+          </Grid>
       
             <Grid item xs={12} sm={6} md={6} lg={2.4}>
             <FormControlLabel style={{ width: '100%' }}
