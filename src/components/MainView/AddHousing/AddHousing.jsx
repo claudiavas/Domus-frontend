@@ -452,28 +452,28 @@ export const AddHousing = () => {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={4} lg={4}>
-          <FormControl style={{ width: '90%' }}>
-            <InputLabel id="zipCode-label">Código Postal</InputLabel>
-              <Select
-              labelId="zipCode-label"
-              name="zipCode"
-              label="Código Postal"
-              value={formData.zipCode}
-              onChange={handleChange}
-              // error={!!errors.zipCode}
-              // helpertext={errors.zipCode}
-             >
+          <Grid item xs={12} sm={6} md={4} lg={4}>
+            <FormControl style={{ width: '90%' }}>
+              <InputLabel id="zipCode-label">Código Postal</InputLabel>
+                <Select
+                labelId="zipCode-label"
+                name="zipCode"
+                label="Código Postal"
+                value={formData.zipCode}
+                onChange={handleChange}
+                // error={!!errors.zipCode}
+                // helpertext={errors.zipCode}
+              >
 
-            {zipCodes.map((zipCode) => (
-              <MenuItem key={zipCode.CPOS} value={zipCode}>
-                {zipCode.CPOS}
-              </MenuItem>
-            ))}
+              {zipCodes.map((zipCode) => (
+                <MenuItem key={zipCode.CPOS} value={zipCode}>
+                  {zipCode.CPOS}
+                </MenuItem>
+              ))}
 
-              </Select>
-          </FormControl>
-        </Grid>
+                </Select>
+            </FormControl>
+          </Grid>
 
 
             <Grid item xs={12} sm={12} md={12} lg={12}>
