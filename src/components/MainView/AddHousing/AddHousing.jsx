@@ -460,7 +460,7 @@ export const AddHousing = () => {
                  name="zipCode"
                  label="Código Postal"
                  value={formData.zipCode}
-                 onChange={handleChange}
+                onChange={handleChange}
                  // error={!!errors.zipCode}
                  // helpertext={errors.zipCode}
               >
