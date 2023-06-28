@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import HouseCard from './Card/HouseCard';
 import { getAllHousing } from '../../apiService/apiService';
+import HousingContext from '../../FilterHousing/HousingContext';
 
 export function HousingList() {
   const [housing, setHousing] = useState([]);
   const [loading, setLoading] = useState(true);
+  const {room} = useContext(HousingContext);
 
   const fetchHousing = async () => {
     try {
@@ -31,9 +33,39 @@ export function HousingList() {
     return <h1>No hay datos de viviendas disponibles.</h1>;
   }
 
-  return (
-    <span>
-      {housing.map((house) => (
+//   return (
+//     <span>
+//       {housing.map((house) => (
+//         <HouseCard
+//           key={house._id}
+//           _id={house._id}
+//           house={house.description}
+//           province={house.province}
+//           municipality={house.municipality}
+//           population={house.population}
+//           neighborhood={house.neighborhood}
+//           currency={house.currency}
+//           price={house.price}
+//           squareMeters={house.squareMeters}
+//           description={house.description}
+//           rooms={house.rooms}
+//           baths={house.baths}
+//         />
+//       ))}
+//     </span>
+//   );
+return (
+  <>
+  <div>
+    <RoomFilter />
+    {housing
+      .filter((house) => {
+        if (room && room !== '') {
+          return house.rooms === parseInt(room);
+        }
+        return true;
+      })
+      .map((house) => (
         <HouseCard
           key={house._id}
           _id={house._id}
@@ -50,6 +82,8 @@ export function HousingList() {
           baths={house.baths}
         />
       ))}
-    </span>
-  );
+  </div>
+  </>
+);
+
 }

@@ -15,9 +15,10 @@ import { useState, useContext, useEffect } from 'react';
 import { HousingList } from './HousingList/HousingList';
 import { AuthContext } from '../Contexts/AuthContext';
 import { useNavigate } from "react-router-dom";
+import { InmueblesProvider } from '../FilterHousing/HousingContext';
 
 
-const drawerWidth = 240;
+const drawerWidth = 500;
 
 export function MainView(props) {
   
@@ -235,8 +236,12 @@ export function MainView(props) {
               </Tabs>
             </Box>
             <TabPanel value={tabValue} index={0}>
-              
-              <HousingList/>          
+              <InmueblesProvider>
+                
+                <HousingList/>   
+                
+              </InmueblesProvider>
+                     
                           
             </TabPanel>
             <TabPanel value={tabValue} index={1}>

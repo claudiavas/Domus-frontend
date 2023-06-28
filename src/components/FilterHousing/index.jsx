@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -12,6 +12,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
+import HousingContext from './HousingContext';
 
 //Location
 const listaInmuebles = [
@@ -320,7 +321,9 @@ export function SquareMeters() {
 ///// End Square_meters filter
 /// rooms filter
 export function RoomFilter() {
-  const [room, setRoom] = React.useState('');
+  //const [room, setRoom] = React.useState('');
+  const {room, setRoom} = useContext(HousingContext);
+
 
   const handleChange = (event) => {
     setRoom(event.target.value);
