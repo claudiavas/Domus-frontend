@@ -12,7 +12,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
-import HousingContext from './HousingContext';
+import HousingContext from './HousingContextFilter';
 
 //Location
 const listaInmuebles = [

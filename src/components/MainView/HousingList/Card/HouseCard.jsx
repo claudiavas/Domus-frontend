@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../../../Contexts/AuthContext';
 
 
-export function HouseCard ({_id, province, municipality, population, neighborhood, 
+export default function HouseCard ({_id, province, municipality, population, neighborhood, 
   description, currency, price, squareMeters, rooms}) {
     
     const navigate = useNavigate()

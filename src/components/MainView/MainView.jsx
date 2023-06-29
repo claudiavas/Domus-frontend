@@ -16,7 +16,7 @@ import { useState, useContext, useEffect } from 'react';
 import { HousingList } from './HousingList/HousingList';
 import { AuthContext } from '../Contexts/AuthContext';
 import { useNavigate } from "react-router-dom";
-import { InmueblesProvider } from '../FilterHousing/HousingContext';
+import { InmueblesProvider } from '../FilterHousing/HousingContextFilter.jsx';
 
 
 const drawerWidth = 500;

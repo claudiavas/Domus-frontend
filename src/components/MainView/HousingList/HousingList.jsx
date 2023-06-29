@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import HouseCard from './Card/HouseCard';
-import { getAllHousing } from '../../apiService/apiService';
-import HousingContext from '../../FilterHousing/HousingContext';
-import { RoomFilter } from '../../FilterHousing';
+import { getActiveHousing } from '../../apiService/apiService';
+import HousingContext from '../../FilterHousing/HousingContextFilter';
+//import { RoomFilter } from '../../FilterHousing';
 //import { Link } from 'react-router-dom';
 
 export function HousingList() {
@@ -35,27 +35,6 @@ export function HousingList() {
     return <h1>No hay datos de viviendas disponibles.</h1>;
   }
 
-//   return (
-//     <span>
-//       {housing.map((house) => (
-//         <HouseCard
-//           key={house._id}
-//           _id={house._id}
-//           house={house.description}
-//           province={house.province}
-//           municipality={house.municipality}
-//           population={house.population}
-//           neighborhood={house.neighborhood}
-//           currency={house.currency}
-//           price={house.price}
-//           squareMeters={house.squareMeters}
-//           description={house.description}
-//           rooms={house.rooms}
-//           baths={house.baths}
-//         />
-//       ))}
-//     </span>
-//   );
 return (
   <>
   <div>
