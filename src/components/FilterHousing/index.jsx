@@ -325,7 +325,7 @@ export function RoomFilter() {
   const {room, setRoom} = useContext(HousingContext);
 
 
-  const handleChange = (event) => {
+  const handleChangeRooms = (event) => {
     setRoom(event.target.value);
   };
 
@@ -337,7 +337,7 @@ export function RoomFilter() {
         id="demo-select-small"
         value={room}
         label="Room"
-        onChange={handleChange}
+        onChange={handleChangeRooms}
       >
         
         <MenuItem value={1}>1</MenuItem>
@@ -366,10 +366,13 @@ export function RoomFilter() {
 
 /// baths filter
 export function BathFilter() {
-  const [bath, setBath] = React.useState('');
+  //const [bath, setBath] = React.useState('');
 
-  const handleChange = (event) => {
-    setBath(event.target.value);
+  const {baths, setBaths} = useContext(HousingContext);
+
+
+  const handleChangeBaths = (event) => {
+    setBaths(event.target.value);
   };
 
   return (
@@ -378,9 +381,9 @@ export function BathFilter() {
       <Select
         labelId="demo-select-small-label"
         id="demo-select-small"
-        value={bath}
+        value={baths}
         label="Bath"
-        onChange={handleChange}
+        onChange={handleChangeBaths}
       >
         
         <MenuItem value={1}>1</MenuItem>

@@ -4,9 +4,9 @@ const HousingContext = createContext();
 
 export function InmueblesProvider({ children }) {
   const [room, setRoom] = useState('');
-
+  const [baths, setBaths] = useState('');
   return (
-    <HousingContext.Provider value={{ room, setRoom }}>
+    <HousingContext.Provider value={{ room, setRoom, baths, setBaths }}>
       {children}
     </HousingContext.Provider>
   );
