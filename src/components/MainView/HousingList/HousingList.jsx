@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import HouseCard from './Card/HouseCard';
 import { getAllHousing } from '../../apiService/apiService';
 import HousingContext from '../../FilterHousing/HousingContext';
+import { RoomFilter } from '../../FilterHousing';
 
 export function HousingList() {
   const [housing, setHousing] = useState([]);
@@ -57,7 +58,7 @@ export function HousingList() {
 return (
   <>
   <div>
-    <RoomFilter />
+    
     {housing
       .filter((house) => {
         if (room && room !== '') {

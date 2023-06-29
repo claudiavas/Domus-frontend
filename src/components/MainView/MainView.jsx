@@ -236,11 +236,11 @@ export function MainView(props) {
               </Tabs>
             </Box>
             <TabPanel value={tabValue} index={0}>
-              <InmueblesProvider>
+              
                 
                 <HousingList/>   
                 
-              </InmueblesProvider>
+              
                      
                           
             </TabPanel>
