@@ -8,14 +8,14 @@ import Tooltip from '@mui/material/Tooltip';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Container } from '@mui/material';
 import PropTypes from 'prop-types';
-import { AppBar, Box, Drawer, IconButton, Toolbar, Typography, Tabs, Tab } from '@mui/material';
+import { AppBar, Box, Drawer, IconButton, Toolbar, Typography, Tabs, Tab, Fab } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import Filters from './Filters/Filters';
 import { useState, useContext, useEffect } from 'react';
 import { HousingList } from './HousingList/HousingList';
 import { AuthContext } from '../Contexts/AuthContext';
 import { useNavigate } from "react-router-dom";
-
 
 const drawerWidth = 240;
 
@@ -89,17 +89,19 @@ export function MainView(props) {
 
   const logout = () => {
     localStorage.removeItem('token');
-    //setProfile(null);
     setLoginState(false);
+    navigate("/login")
+    console.log("loginState en MainView:", loginState)
     console.log("logout ejecutándose")
    };
 
+   
    //Lógica para regresar al usuario al login si no está autorizado...
 
-   useEffect(() => {
-      loginState && navigate("/login")
-    }, []);
-  
+   useEffect(() => { 
+    if (!localStorage.getItem('token')) {
+      navigate("/login")};
+  }, [loginState]);
   
   return (
       <Box sx={{ display: 'flex' }}>
@@ -119,7 +121,7 @@ export function MainView(props) {
               onClick={handleDrawerToggle}
               sx={{ mr: 2, display: { sm: 'none' } }}
             >
-              <ManageSearchIcon style={{ fontSize: '30px' }} />
+             <ManageSearchIcon style={{ fontSize: '30px' }} />
             </IconButton>
             <Container sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
               <Typography variant="h6" noWrap component="div">
@@ -176,7 +178,9 @@ export function MainView(props) {
                   anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                 >
 
-                  <MenuItem onClick={handleClose}>
+                  <MenuItem onClick={() => (
+                    navigate("/userprofile")
+                  )}>
                     <Avatar /> Mi perfil
                   </MenuItem>
                   <Divider />
@@ -236,7 +240,16 @@ export function MainView(props) {
             </Box>
             <TabPanel value={tabValue} index={0}>
               
-              <HousingList/>          
+              <HousingList/>  
+              <Box sx={{ position: 'fixed', right: '20px', bottom: '20px', zIndex: '9999' }}>
+              <Fab
+                color="primary"
+                onClick={() => navigate("/addhousing")}
+                aria-label="add"
+              >
+                <AddIcon />
+              </Fab>
+              </Box>                
                           
             </TabPanel>
             <TabPanel value={tabValue} index={1}>

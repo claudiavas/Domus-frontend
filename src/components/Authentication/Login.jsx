@@ -24,7 +24,7 @@ export function Login() {
   const { setLoginState } = useContext(AuthContext);
   const [isError, setIsError] = useState(false);
 
-  const handleSubmit = async (event) => { // Agregar el parámetro event
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const { email, password } = event.target.elements;
     setLoading(true);
