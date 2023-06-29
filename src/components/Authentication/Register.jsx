@@ -33,11 +33,7 @@ export function Register() {
     setLoading(true);
 
     try {
-<<<<<<< HEAD:src/components/HomePage/Authentication/Register.jsx
-      const response = await axios.post("http://localhost:8000/users/register", {
-=======
       const response = await register({
->>>>>>> 62ef0865933052f98c422913731c100db7b5fbe5:src/components/Authentication/Register.jsx
         email: email.value,
         password: password.value,
         name: name.value,
@@ -51,14 +47,6 @@ export function Register() {
     } catch (error) {
       console.log("error", error)
       setError(error.response.data.error.result);
-<<<<<<< HEAD:src/components/HomePage/Authentication/Register.jsx
-      console.log("El error es ", error )
-      /*setTimeout(() => {
-        setError(error.response.data.result);
-        console.log("este es error", error)
-      }, 5000);*/
-   }
-=======
       setIsError(true);
       setTimeout(() => {
         setError("");
@@ -67,7 +55,6 @@ export function Register() {
       }, 5000);
     }
     setLoginState(true);
->>>>>>> 62ef0865933052f98c422913731c100db7b5fbe5:src/components/Authentication/Register.jsx
   };
 
   return (
