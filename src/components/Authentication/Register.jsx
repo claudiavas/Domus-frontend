@@ -33,7 +33,7 @@ export function Register() {
     setLoading(true);
 
     try {
-      const response = await register({
+        const response = await register({
         email: email.value,
         password: password.value,
         name: name.value,

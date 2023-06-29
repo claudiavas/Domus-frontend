@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
+import { InmueblesProvider } from './components/FilterHousing/HousingContext.jsx';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -16,13 +17,17 @@ import { HousingProvider } from './components/Contexts/HousingContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <CssBaseline/>
+    <CssBaseline />
     <AuthProvider>
       <LocationProvider>
         <HousingProvider>
-          <App />
+          <InmueblesProvider>
+            <App />
+          </InmueblesProvider>
+
         </HousingProvider>
       </LocationProvider>
     </AuthProvider>
+
   </React.StrictMode>,
 )

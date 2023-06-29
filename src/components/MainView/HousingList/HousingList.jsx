@@ -1,12 +1,15 @@
-import { useEffect, useState } from 'react';
-import { HouseCard } from './Card/HouseCard';
-import { getActiveHousing } from '../../apiService/apiService';
+import { useContext, useEffect, useState } from 'react';
+import HouseCard from './Card/HouseCard';
+import { getAllHousing } from '../../apiService/apiService';
+import HousingContext from '../../FilterHousing/HousingContext';
+import { RoomFilter } from '../../FilterHousing';
 //import { Link } from 'react-router-dom';
 
 export function HousingList() {
   const [housing, setHousing] = useState([]);
   const [loading, setLoading] = useState(true);
   console.log("housing", housing)
+  const {room} = useContext(HousingContext);
 
   const fetchHousing = async () => {
     try {
@@ -32,10 +35,39 @@ export function HousingList() {
     return <h1>No hay datos de viviendas disponibles.</h1>;
   }
 
-  return (
-    <span>
-      {housing.map((house) => (
-        //<Link to={`/housingdetails/${house._id}`} key={house._id}>
+//   return (
+//     <span>
+//       {housing.map((house) => (
+//         <HouseCard
+//           key={house._id}
+//           _id={house._id}
+//           house={house.description}
+//           province={house.province}
+//           municipality={house.municipality}
+//           population={house.population}
+//           neighborhood={house.neighborhood}
+//           currency={house.currency}
+//           price={house.price}
+//           squareMeters={house.squareMeters}
+//           description={house.description}
+//           rooms={house.rooms}
+//           baths={house.baths}
+//         />
+//       ))}
+//     </span>
+//   );
+return (
+  <>
+  <div>
+    
+    {housing
+      .filter((house) => {
+        if (room && room !== '') {
+          return house.rooms === parseInt(room);
+        }
+        return true;
+      })
+      .map((house) => (
         <HouseCard
           key={house._id}
           _id={house._id}
@@ -53,6 +85,8 @@ export function HousingList() {
         />
         // </Link>
       ))}
-    </span>
-  );
+  </div>
+  </>
+);
+
 }

@@ -1,4 +1,5 @@
 import { Divider, Toolbar } from "@mui/material";
+import { BathFilter, LocationFilter, PriceFilter, SquareMeters, RoomFilter, GaragesFilter, CheckboxesFilters } from "../../FilterHousing";
 
 function Filters(props) {
 
@@ -6,13 +7,22 @@ function Filters(props) {
   
       <div>
         <Toolbar />
-        AQUI VAN LOS FILTROS   
+        <h2>Ubicación</h2>
+         <LocationFilter/> 
+        <Divider />
+        <h2>Precio</h2>  
+         <PriceFilter /> 
         <Divider />  
-        AQUI VAN LOS FILTROS    
+        <h2>M²</h2>  
+         <SquareMeters /> 
         <Divider />  
-        AQUI VAN LOS FILTROS
+        <RoomFilter/>
         <Divider />  
-        AQUI VAN LOS FILTROS
+        <BathFilter/>
+        <Divider />  
+        <GaragesFilter/>
+        <Divider />  
+        <CheckboxesFilters/>
       </div>
   
     )}

@@ -16,8 +16,10 @@ import { useState, useContext, useEffect } from 'react';
 import { HousingList } from './HousingList/HousingList';
 import { AuthContext } from '../Contexts/AuthContext';
 import { useNavigate } from "react-router-dom";
+import { InmueblesProvider } from '../FilterHousing/HousingContext';
 
-const drawerWidth = 240;
+
+const drawerWidth = 500;
 
 export function MainView(props) {
   
