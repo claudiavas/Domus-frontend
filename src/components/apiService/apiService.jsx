@@ -62,3 +62,22 @@ export const getProfile = async (_id) => {
   const {data} = await axios.get(`http://localhost:${PORT}/user/${_id}`);
   return data;
 }
+
+// Crea una instancia de Axios para las solicitudes de Cloudinary
+
+const CLOUDINARY_API_KEY = "735915591324692"
+
+const cloudinaryAxios = axios.create({
+  baseURL: `https://api.cloudinary.com/v1_1/domusfsd`,
+  headers: {
+    'Content-Type': 'multipart/form-data',
+    'Authorization': 'Bearer ' + CLOUDINARY_API_KEY,
+  },
+});
+
+export const uploadToCloudinary = async (body) => {
+  const formData = new FormData();
+  formData.append('file', body); // Agrega el archivo al objeto FormData
+  const {data} = await cloudinaryAxios.post('http://localhost:8000/upload', body);
+  return data;
+}
