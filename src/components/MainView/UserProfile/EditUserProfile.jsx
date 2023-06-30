@@ -82,7 +82,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '82%' }}>
                     <Select
                       name="DocumentType"
-                      label="Document Type"
+                      label="Tipo Documento"
                       value={formData.agent}
                       onChange={handleChange}
                       labelId="DocumentType-l"
@@ -99,7 +99,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="documentNumber"
-                      label="Document Number"
+                      label="Número Documento"
                       value={formData.documentNumber}
                       onChange={handleChange}
                       fullWidth
@@ -111,7 +111,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="agentRegistrationNumber"
-                      label="Agent Registration Number"
+                      label="Número Registro Agente"
                       value={formData.agentRegistrationNumber || ''}
                       onChange={handleChange}
                       fullWidth
@@ -123,14 +123,13 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="AgentRegistrationComunidadAutonoma"
-                      label="Agent Registration Comunidad Autonoma"
+                      label="Registro Agente Comunidad Autónoma"
                       value={formData.agentRegistrationNumber || ''}
                       onChange={handleChange}
                       fullWidth
                     />
                   </FormControl>
                 </Grid>
-
               </Grid> {/*Grid container*/}
             </div>
 
@@ -141,7 +140,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="name"
-                      label="Name"
+                      label="Nombre"
                       value={formData.name}
                       onChange={handleChange}
                       fullWidth
@@ -152,7 +151,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="surname"
-                      label="Surname"
+                      label="Apellidos"
                       value={formData.surname}
                       onChange={handleChange}
                       fullWidth
@@ -196,11 +195,11 @@ export const EditUserProfile = () => {
                       value={formData.mainOfficeZipCode || ''}
                       onChange={handleChange}
                     >
-                      {zipCodes.map((zipCode) => (
+                    {/*  {zipCodes.map((zipCode) => (
                         <MenuItem key={zipCode.CPOS} value={zipCode}>
                           {zipCode.CPOS}
                         </MenuItem>
-                      ))}
+                    ))}*/}
                     </Select>
                     {/* <TextField
                       name="mainOfficeZipCode"
