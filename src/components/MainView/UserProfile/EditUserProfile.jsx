@@ -82,7 +82,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '82%' }}>
                     <Select
                       name="DocumentType"
-                      label="Tipo Documento"
+                      label="Tipo "
                       value={formData.agent}
                       onChange={handleChange}
                       labelId="DocumentType-l"
@@ -230,7 +230,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="phone"
-                      label="Phone"
+                      label="Teléfono"
                       value={formData.phone}
                       onChange={handleChange}
                       fullWidth
@@ -241,7 +241,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="mobile"
-                      label="Mobile"
+                      label="Móvil"
                       value={formData.mobile}
                       onChange={handleChange}
                       fullWidth
@@ -257,7 +257,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="password"
-                      label="Password"
+                      label="Contraseña"
                       value={formData.password}
                       onChange={handleChange}
                       fullWidth
@@ -268,7 +268,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="confirmPassword"
-                      label="Confirm Password"
+                      label="Confirmar Contraseña"
                       value={formData.confirmPassword}
                       onChange={handleChange}
                       fullWidth
