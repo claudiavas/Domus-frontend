@@ -9,6 +9,16 @@ export const EditUserProfile = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+
+    switch (name) {
+      case 'province':
+        setSelectedProvince(value);
+        break;
+      case 'zipCode':
+        setSelectedZipCode(value);
+        break;
+    }
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -24,20 +34,22 @@ export const EditUserProfile = () => {
 
     // HEADINGS
 
-    <div style={{ margin: '0rem 3rem 3rem 3rem' }}>
+    <div style={{ margin: '0rem 0rem 3rem 0rem' }}>
+
       <h1 style={{ marginTop: 0, background: '#1976d2', color: 'white', padding: '0.1rem' }}>Editar Perfil</h1>
 
       {/* Avatar + search icon  */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', margin: '2rem 10rem 0rem 10rem' }}>
         {/* Avatar */}
-        <Avatar
-          style={{ marginBottom: '2px', width: '80px', height: '80px' }}
-          alt="User Avatar"
-          src="/profile.jpg"
-        />
-
+        <div style={{ display: 'grid', gap: '1px', justifyItems: 'center', marginLeft: '14px' }}>
+          <Avatar
+            style={{ marginBottom: '2px', width: '80px', height: '80px' }}
+            alt="User Avatar"
+            src="/profile.jpg"
+          />
+        </div>
         {/* Upload button */}
-        <div style={{ display: 'grid', gap: '1px', justifyItems: 'left', marginLeft: '14px' }}>
+        <div style={{ display: 'grid', gap: '1px', justifyItems: 'center', marginLeft: '14px' }}>
           <label htmlFor="contained-button-file">
             <Button
               style={{ marginTop: '8px' }}
@@ -70,7 +82,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '82%' }}>
                     <Select
                       name="DocumentType"
-                      label="Document Type"
+                      label="Tipo "
                       value={formData.agent}
                       onChange={handleChange}
                       labelId="DocumentType-l"
@@ -87,7 +99,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="documentNumber"
-                      label="Document Number"
+                      label="Número Documento"
                       value={formData.documentNumber}
                       onChange={handleChange}
                       fullWidth
@@ -99,7 +111,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="agentRegistrationNumber"
-                      label="Agent Registration Number"
+                      label="Número Registro Agente"
                       value={formData.agentRegistrationNumber || ''}
                       onChange={handleChange}
                       fullWidth
@@ -111,14 +123,13 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="AgentRegistrationComunidadAutonoma"
-                      label="Agent Registration Comunidad Autonoma"
+                      label="Registro Agente Comunidad Autónoma"
                       value={formData.agentRegistrationNumber || ''}
                       onChange={handleChange}
                       fullWidth
                     />
                   </FormControl>
                 </Grid>
-
               </Grid> {/*Grid container*/}
             </div>
 
@@ -129,7 +140,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="name"
-                      label="Name"
+                      label="Nombre"
                       value={formData.name}
                       onChange={handleChange}
                       fullWidth
@@ -140,7 +151,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="surname"
-                      label="Surname"
+                      label="Apellidos"
                       value={formData.surname}
                       onChange={handleChange}
                       fullWidth
@@ -157,7 +168,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="mainOfficeCountry"
-                      label="Country"
+                      label="Pais*"
                       value={formData.mainOfficeCountry || ''}
                       onChange={handleChange}
                       fullWidth
@@ -168,7 +179,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="mainOfficeProvince"
-                      label="Province"
+                      label="Provincia*"
                       value={formData.mainOfficeProvince || ''}
                       onChange={handleChange}
                       fullWidth
@@ -177,13 +188,26 @@ export const EditUserProfile = () => {
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={2}>
                   <FormControl style={{ width: '100%' }}>
-                    <TextField
+                    <InputLabel id="zipCode-label">Código Postal*</InputLabel>
+                    <Select
+                      labelId="zipCode-label"
+                      name="mainOfficeZipCode"
+                      value={formData.mainOfficeZipCode || ''}
+                      onChange={handleChange}
+                    >
+                    {/*  {zipCodes.map((zipCode) => (
+                        <MenuItem key={zipCode.CPOS} value={zipCode}>
+                          {zipCode.CPOS}
+                        </MenuItem>
+                    ))}*/}
+                    </Select>
+                    {/* <TextField
                       name="mainOfficeZipCode"
                       label="Zip Code"
                       value={formData.mainOfficeZipCode || ''}
                       onChange={handleChange}
                       fullWidth
-                    />
+                    />*/}
                   </FormControl>
                 </Grid>
               </Grid> {/*Grid container*/}
@@ -206,7 +230,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="phone"
-                      label="Phone"
+                      label="Teléfono"
                       value={formData.phone}
                       onChange={handleChange}
                       fullWidth
@@ -217,7 +241,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="mobile"
-                      label="Mobile"
+                      label="Móvil"
                       value={formData.mobile}
                       onChange={handleChange}
                       fullWidth
@@ -233,7 +257,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="password"
-                      label="Password"
+                      label="Contraseña"
                       value={formData.password}
                       onChange={handleChange}
                       fullWidth
@@ -244,7 +268,7 @@ export const EditUserProfile = () => {
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="confirmPassword"
-                      label="Confirm Password"
+                      label="Confirmar Contraseña"
                       value={formData.confirmPassword}
                       onChange={handleChange}
                       fullWidth
@@ -258,7 +282,7 @@ export const EditUserProfile = () => {
       </Container>
 
       {/* Botón de envío */}
-      < div style={{ display: "flex", justifyContent: "flex-end", height: '2rem' }}> {/* Esto es un hack para que el botón no tape los campos de texto */}
+      < div style={{ display: "flex", justifyContent: "flex-end", height: '2rem', margin: '0rem 10rem 0rem 0rem' }}> {/* Esto es un hack para que el botón no tape los campos de texto */}
         < Button type="submit" variant="contained" color="primary" onClick={handleSubmit} >
           Enviar
         </Button >
