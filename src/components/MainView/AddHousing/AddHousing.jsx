@@ -253,7 +253,6 @@ export const AddHousing = () => {
                 color="primary"
               >
                 <Images />
-
               </Button>
             </Grid>
 

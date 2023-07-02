@@ -1,11 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Box, Grid, Paper, TextField, Button, IconButton, Avatar, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { Container } from '@mui/material';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import axios from 'axios';
+import { LocationContext } from '../../Contexts/LocationContext';
+import { Images } from '../Images/Images';
+import { ImagesContext } from '../../Contexts/ImagesContext';
 import { Dining } from '@mui/icons-material';
 
 export const EditUserProfile = () => {
-  const [formData, setFormData] = useState({});
+
+  const { provinces } = useContext(LocationContext);
+  const { imageUrls, setImageUrls } = useContext(ImagesContext);
+
+
+
+  const [formData, setFormData] = useState({
+    DocumentType: 'DNI',
+    country: 'España',
+  });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -13,9 +25,6 @@ export const EditUserProfile = () => {
     switch (name) {
       case 'province':
         setSelectedProvince(value);
-        break;
-      case 'zipCode':
-        setSelectedZipCode(value);
         break;
     }
 
@@ -25,9 +34,17 @@ export const EditUserProfile = () => {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(formData); // Aquí puedes realizar la lógica para enviar los datos actualizados al servidor
+    try {
+      const response = await EditUserProfile(formData);
+      console.log(formData, formData)
+    //  setformData([...user, formData]);
+    } catch(error) {
+      console.error(error);
+    }
+
   };
 
   return (
@@ -45,11 +62,11 @@ export const EditUserProfile = () => {
           <Avatar
             style={{ marginBottom: '2px', width: '80px', height: '80px' }}
             alt="User Avatar"
-            src="/profile.jpg"
+            src="#  "
           />
         </div>
         {/* Upload button */}
-        <div style={{ display: 'grid', gap: '1px', justifyItems: 'center', marginLeft: '14px' }}>
+        <div style={{ display: 'grid', gap: '2px', justifyItems: 'center', marginLeft: '14px' }}>
           <label htmlFor="contained-button-file">
             <Button
               style={{ marginTop: '8px' }}
@@ -57,24 +74,24 @@ export const EditUserProfile = () => {
               color="primary"
               component="span"
             >
-              Upload
+              <Images />
             </Button>
           </label>
 
           {/* Camera icon */}
-          <input accept="image/*" style={{ display: 'none' }} id="icon-button-file" type="file" />
+        {/*  <input accept="image/*" style={{ display: 'none' }} id="icon-button-file" type="file" />
           <label htmlFor="icon-button-file" style={{ marginTop: '4px' }}>
             <IconButton color="primary" aria-label="upload picture" component="span">
               <PhotoCamera />
             </IconButton>
-          </label>
+          </label>*/}
         </div>
       </div>
 
       <Container fixed>
         {/*  DOCUMENTS */}
         <form onSubmit={handleSubmit}>
-          <Paper elevation={3} style={{ padding: '3rem', marginLeft: "1rem", marginBottom: '2rem' }}>
+          <Paper elevation={3} style={{ padding: '3rem', marginLeft: "1rem", marginBottom: '2rem', marginTop: '2rem' }}>
             <InputLabel id="Agent-label" htmlFor="documentType">Tipo Documento*</InputLabel>
             <div style={{ margin: '0rem 2rem 2rem 2rem' }}>
               <Grid container spacing={2} style={{ display: 'flex', flexDirection: 'row' }}>
@@ -83,7 +100,7 @@ export const EditUserProfile = () => {
                     <Select
                       name="DocumentType"
                       label="Tipo "
-                      value={formData.agent}
+                      value={formData.DocumentType}
                       onChange={handleChange}
                       labelId="DocumentType-l"
                       fullWidth
@@ -124,7 +141,7 @@ export const EditUserProfile = () => {
                     <TextField
                       name="AgentRegistrationComunidadAutonoma"
                       label="Registro Agente Comunidad Autónoma"
-                      value={formData.agentRegistrationNumber || ''}
+                      value={formData.agentRegistrationCommunity || ''}
                       onChange={handleChange}
                       fullWidth
                     />
@@ -169,7 +186,7 @@ export const EditUserProfile = () => {
                     <TextField
                       name="mainOfficeCountry"
                       label="Pais*"
-                      value={formData.mainOfficeCountry || ''}
+                      value={formData.mainOfficeCountry || 'España'}
                       onChange={handleChange}
                       fullWidth
                     />
@@ -177,13 +194,19 @@ export const EditUserProfile = () => {
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={4}>
                   <FormControl style={{ width: '100%' }}>
-                    <TextField
-                      name="mainOfficeProvince"
-                      label="Provincia*"
-                      value={formData.mainOfficeProvince || ''}
+                    <InputLabel id="province-label">Provincia*</InputLabel>
+                    <Select
+                      labelId="province-label"
+                      name="mainOfficeprovince"
+                      value={formData.mainofficeprovince}
                       onChange={handleChange}
-                      fullWidth
-                    />
+                    >
+                      {provinces.map((province) => (
+                        <MenuItem key={province.CPRO} value={province}>
+                          {province.PRO}
+                        </MenuItem>
+                      ))}
+                    </Select>
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={2}>
