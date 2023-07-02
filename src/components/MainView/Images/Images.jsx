@@ -92,7 +92,7 @@ export const Images = () => {
             </Grid>
             <Grid item xs={6} container justifyContent="flex-end">
               <Button variant="contained" component="label">
-                Subir Archivos
+                Seleccionar Archivos
                 <Input
                   type="file"
                   hidden
