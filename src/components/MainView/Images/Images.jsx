@@ -1,106 +1,151 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Grid, Input  } from '@mui/material';
+import React, { useState, useContext } from 'react';
+import { Button, Dialog, DialogTitle, DialogContent, Input, Chip, IconButton, DialogActions, Grid } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { uploadToCloudinary } from '../../apiService/apiService';
+import CloseIcon from '@mui/icons-material/Close';
+import { ImagesContext } from '../../Contexts/ImagesContext';
+import axios from 'axios';
 
 
 export const Images = () => {
+  const { setImageUrls } = useContext(ImagesContext);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [previewUrls, setPreviewUrls] = useState([]);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [uploading, setUploading] = useState(false);
 
-const [file, setFile] = useState([]);
-const [urls, setUrls] = useState([]);
+  const handleUploadImages = async () => {
+    try {
+      setUploading(true);
 
-console.log("file", file);
+      const uploadPromises = selectedFiles.map((file) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "domusfsd");
 
-// const getMediaType = (file) => {
-    
-//     if (file.type.includes("image")) return "image";
-//     if (file.type.includes("video")) return "video";
-// }
+        return axios.post(
+          "https://api.cloudinary.com/v1_1/domusfsd/image/upload",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+      });
 
-const CLOUDINARY_UPLOAD_PRESET="domusfsd";
+      const responses = await Promise.all(uploadPromises);
 
-const upload = async (file) => {
-  const data = new FormData();
-  data.append('file', file);
-  data.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-  data.append('cloud_name', 'domusfsd');
-  try {
-    const response = await uploadToCloudinary(data);
-    console.log("response", response);
-    return response.data.secure_url;
-  } catch (error) {
-    console.error('Error uploading file to Cloudinary:', error);
-    return null;
-  }
-}
+      const uploadedImageUrls = responses.map((response) => response.data.secure_url);
+      setImageUrls((prevImageUrls) => [...prevImageUrls, ...uploadedImageUrls]);
 
-
-// const multipleUpload = () => {
-//     if (file && file.length > 0) {
-//         for (let i = 0; i < file.length; i++) {
-//           upload(file[i])
-//           console.log("FormData", FormData)
-//           setUrls(prev=> prev.concat(FormData.url));
-//         }
-//     }
-// }
-
-
-const multipleUpload = async () => {
-  if (file && file.length > 0) {
-    for (let i = 0; i < file.length; i++) {
-      const imageUrl = await upload(file[i]);
-      if (imageUrl) {
-        setUrls((prev) => prev.concat(imageUrl));
-      }
+      console.log("Uploaded image URLs:", uploadedImageUrls);
+    } catch (error) {
+      console.error("Error uploading files:", error);
+    } finally {
+      setUploading(false);
+      handleCloseDialog();
     }
-  }
-};
+  };
 
-useEffect(() => {
-    console.log("urls", urls);
-}, [urls]);
+  const handleFileChange = (event) => {
+    const files = Array.from(event.target.files);
+    const urls = files.map((file) => URL.createObjectURL(file));
+    setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...files]);
+    setPreviewUrls((prevPreviewUrls) => [...prevPreviewUrls, ...urls]);
+  };
 
-useEffect(() => {
-    console.log("file", file);
-}, [file]);
+  const handleOpenDialog = () => {
+    setDialogOpen(true);
+  };
 
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+    setSelectedFiles([]);
+    setPreviewUrls([]);
+  };
+
+  const handleDelete = (index) => {
+    setSelectedFiles((prevSelectedFiles) => {
+      const newSelectedFiles = [...prevSelectedFiles];
+      newSelectedFiles.splice(index, 1);
+      return newSelectedFiles;
+    });
+
+    setPreviewUrls((prevPreviewUrls) => {
+      const newPreviewUrls = [...prevPreviewUrls];
+      newPreviewUrls.splice(index, 1);
+      return newPreviewUrls;
+    });
+  };
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-      <Input
-          type="file"
-          color="secondary"
-          inputProps={{ multiple: true, accept: "image/*,video/*" }}
-          onChange={(e) => setFile(e.target.files)}
-          disableUnderline
-        />
-      </Grid>
-    <Grid item xs={12}>
-      <Button
-        variant="contained"
-        color="primary"
-        startIcon={<CloudUploadIcon />}
-        onClick={multipleUpload}
-      >
-        Upload
+    <>
+      <Button color="primary" startIcon={<CloudUploadIcon />} onClick={handleOpenDialog}>
+        Subir Imágenes
       </Button>
-    </Grid>
-    <Grid item xs={12}>
-      {urls &&
-        urls.map((url) => (
-          <div key={url}>
-            {url.includes("image") ? (
-              <img src={url} alt="uploaded" />
-            ) : (
-              <video controls>
-                <source src={url} type="video/mp4" />
-              </video>
-            )}
+
+      <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="md">
+        <DialogTitle>
+          <Grid container alignItems="center">
+            <Grid item xs={6}>
+              Subir Imágenes y/o Videos
+            </Grid>
+            <Grid item xs={6} container justifyContent="flex-end">
+              <Button variant="contained" component="label">
+                Subir Archivos
+                <Input
+                  type="file"
+                  hidden
+                  color="secondary"
+                  inputProps={{ multiple: true, accept: 'image/*,video/*' }}
+                  onChange={handleFileChange}
+                  disableUnderline
+                  style={{ display: 'none' }}
+                />
+              </Button>
+            </Grid>
+          </Grid>
+        </DialogTitle>
+
+        <DialogContent>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+            {previewUrls.map((url, index) => (
+              <div key={index} style={{ width: '60px', height: '60px', position: 'relative' }}>
+                <img
+                  src={url}
+                  alt={`Preview ${index}`}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px' }}
+                />
+                <IconButton
+                  size="small"
+                  style={{
+                    position: 'absolute',
+                    top: '2px',
+                    right: '2px',
+                    width: '24px',
+                    height: '24px',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    color: '#ffffff',
+                  }}
+                  onClick={() => handleDelete(index)}
+                >
+                  <CloseIcon style={{ fontSize: '16px' }} />
+                </IconButton>
+              </div>
+            ))}
           </div>
-        ))}
-    </Grid>
-  </Grid>
-);
+        </DialogContent>
+        <DialogActions>
+          <Button variant="outlined" color="primary" onClick={handleCloseDialog}>
+            Cancelar
+          </Button>
+          {!uploading && (
+            <Button variant="contained" color="primary" onClick={handleUploadImages}>
+              Subir
+            </Button>
+          )}
+        </DialogActions>
+      </Dialog>
+    </>
+  );
 };
