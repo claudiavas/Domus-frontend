@@ -1,92 +1,146 @@
-// TODO: ADAPTAR ESTE CÓDIGO
+import React, { useEffect, useState } from 'react';
+import { Container, Box, Typography, Avatar, TextField, Link, Grid, Snackbar } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { useNavigate } from 'react-router-dom';
+import { findUserByEmail } from '../apiService/apiService';
+import { sendPasswordResetEmail } from '../apiService/apiService';
 
-// import * as React from 'react';
-// // import { Field, Form, FormSpy } from 'react-final-form';
-// import { Box, Typography } from '@mui/material';
-// //import AppFooter from './modules/views/AppFooter';
-// // import AppAppBar from './modules/views/AppAppBar';
-// // import AppForm from './modules/views/AppForm';
-// // import { email, required } from './modules/form/validation';
-// // import RFTextField from './modules/form/RFTextField';
-// // import FormButton from './modules/form/FormButton';
-// // import FormFeedback from './modules/form/FormFeedback';
-// // import withRoot from './modules/withRoot';
+export function ForgotPassword() {
+  const navigate = useNavigate();
+  const [sent, setSent] = useState(false);
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-// export function ForgotPassword() {
-//   const [sent, setSent] = React.useState(false);
+    const sendEmail = async (email, name, surname) => {
+      try {
+        console.log('ejecutandosendEmail');
+        const body = {
+          email: email,
+          name: name
+        };
+        const response = await sendPasswordResetEmail(body);
+        console.log('Correo de recuperación de contraseña enviado correctamente');
+      } catch (error) {
+        console.error('Error al enviar el correo de recuperación de contraseña:', error);
+        throw new Error('Ocurrió un error al enviar el correo de recuperación de contraseña');
+      }
+    };
 
-//   const validate = (values) => {
-//     const errors = required(['email'], values);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      if (!email) {
+        setError('Por favor ingresa tu correo electrónico');
+        setSnackbarOpen(true);
+        return;
+      }
 
-//     if (!errors.email) {
-//       const emailError = email(values.email);
-//       if (emailError) {
-//         errors.email = emailError;
-//       }
-//     }
+      if (!email.includes('@') || !email.includes('.') || email.length > 320 || email.length < 6) {
+        setError('Por favor ingresa un correo electrónico válido');
+        setSnackbarOpen(true);
+        return;
+      }
 
-//     return errors;
-//   };
 
-//   const handleSubmit = () => {
-//     setSent(true);
-//   };
 
-//   return (
-//     <React.Fragment>
-//       <AppAppBar />
-//       <AppForm>
-//         <React.Fragment>
-//           <Typography variant="h3" gutterBottom marked="center" align="center">
-//             Forgot your password?
-//           </Typography>
-//           <Typography variant="body2" align="center">
-//             {"Enter your email address below and we'll " +
-//               'send you a link to reset your password.'}
-//           </Typography>
-//         </React.Fragment>
-//         <Form
-//           onSubmit={handleSubmit}
-//           subscription={{ submitting: true }}
-//           validate={validate}
-//         >
-//           {({ handleSubmit: handleSubmit2, submitting }) => (
-//             <Box component="form" onSubmit={handleSubmit2} noValidate sx={{ mt: 6 }}>
-//               <Field
-//                 autoFocus
-//                 autoComplete="email"
-//                 component={RFTextField}
-//                 disabled={submitting || sent}
-//                 fullWidth
-//                 label="Email"
-//                 margin="normal"
-//                 name="email"
-//                 required
-//                 size="large"
-//               />
-//               <FormSpy subscription={{ submitError: true }}>
-//                 {({ submitError }) =>
-//                   submitError ? (
-//                     <FormFeedback error sx={{ mt: 2 }}>
-//                       {submitError}
-//                     </FormFeedback>
-//                   ) : null
-//                 }
-//               </FormSpy>
-//               <FormButton
-//                 sx={{ mt: 3, mb: 2 }}
-//                 disabled={submitting || sent}
-//                 size="large"
-//                 color="secondary"
-//                 fullWidth
-//               >
-//                 {submitting || sent ? 'In progress…' : 'Send reset link'}
-//               </FormButton>
-//             </Box>
-//           )}
-//         </Form>
-//       </AppForm>
-//       <AppFooter />
-//     </React.Fragment>
-//   );
-// }
+      const response = await findUserByEmail(email);
+      console.log(response.length);
+        if (response && response.length > 0) {
+          const user = response[0];
+          const name = user.name;
+          const surname = user.surname;
+          sendEmail(email, name, surname);
+        } else {
+          setError('El correo electrónico no se encuentra en nuestra base de datos, por favor revísalo o regístrate.');
+          setSnackbarOpen(true);
+        }
+      
+    } catch (error) {
+      console.error('Error:', error);
+      setError('El correo electrónico no se encuentra en nuestra base de datos, por favor revísalo o regístrate.');
+      setSnackbarOpen(true);
+    }
+  };
+  
+useEffect(() => {
+  error && setSnackbarOpen(true);
+}, [error]);
+
+useEffect(() => {
+  snackbarOpen === false && setError('')
+}, [snackbarOpen]);
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
+
+  const defaultTheme = createTheme();
+
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <Container component="main" maxWidth="xs">
+        <Box
+          sx={{
+            marginTop: 12,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography align="center" component="h1" variant="h5">
+            Te enviaremos un correo para recuperar tu contraseña
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <LoadingButton
+              loading={sent}
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              <span>Recibir Correo</span>
+            </LoadingButton>
+            <Grid container>
+              <Grid item xs>
+                <Link variant="body2" onClick={() => navigate('/register')}>
+                  Quiero regístrarme
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link variant="body2" onClick={() => navigate('/login')}>
+                  Regresar al login
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={error}
+      />
+    </ThemeProvider>
+  );
+}

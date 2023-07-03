@@ -34,7 +34,7 @@ export function Register() {
 
     try {
       const response = await register({
-        email: email.value,
+        email: email.value.toLowerCase(),
         password: password.value,
         name: name.value,
         surname: surname.value,

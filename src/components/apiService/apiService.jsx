@@ -43,6 +43,14 @@ export const register = async (body) => {
   return data;
 }
 
+export const findUserByEmail = async (email) => {
+  console.log("ejecutando findUserByEmail")
+  const encodedEmail = encodeURIComponent(email); // reemplaza el @ por %40
+  const { data } = await axios.get(`http://localhost:${PORT}/user?email=${encodedEmail}`);
+  console.log(data);
+  return data;
+}
+
 export const getCommunities = async () => { 
   const { data } = await axios.get('https://apiv1.geoapi.es/comunidades?type=JSON&key=eb280e481fbc76bc3be11e0e4b108687b76439c4d70beb2fbab3d7e56d772760&sandbox=0');
   return data;
@@ -63,7 +71,10 @@ export const getProfile = async (_id) => {
   return data;
 }
 
-export const sendEmail = async (body) => {
+export const sendPasswordResetEmail = async (body) => {
+  console.log("ejecutando sendPasswordResetEmail")
   const {data} = await axios.post(`http://localhost:${PORT}/api/sendemail`, body);
+  console.log(data);
   return data;
 }
+

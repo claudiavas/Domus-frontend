@@ -103,10 +103,9 @@ export function Login() {
               {error && <p style={{ color: 'red', align: "center"}}>{error}</p>}
               <Grid container>
                 <Grid item xs>
-                  {/* TODO: Pendiente esta funcionalidad */}
-                  {/* <Link onClick={() => navigate("/forgotpassword")} variant="body2">
+                  <Link onClick={() => navigate("/forgotpassword")} variant="body2">
                     ¿Olvidaste tu password?
-                  </Link> */}
+                  </Link>
                 </Grid>
                 <Grid item>
                   <Link onClick={() => navigate("/register")} variant="body2">
