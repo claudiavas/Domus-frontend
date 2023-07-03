@@ -10,6 +10,7 @@ import { Dining } from '@mui/icons-material';
 export const EditUserProfile = () => {
 
   const { provinces } = useContext(LocationContext);
+  const { comunities} = useContext(LocationContext);
   const { imageUrls, setImageUrls } = useContext(ImagesContext);
 
 
@@ -26,6 +27,10 @@ export const EditUserProfile = () => {
       case 'province':
         setSelectedProvince(value);
         break;
+      case 'comunities':
+        setSelectedComunities(value);
+        break;
+
     }
 
     setFormData((prevData) => ({
@@ -138,6 +143,19 @@ export const EditUserProfile = () => {
 
                 <Grid item xs={12} sm={6} md={6} lg={3}>
                   <FormControl style={{ width: '100%' }}>
+                  {/*<InputLabel id="comunities-label">Provincia*</InputLabel>
+                    <Select
+                      labelId="comunities-label"
+                      name="AgentRegistrationComunidadAutonoma"
+                      value={formData.agentRegistrationCommunity}
+                      onChange={handleChange}
+                    >
+                      {comunities.map((comunitie) => (
+                        <MenuItem key={comunitie.CCOM} value={comunitie}>
+                          {comunitie.COM}
+                        </MenuItem>
+                      ))}
+                    </Select>*/}
                     <TextField
                       name="AgentRegistrationComunidadAutonoma"
                       label="Registro Agente Comunidad Autónoma"
@@ -209,7 +227,7 @@ export const EditUserProfile = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={2}>
+               {/* <Grid item xs={12} sm={6} md={6} lg={2}>
                   <FormControl style={{ width: '100%' }}>
                     <InputLabel id="zipCode-label">Código Postal*</InputLabel>
                     <Select
@@ -218,21 +236,21 @@ export const EditUserProfile = () => {
                       value={formData.mainOfficeZipCode || ''}
                       onChange={handleChange}
                     >
-                    {/*  {zipCodes.map((zipCode) => (
+                      {zipCodes.map((zipCode) => (
                         <MenuItem key={zipCode.CPOS} value={zipCode}>
                           {zipCode.CPOS}
                         </MenuItem>
-                    ))}*/}
+                    ))}
                     </Select>
-                    {/* <TextField
+                    <TextField
                       name="mainOfficeZipCode"
                       label="Zip Code"
                       value={formData.mainOfficeZipCode || ''}
                       onChange={handleChange}
                       fullWidth
-                    />*/}
+                    />
                   </FormControl>
-                </Grid>
+                      </Grid>*/}
               </Grid> {/*Grid container*/}
             </div>
 
