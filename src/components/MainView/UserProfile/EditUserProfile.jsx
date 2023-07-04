@@ -102,20 +102,16 @@ export const EditUserProfile = () => {
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={3}>
                   <FormControl style={{ width: '100%' }}>
-                    <InputLabel htmlFor="documentNumber" id="documentNumber-label">Número Documento</InputLabel>
                     <TextField
                       name="documentNumber"
-                      labelId="documentNumber-label"
+                      label="Número Documento"
                       value={formData.documentNumber}
                       onChange={handleChange}
                       fullWidth
-                      InputLabelProps={{ htmlFor: 'documentNumber', id: 'documentNumber-label' }}
                     />
                   </FormControl>
                 </Grid>
-
-
-                <Grid item xs={12} sm={6} md={6} lg={4}>
+                <Grid item xs={12} sm={6} md={6} lg={3}>
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="agentRegistrationNumber"
@@ -281,15 +277,26 @@ export const EditUserProfile = () => {
 
       {/* Botón de envío */}
       < div style={{ display: "flex", justifyContent: "flex-end", height: '2rem', margin: '0rem 10rem 0rem 0rem' }}> {/* Esto es un hack para que el botón no tape los campos de texto */}
-        < Button type="submit" variant="contained" color="primary" onClick={handleSubmit} >
+        < Button 
+          type="submit" 
+          variant="contained" 
+          color="primary" 
+          style={{
+            margin: '0 1rem',
+            padding: '0.5rem 1rem',
+            borderRadius: '4px',
+            fontSize: '1rem',
+            fontWeight: 'bold',
+            backgroundColor: '#2196f3',
+            color: '#fff',
+          }}
+          /* TODO: Llamar a popup de cambiar la contraseña */
+          onClick={handleSubmit} >
           Enviar
         </Button >
       </div >
 
       {/*  </Box>*/}
-
-
-
     </div >
   )
 };
