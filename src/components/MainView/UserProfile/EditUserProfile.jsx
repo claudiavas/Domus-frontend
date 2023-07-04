@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Box, Grid, Paper, TextField, Button, IconButton, Avatar, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Box, Grid, Paper, TextField, Button, IconButton, Avatar, FormControl, InputLabel, Select, MenuItem, Typography, Checkbox } from '@mui/material';
 import { Container } from '@mui/material';
 import axios from 'axios';
 import { LocationContext } from '../../Contexts/LocationContext';
@@ -10,7 +10,7 @@ import { Dining } from '@mui/icons-material';
 export const EditUserProfile = () => {
 
   const { provinces } = useContext(LocationContext);
-  const { comunities} = useContext(LocationContext);
+  const { communities } = useContext(LocationContext);
   const { imageUrls, setImageUrls } = useContext(ImagesContext);
 
 
@@ -23,15 +23,7 @@ export const EditUserProfile = () => {
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-    switch (name) {
-      case 'province':
-        setSelectedProvince(value);
-        break;
-      case 'comunities':
-        setSelectedComunities(value);
-        break;
 
-    }
 
     setFormData((prevData) => ({
       ...prevData,
@@ -45,8 +37,8 @@ export const EditUserProfile = () => {
     try {
       const response = await EditUserProfile(formData);
       console.log(formData, formData)
-    //  setformData([...user, formData]);
-    } catch(error) {
+      //  setformData([...user, formData]);
+    } catch (error) {
       console.error(error);
     }
 
@@ -67,7 +59,7 @@ export const EditUserProfile = () => {
           <Avatar
             style={{ marginBottom: '2px', width: '80px', height: '80px' }}
             alt="User Avatar"
-            src="#  "
+            src={imageUrls[0]}
           />
         </div>
         {/* Upload button */}
@@ -75,21 +67,13 @@ export const EditUserProfile = () => {
           <label htmlFor="contained-button-file">
             <Button
               style={{ marginTop: '8px' }}
-              variant="contained"
+              variant="outlined"
               color="primary"
               component="span"
             >
               <Images />
             </Button>
           </label>
-
-          {/* Camera icon */}
-        {/*  <input accept="image/*" style={{ display: 'none' }} id="icon-button-file" type="file" />
-          <label htmlFor="icon-button-file" style={{ marginTop: '4px' }}>
-            <IconButton color="primary" aria-label="upload picture" component="span">
-              <PhotoCamera />
-            </IconButton>
-          </label>*/}
         </div>
       </div>
 
@@ -97,15 +81,15 @@ export const EditUserProfile = () => {
         {/*  DOCUMENTS */}
         <form onSubmit={handleSubmit}>
           <Paper elevation={3} style={{ padding: '3rem', marginLeft: "1rem", marginBottom: '2rem', marginTop: '2rem' }}>
-            <InputLabel id="Agent-label" htmlFor="documentType">Tipo Documento*</InputLabel>
+            {/*<InputLabel id="Agent-label" htmlFor="documentType">Tipo Documento*</InputLabel>*/}
             <div style={{ margin: '0rem 2rem 2rem 2rem' }}>
               <Grid container spacing={2} style={{ display: 'flex', flexDirection: 'row' }}>
                 <Grid item xs={12} sm={6} md={6} lg={2}>
                   <FormControl style={{ width: '82%' }}>
                     <Select
                       name="DocumentType"
-                      label="Tipo "
                       value={formData.DocumentType}
+                      label="Tipo Documento"
                       onChange={handleChange}
                       labelId="DocumentType-l"
                       fullWidth
@@ -116,18 +100,20 @@ export const EditUserProfile = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-
                 <Grid item xs={12} sm={6} md={6} lg={3}>
                   <FormControl style={{ width: '100%' }}>
+                    <InputLabel htmlFor="documentNumber" id="documentNumber-label">Número Documento</InputLabel>
                     <TextField
                       name="documentNumber"
-                      label="Número Documento"
+                      labelId="documentNumber-label"
                       value={formData.documentNumber}
                       onChange={handleChange}
                       fullWidth
+                      InputLabelProps={{ htmlFor: 'documentNumber', id: 'documentNumber-label' }}
                     />
                   </FormControl>
                 </Grid>
+
 
                 <Grid item xs={12} sm={6} md={6} lg={4}>
                   <FormControl style={{ width: '100%' }}>
@@ -143,26 +129,21 @@ export const EditUserProfile = () => {
 
                 <Grid item xs={12} sm={6} md={6} lg={3}>
                   <FormControl style={{ width: '100%' }}>
-                  {/*<InputLabel id="comunities-label">Provincia*</InputLabel>
+                    <InputLabel id="communities-label">Comunidad Autónoma*</InputLabel>
                     <Select
-                      labelId="comunities-label"
+                      labelId="communities-label"
+                      id="AgentRegistrationComunidadAutonoma"
+                      label="Comunidad Autónoma"
                       name="AgentRegistrationComunidadAutonoma"
                       value={formData.agentRegistrationCommunity}
                       onChange={handleChange}
                     >
-                      {comunities.map((comunitie) => (
-                        <MenuItem key={comunitie.CCOM} value={comunitie}>
-                          {comunitie.COM}
+                      {communities.map((community) => (
+                        <MenuItem key={community.CCOM} value={community}>
+                          {community.COM}
                         </MenuItem>
                       ))}
-                    </Select>*/}
-                    <TextField
-                      name="AgentRegistrationComunidadAutonoma"
-                      label="Registro Agente Comunidad Autónoma"
-                      value={formData.agentRegistrationCommunity || ''}
-                      onChange={handleChange}
-                      fullWidth
-                    />
+                    </Select>
                   </FormControl>
                 </Grid>
               </Grid> {/*Grid container*/}
@@ -215,6 +196,7 @@ export const EditUserProfile = () => {
                     <InputLabel id="province-label">Provincia*</InputLabel>
                     <Select
                       labelId="province-label"
+                      id="mainOfficeprovince"
                       name="mainOfficeprovince"
                       value={formData.mainofficeprovince}
                       onChange={handleChange}
@@ -227,30 +209,6 @@ export const EditUserProfile = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-               {/* <Grid item xs={12} sm={6} md={6} lg={2}>
-                  <FormControl style={{ width: '100%' }}>
-                    <InputLabel id="zipCode-label">Código Postal*</InputLabel>
-                    <Select
-                      labelId="zipCode-label"
-                      name="mainOfficeZipCode"
-                      value={formData.mainOfficeZipCode || ''}
-                      onChange={handleChange}
-                    >
-                      {zipCodes.map((zipCode) => (
-                        <MenuItem key={zipCode.CPOS} value={zipCode}>
-                          {zipCode.CPOS}
-                        </MenuItem>
-                    ))}
-                    </Select>
-                    <TextField
-                      name="mainOfficeZipCode"
-                      label="Zip Code"
-                      value={formData.mainOfficeZipCode || ''}
-                      onChange={handleChange}
-                      fullWidth
-                    />
-                  </FormControl>
-                      </Grid>*/}
               </Grid> {/*Grid container*/}
             </div>
 
@@ -291,32 +249,31 @@ export const EditUserProfile = () => {
                 </Grid>
               </Grid> {/*Grid container*/}
             </div>
-
-            <div style={{ margin: '2rem 2rem 2rem 2rem' }}>
-              <Grid container spacing={2} style={{ display: 'flex', flexDirection: 'row' }}>
-                <Grid item xs={12} sm={6} md={6} lg={6}>
-                  <FormControl style={{ width: '100%' }}>
-                    <TextField
-                      name="password"
-                      label="Contraseña"
-                      value={formData.password}
-                      onChange={handleChange}
-                      fullWidth
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={6}>
-                  <FormControl style={{ width: '100%' }}>
-                    <TextField
-                      name="confirmPassword"
-                      label="Confirmar Contraseña"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      fullWidth
-                    />
-                  </FormControl>
-                </Grid>
-              </Grid>
+            {/* Boton de Resetear Password*/}
+            <div style={{ margin: '2rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+                <Checkbox color="primary" />
+                <span style={{ marginLeft: '0.5rem' }}>
+                  Quiero recibir inspiración, promociones de marketing y actualizaciones vía email.
+                </span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{
+                    margin: '0 1rem',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '4px',
+                    fontSize: '1rem',
+                    fontWeight: 'bold',
+                    backgroundColor: '#2196f3',
+                    color: '#fff',
+                  }}
+                >
+                  Reset Password
+                </Button>
+              </div>
             </div>
           </Paper>
         </form >
