@@ -5,19 +5,41 @@ import axios from 'axios';
 import { LocationContext } from '../../Contexts/LocationContext';
 import { Images } from '../Images/Images';
 import { ImagesContext } from '../../Contexts/ImagesContext';
+import { AuthContext } from '../../Contexts/AuthContext';
 import { Dining } from '@mui/icons-material';
+import { updateUser } from '../../apiService/apiService';
 
 export const EditUserProfile = () => {
 
   const { provinces } = useContext(LocationContext);
   const { communities } = useContext(LocationContext);
   const { imageUrls, setImageUrls } = useContext(ImagesContext);
+  const { profile } = useContext(AuthContext);
+  const [subscription, setSubscription] = useState(true);
 
-
+  const handleCheckboxChange = (event) => {
+    setSubscription(event.target.checked);
+  };
 
   const [formData, setFormData] = useState({
+
     DocumentType: 'DNI',
-    country: 'España',
+    documentNumber: profile.documentNumber,
+    agentRegistrationNumber: profile.agentRegistrationNumber,
+    agentRegistrationCommunity: profile.agentRegistrationCommunity,
+    name: profile.name,
+    surname: profile.surname,
+    mainOfficeProvince: profile.mainOfficeProvince,
+    mainOfficeCountry: 'España',
+    email: profile.email,
+    telephone1: profile.telephone,
+    telephone2: profile.telephone2,
+    profileSummary: profile.profileSummary,
+    realEstateLogo: profile.realEstateLogo,
+    userType: 'Agente',
+    profilePicture: profile.profilePicture,
+    subscription: profile.subscription,
+    
   });
 
   const handleChange = (event) => {
@@ -35,9 +57,9 @@ export const EditUserProfile = () => {
     event.preventDefault();
     console.log(formData); // Aquí puedes realizar la lógica para enviar los datos actualizados al servidor
     try {
-      const response = await EditUserProfile(formData);
+      const response = await updateUser(profile._id, formData);
       console.log(formData, formData)
-      //  setformData([...user, formData]);
+        setFormData([...profile, formData]);
     } catch (error) {
       console.error(error);
     }
@@ -130,7 +152,7 @@ export const EditUserProfile = () => {
                       labelId="communities-label"
                       id="AgentRegistrationComunidadAutonoma"
                       label="Comunidad Autónoma"
-                      name="AgentRegistrationComunidadAutonoma"
+                      name="AgentRegistrationComunity"
                       value={formData.agentRegistrationCommunity}
                       onChange={handleChange}
                     >
@@ -194,7 +216,7 @@ export const EditUserProfile = () => {
                       labelId="province-label"
                       id="mainOfficeprovince"
                       name="mainOfficeprovince"
-                      value={formData.mainofficeprovince}
+                      value={formData.mainOfficeProvince}
                       onChange={handleChange}
                     >
                       {provinces.map((province) => (
@@ -226,7 +248,7 @@ export const EditUserProfile = () => {
                     <TextField
                       name="phone"
                       label="Teléfono"
-                      value={formData.phone}
+                      value={formData.telephone1}
                       onChange={handleChange}
                       fullWidth
                     />
@@ -237,7 +259,7 @@ export const EditUserProfile = () => {
                     <TextField
                       name="mobile"
                       label="Móvil"
-                      value={formData.mobile}
+                      value={formData.telephone2}
                       onChange={handleChange}
                       fullWidth
                     />
@@ -245,10 +267,10 @@ export const EditUserProfile = () => {
                 </Grid>
               </Grid> {/*Grid container*/}
             </div>
-            {/* Boton de Resetear Password*/}
+            {/* Boton de Resetear Password y checkbox susbcription*/}
             <div style={{ margin: '2rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
-                <Checkbox color="primary" />
+                <Checkbox color="primary" checked={subscription} onChange={handleCheckboxChange} />
                 <span style={{ marginLeft: '0.5rem' }}>
                   Quiero recibir inspiración, promociones de marketing y actualizaciones vía email.
                 </span>

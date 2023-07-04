@@ -78,3 +78,7 @@ export const sendPasswordResetEmail = async (body) => {
   return data;
 }
 
+export const updateUser = async (_id, body) => {
+  const { data } = await axios.put(`http://localhost:${PORT}/user/${_id}`, body);
+  return data;
+}
