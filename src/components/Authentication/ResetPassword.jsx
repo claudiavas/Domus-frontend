@@ -53,7 +53,9 @@ export const ResetPassword = () => {
     }
 
     const updatedUser = { ...user, password: newPassword };
+    console.log(updatedUser);
     handleUpdate(updatedUser);
+    handleClose();
   };
 
   const handleClose = () => {
@@ -83,7 +85,7 @@ export const ResetPassword = () => {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)}>Cambiar contraseña</Button>
+      <Button color="primary" variant="outlined" onClick={() => setOpen(true)}>Cambiar contraseña</Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Cambiar Contraseña</DialogTitle>
         <DialogContent>

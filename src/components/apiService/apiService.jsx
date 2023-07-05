@@ -50,8 +50,8 @@ export const findUserByEmail = async (email) => {
   return data;
 }
 
-export const updateUser = async (_id, body) => {
-  const {data} = await axios.put(`http://localhost:${PORT}/user/${_id}`, body);
+export const updateUser = async (_id, updatedUser) => {
+  const {data} = await axios.put(`http://localhost:${PORT}/user/${_id}`, updatedUser);
   return data;
   }
 

@@ -7,7 +7,7 @@ import { Images } from '../Images/Images';
 import { ImagesContext } from '../../Contexts/ImagesContext';
 import { AuthContext } from '../../Contexts/AuthContext';
 import { Dining } from '@mui/icons-material';
-import { updateUser } from '../../apiService/apiService';
+import { ResetPassword } from '../../Authentication/ResetPassword';
 
 export const EditUserProfile = () => {
 
@@ -276,21 +276,7 @@ export const EditUserProfile = () => {
                 </span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  style={{
-                    margin: '0 1rem',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '4px',
-                    fontSize: '1rem',
-                    fontWeight: 'bold',
-                    backgroundColor: '#2196f3',
-                    color: '#fff',
-                  }}
-                >
-                  Reset Password
-                </Button>
+                <ResetPassword/>
               </div>
             </div>
           </Paper>
