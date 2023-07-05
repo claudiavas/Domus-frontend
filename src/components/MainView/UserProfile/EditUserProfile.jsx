@@ -1,21 +1,28 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Box, Grid, Paper, TextField, Button, IconButton, Avatar, FormControl, InputLabel, Select, MenuItem, Typography, Checkbox } from '@mui/material';
+import { Box, Snackbar, Grid, Paper, TextField, Button, IconButton, Avatar, FormControl, InputLabel, Select, MenuItem, Typography, Checkbox } from '@mui/material';
 import { Container } from '@mui/material';
 import axios from 'axios';
 import { LocationContext } from '../../Contexts/LocationContext';
 import { Images } from '../Images/Images';
 import { ImagesContext } from '../../Contexts/ImagesContext';
 import { AuthContext } from '../../Contexts/AuthContext';
-import { Dining } from '@mui/icons-material';
 import { updateUser } from '../../apiService/apiService';
 
 export const EditUserProfile = () => {
 
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
   const { provinces } = useContext(LocationContext);
   const { communities } = useContext(LocationContext);
-  const { imageUrls, setImageUrls } = useContext(ImagesContext);
+  const { imageUrls } = useContext(ImagesContext);
   const { profile } = useContext(AuthContext);
   const [subscription, setSubscription] = useState(true);
+
+  const snackbarStyle = {
+    backgroundColor: '#2196f3', // Color de fondo de la notificación
+    color: '#fff', // Color del texto de la notificación
+  };
+  
 
   const handleCheckboxChange = (event) => {
     setSubscription(event.target.checked);
@@ -31,7 +38,8 @@ export const EditUserProfile = () => {
     surname: profile.surname,
     mainOfficeProvince: profile.mainOfficeProvince,
     mainOfficeCountry: 'España',
-    email: profile.email,
+    //TODO: email no se puede editar
+    //email: profile.email,
     telephone1: profile.telephone,
     telephone2: profile.telephone2,
     profileSummary: profile.profileSummary,
@@ -39,7 +47,6 @@ export const EditUserProfile = () => {
     userType: 'Agente',
     profilePicture: profile.profilePicture,
     subscription: profile.subscription,
-    
   });
 
   const handleChange = (event) => {
@@ -59,9 +66,17 @@ export const EditUserProfile = () => {
     try {
       const response = await updateUser(profile._id, formData);
       console.log(formData, formData)
-        setFormData([...formData, formData]);
+      // Establece el mensaje de éxito
+      setSnackbarMessage('Los campos se han guardado exitosamente en la base de datos');
+      // Abre la notificación
+      setOpenSnackbar(true);
+
     } catch (error) {
       console.error(error);
+      // Establece el mensaje de error en caso de que ocurra algún problema
+      setSnackbarMessage('Ha ocurrido un error al guardar los campos');
+      // Abre la notificación
+      setOpenSnackbar(true);
     }
 
   };
@@ -299,10 +314,10 @@ export const EditUserProfile = () => {
 
       {/* Botón de envío */}
       < div style={{ display: "flex", justifyContent: "flex-end", height: '2rem', margin: '0rem 10rem 0rem 0rem' }}> {/* Esto es un hack para que el botón no tape los campos de texto */}
-        < Button 
-          type="submit" 
-          variant="contained" 
-          color="primary" 
+        < Button
+          type="submit"
+          variant="contained"
+          color="primary"
           style={{
             margin: '0 1rem',
             padding: '0.5rem 1rem',
@@ -319,6 +334,16 @@ export const EditUserProfile = () => {
       </div >
 
       {/*  </Box>*/}
+      <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000} // Duración de la notificación en milisegundos (opcional)
+          onClose={() => setOpenSnackbar(false)} // Función para cerrar la notificación
+          message={snackbarMessage} // Mensaje de la notificación
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }} // Localización de la notificación
+          key={'bottom' + 'center'} // Key necesaria para que funcione
+          style= {snackbarStyle} // Aplica el estilo personalizado al contenido de la notificación
+        />
     </div >
+    
   )
 };
