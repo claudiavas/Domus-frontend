@@ -59,7 +59,7 @@ export const EditUserProfile = () => {
     try {
       const response = await updateUser(profile._id, formData);
       console.log(formData, formData)
-        setFormData([...profile, formData]);
+        setFormData([...formData, formData]);
     } catch (error) {
       console.error(error);
     }
