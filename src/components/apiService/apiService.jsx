@@ -42,6 +42,12 @@ export const register = async (body) => {
   return data;
 }
 
+export const resetPassword = async (_id, body) => {
+  const { data } = await axios.put(`http://localhost:${PORT}/user/resetpassword/${_id}`, body);
+  console.log("body en apiService", body)
+  return data;
+}
+
 export const findUserByEmail = async (email) => {
   console.log("ejecutando findUserByEmail")
   const encodedEmail = encodeURIComponent(email); // reemplaza el @ por %40
@@ -50,8 +56,8 @@ export const findUserByEmail = async (email) => {
   return data;
 }
 
-export const updateUser = async (_id, updatedUser) => {
-  const {data} = await axios.put(`http://localhost:${PORT}/user/${_id}`, updatedUser);
+export const updateUser = async (_id, body) => {
+  const {data} = await axios.put(`http://localhost:${PORT}/user/${_id}`, body);
   return data;
   }
 

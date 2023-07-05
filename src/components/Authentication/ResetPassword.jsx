@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Snackbar, Alert } from '@mui/material';
-import { updateUser } from '../apiService/apiService';
+import { resetPassword } from '../apiService/apiService';
 import { AuthContext } from '../Contexts/AuthContext';
 
 export const ResetPassword = () => {
@@ -18,11 +18,12 @@ export const ResetPassword = () => {
   
   const [user, setUser] = useState({});
  
-
   const handleUpdate = async (updatedUser) => {
     try {
-      const response = await updateUser(profile._id, updatedUser);
-      setSuccessMessage("Contraseña actualizada con éxito.");
+      console.log("updated user", profile._id, updatedUser)
+      const response = await resetPassword(profile._id, updatedUser);
+      console.log(response.data);
+      setSuccessMessage("Contraseña actualizada correctamente.");
       setSuccessOpened(true);
     } catch (error) {
       console.error('Error al actualizar la contraseña:', error);
@@ -53,7 +54,6 @@ export const ResetPassword = () => {
     }
 
     const updatedUser = { ...user, password: newPassword };
-    console.log(updatedUser);
     handleUpdate(updatedUser);
     handleClose();
   };
