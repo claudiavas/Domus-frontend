@@ -1,23 +1,51 @@
-import React, { useState } from 'react';
-import { Box, Grid, Paper, TextField, Button, IconButton, Avatar, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import React, { useState, useContext, useEffect } from 'react';
+import { Box, Grid, Paper, TextField, Button, IconButton, Avatar, FormControl, InputLabel, Select, MenuItem, Typography, Checkbox } from '@mui/material';
 import { Container } from '@mui/material';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import axios from 'axios';
+import { LocationContext } from '../../Contexts/LocationContext';
+import { Images } from '../Images/Images';
+import { ImagesContext } from '../../Contexts/ImagesContext';
+import { AuthContext } from '../../Contexts/AuthContext';
 import { Dining } from '@mui/icons-material';
+import { updateUser } from '../../apiService/apiService';
 
 export const EditUserProfile = () => {
-  const [formData, setFormData] = useState({});
+
+  const { provinces } = useContext(LocationContext);
+  const { communities } = useContext(LocationContext);
+  const { imageUrls, setImageUrls } = useContext(ImagesContext);
+  const { profile } = useContext(AuthContext);
+  const [subscription, setSubscription] = useState(true);
+
+  const handleCheckboxChange = (event) => {
+    setSubscription(event.target.checked);
+  };
+
+  const [formData, setFormData] = useState({
+
+    DocumentType: 'DNI',
+    documentNumber: profile.documentNumber,
+    agentRegistrationNumber: profile.agentRegistrationNumber,
+    agentRegistrationCommunity: profile.agentRegistrationCommunity,
+    name: profile.name,
+    surname: profile.surname,
+    mainOfficeProvince: profile.mainOfficeProvince,
+    mainOfficeCountry: 'España',
+    email: profile.email,
+    telephone1: profile.telephone,
+    telephone2: profile.telephone2,
+    profileSummary: profile.profileSummary,
+    realEstateLogo: profile.realEstateLogo,
+    userType: 'Agente',
+    profilePicture: profile.profilePicture,
+    subscription: profile.subscription,
+    
+  });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-    switch (name) {
-      case 'province':
-        setSelectedProvince(value);
-        break;
-      case 'zipCode':
-        setSelectedZipCode(value);
-        break;
-    }
+
 
     setFormData((prevData) => ({
       ...prevData,
@@ -25,9 +53,17 @@ export const EditUserProfile = () => {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(formData); // Aquí puedes realizar la lógica para enviar los datos actualizados al servidor
+    try {
+      const response = await updateUser(profile._id, formData);
+      console.log(formData, formData)
+        setFormData([...formData, formData]);
+    } catch (error) {
+      console.error(error);
+    }
+
   };
 
   return (
@@ -45,28 +81,20 @@ export const EditUserProfile = () => {
           <Avatar
             style={{ marginBottom: '2px', width: '80px', height: '80px' }}
             alt="User Avatar"
-            src="/profile.jpg"
+            src={imageUrls[0]}
           />
         </div>
         {/* Upload button */}
-        <div style={{ display: 'grid', gap: '1px', justifyItems: 'center', marginLeft: '14px' }}>
+        <div style={{ display: 'grid', gap: '2px', justifyItems: 'center', marginLeft: '14px' }}>
           <label htmlFor="contained-button-file">
             <Button
               style={{ marginTop: '8px' }}
-              variant="contained"
+              variant="outlined"
               color="primary"
               component="span"
             >
-              Upload
+              <Images />
             </Button>
-          </label>
-
-          {/* Camera icon */}
-          <input accept="image/*" style={{ display: 'none' }} id="icon-button-file" type="file" />
-          <label htmlFor="icon-button-file" style={{ marginTop: '4px' }}>
-            <IconButton color="primary" aria-label="upload picture" component="span">
-              <PhotoCamera />
-            </IconButton>
           </label>
         </div>
       </div>
@@ -74,16 +102,16 @@ export const EditUserProfile = () => {
       <Container fixed>
         {/*  DOCUMENTS */}
         <form onSubmit={handleSubmit}>
-          <Paper elevation={3} style={{ padding: '3rem', marginLeft: "1rem", marginBottom: '2rem' }}>
-            <InputLabel id="Agent-label" htmlFor="documentType">Tipo Documento*</InputLabel>
+          <Paper elevation={3} style={{ padding: '3rem', marginLeft: "1rem", marginBottom: '2rem', marginTop: '2rem' }}>
+            {/*<InputLabel id="Agent-label" htmlFor="documentType">Tipo Documento*</InputLabel>*/}
             <div style={{ margin: '0rem 2rem 2rem 2rem' }}>
               <Grid container spacing={2} style={{ display: 'flex', flexDirection: 'row' }}>
                 <Grid item xs={12} sm={6} md={6} lg={2}>
                   <FormControl style={{ width: '82%' }}>
                     <Select
                       name="DocumentType"
-                      label="Tipo "
-                      value={formData.agent}
+                      value={formData.DocumentType}
+                      label="Tipo Documento"
                       onChange={handleChange}
                       labelId="DocumentType-l"
                       fullWidth
@@ -94,7 +122,6 @@ export const EditUserProfile = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-
                 <Grid item xs={12} sm={6} md={6} lg={3}>
                   <FormControl style={{ width: '100%' }}>
                     <TextField
@@ -106,8 +133,7 @@ export const EditUserProfile = () => {
                     />
                   </FormControl>
                 </Grid>
-
-                <Grid item xs={12} sm={6} md={6} lg={4}>
+                <Grid item xs={12} sm={6} md={6} lg={3}>
                   <FormControl style={{ width: '100%' }}>
                     <TextField
                       name="agentRegistrationNumber"
@@ -121,13 +147,21 @@ export const EditUserProfile = () => {
 
                 <Grid item xs={12} sm={6} md={6} lg={3}>
                   <FormControl style={{ width: '100%' }}>
-                    <TextField
-                      name="AgentRegistrationComunidadAutonoma"
-                      label="Registro Agente Comunidad Autónoma"
-                      value={formData.agentRegistrationNumber || ''}
+                    <InputLabel id="communities-label">Comunidad Autónoma*</InputLabel>
+                    <Select
+                      labelId="communities-label"
+                      id="AgentRegistrationComunidadAutonoma"
+                      label="Comunidad Autónoma"
+                      name="AgentRegistrationComunity"
+                      value={formData.agentRegistrationCommunity}
                       onChange={handleChange}
-                      fullWidth
-                    />
+                    >
+                      {communities.map((community) => (
+                        <MenuItem key={community.CCOM} value={community}>
+                          {community.COM}
+                        </MenuItem>
+                      ))}
+                    </Select>
                   </FormControl>
                 </Grid>
               </Grid> {/*Grid container*/}
@@ -169,7 +203,7 @@ export const EditUserProfile = () => {
                     <TextField
                       name="mainOfficeCountry"
                       label="Pais*"
-                      value={formData.mainOfficeCountry || ''}
+                      value={formData.mainOfficeCountry || 'España'}
                       onChange={handleChange}
                       fullWidth
                     />
@@ -177,37 +211,20 @@ export const EditUserProfile = () => {
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={4}>
                   <FormControl style={{ width: '100%' }}>
-                    <TextField
-                      name="mainOfficeProvince"
-                      label="Provincia*"
-                      value={formData.mainOfficeProvince || ''}
-                      onChange={handleChange}
-                      fullWidth
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={2}>
-                  <FormControl style={{ width: '100%' }}>
-                    <InputLabel id="zipCode-label">Código Postal*</InputLabel>
+                    <InputLabel id="province-label">Provincia*</InputLabel>
                     <Select
-                      labelId="zipCode-label"
-                      name="mainOfficeZipCode"
-                      value={formData.mainOfficeZipCode || ''}
+                      labelId="province-label"
+                      id="mainOfficeprovince"
+                      name="mainOfficeprovince"
+                      value={formData.mainOfficeProvince}
                       onChange={handleChange}
                     >
-                    {/*  {zipCodes.map((zipCode) => (
-                        <MenuItem key={zipCode.CPOS} value={zipCode}>
-                          {zipCode.CPOS}
+                      {provinces.map((province) => (
+                        <MenuItem key={province.CPRO} value={province}>
+                          {province.PRO}
                         </MenuItem>
-                    ))}*/}
+                      ))}
                     </Select>
-                    {/* <TextField
-                      name="mainOfficeZipCode"
-                      label="Zip Code"
-                      value={formData.mainOfficeZipCode || ''}
-                      onChange={handleChange}
-                      fullWidth
-                    />*/}
                   </FormControl>
                 </Grid>
               </Grid> {/*Grid container*/}
@@ -231,7 +248,7 @@ export const EditUserProfile = () => {
                     <TextField
                       name="phone"
                       label="Teléfono"
-                      value={formData.phone}
+                      value={formData.telephone1}
                       onChange={handleChange}
                       fullWidth
                     />
@@ -242,7 +259,7 @@ export const EditUserProfile = () => {
                     <TextField
                       name="mobile"
                       label="Móvil"
-                      value={formData.mobile}
+                      value={formData.telephone2}
                       onChange={handleChange}
                       fullWidth
                     />
@@ -250,32 +267,31 @@ export const EditUserProfile = () => {
                 </Grid>
               </Grid> {/*Grid container*/}
             </div>
-
-            <div style={{ margin: '2rem 2rem 2rem 2rem' }}>
-              <Grid container spacing={2} style={{ display: 'flex', flexDirection: 'row' }}>
-                <Grid item xs={12} sm={6} md={6} lg={6}>
-                  <FormControl style={{ width: '100%' }}>
-                    <TextField
-                      name="password"
-                      label="Contraseña"
-                      value={formData.password}
-                      onChange={handleChange}
-                      fullWidth
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6} md={6} lg={6}>
-                  <FormControl style={{ width: '100%' }}>
-                    <TextField
-                      name="confirmPassword"
-                      label="Confirmar Contraseña"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      fullWidth
-                    />
-                  </FormControl>
-                </Grid>
-              </Grid>
+            {/* Boton de Resetear Password y checkbox susbcription*/}
+            <div style={{ margin: '2rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+                <Checkbox color="primary" checked={subscription} onChange={handleCheckboxChange} />
+                <span style={{ marginLeft: '0.5rem' }}>
+                  Quiero recibir inspiración, promociones de marketing y actualizaciones vía email.
+                </span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{
+                    margin: '0 1rem',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '4px',
+                    fontSize: '1rem',
+                    fontWeight: 'bold',
+                    backgroundColor: '#2196f3',
+                    color: '#fff',
+                  }}
+                >
+                  Reset Password
+                </Button>
+              </div>
             </div>
           </Paper>
         </form >
@@ -283,15 +299,26 @@ export const EditUserProfile = () => {
 
       {/* Botón de envío */}
       < div style={{ display: "flex", justifyContent: "flex-end", height: '2rem', margin: '0rem 10rem 0rem 0rem' }}> {/* Esto es un hack para que el botón no tape los campos de texto */}
-        < Button type="submit" variant="contained" color="primary" onClick={handleSubmit} >
+        < Button 
+          type="submit" 
+          variant="contained" 
+          color="primary" 
+          style={{
+            margin: '0 1rem',
+            padding: '0.5rem 1rem',
+            borderRadius: '4px',
+            fontSize: '1rem',
+            fontWeight: 'bold',
+            backgroundColor: '#2196f3',
+            color: '#fff',
+          }}
+          /* TODO: Llamar a popup de cambiar la contraseña */
+          onClick={handleSubmit} >
           Enviar
         </Button >
       </div >
 
       {/*  </Box>*/}
-
-
-
     </div >
   )
 };
