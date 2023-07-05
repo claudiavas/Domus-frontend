@@ -14,7 +14,7 @@ export function ForgotPassword() {
   const [error, setError] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-    const sendEmail = async (email, name, surname) => {
+    const sendEmail = async (email, name) => {
       try {
         console.log('ejecutandosendEmail');
         const body = {
@@ -117,7 +117,7 @@ useEffect(() => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              <span>Recibir Correo</span>
+              <span>Enviar Correo</span>
             </LoadingButton>
             <Grid container>
               <Grid item xs>
