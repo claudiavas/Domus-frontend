@@ -13,6 +13,9 @@ import { CssBaseline } from '@mui/material';
 import { AuthProvider } from './components/Contexts/AuthContext.jsx';
 import { LocationProvider } from './components/Contexts/LocationContext.jsx';
 import { HousingProvider } from './components/Contexts/HousingContext.jsx';
+import { TranslationProvider } from './components/Contexts/TranslationContext.jsx';
+import { ImagesProvider } from './components/Contexts/ImagesContext.jsx';
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -20,7 +23,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <AuthProvider>
       <LocationProvider>
         <HousingProvider>
-          <App />
+          <TranslationProvider>
+            <ImagesProvider>
+              <App />
+            </ImagesProvider>
+          </TranslationProvider>
         </HousingProvider>
       </LocationProvider>
     </AuthProvider>

@@ -54,12 +54,6 @@ export const HousingDetails = () => {
     }));
     console.log("formData en handleFieldChange", formData)
   };
-
-  // const handlePermanentDelete = async (_id) => {
-  //   await permanentDelete(_id);
-  //   await tasksGetter();
-  // }
-
   
   const editPopup = async () => {
     if (!editMode) {
@@ -81,13 +75,6 @@ export const HousingDetails = () => {
       alert("Vivienda eliminada correctamente")
       navigate("/mainview");
   }
-
-  // PENDIENTE DE IMPLEMENTACIÓN Y VER DÓNDE IRÍA EL BOTÓN  
-  // const handlePermanentDelete = async (_id) => {
-  //     await permanentDelete(_id);
-  //     await getActiveHousing();
-  //   }
-
 
   return (
 

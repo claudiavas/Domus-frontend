@@ -4,6 +4,8 @@ import { LocationContext } from '../../Contexts/LocationContext';
 import { HousingContext } from '../../Contexts/HousingContext';
 import { TextField, Button, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Paper, Grid, Switch } from '@mui/material/';
 import { addHousing } from '../../apiService/apiService';
+import { Images } from '../Images/Images';
+import { ImagesContext } from '../../Contexts/ImagesContext';
 //import { useForm } from 'react-hook-form';
 //import { yupResolver } from '@hookform/resolvers/yup';
 //import * as Yup from 'yup';
@@ -12,6 +14,7 @@ export const AddHousing = () => {
 
   const { provinces } = useContext(LocationContext);
   const { housing, setHousing } = useContext(HousingContext);
+  const { imageUrls, setImageUrls } = useContext(ImagesContext)
 
   const [municipalities, setMunicipalities] = useState([]);
   const [neighborhoods, setNeighborhoods] = useState([]);
@@ -249,7 +252,7 @@ export const AddHousing = () => {
                 variant="outlined" 
                 color="primary"
               >
-                Cargar Imágenes
+                <Images />
               </Button>
             </Grid>
 

@@ -50,6 +50,10 @@ export function HousingList() {
           description={house.description}
           rooms={house.rooms}
           baths={house.baths}
+          transaction={house.transaction}
+          type={house.type}
+          furnished={house.furnished}
+          garages={house.garages}
         />
         // </Link>
       ))}
