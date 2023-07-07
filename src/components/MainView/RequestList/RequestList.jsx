@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { RequestCard } from './RequestCard/RequestCard';
-import { getActiveHousing } from '../../apiService/apiService';
-import { RequestCard } from './RequestCard/RequestCard';
+import { getActiveRequest } from '../../apiService/apiService';
+import { request } from 'http';
 //import { Link } from 'react-router-dom';
 
 export function RequestList() {
   const [requesting, setRequest] = useState([]);
   const [loading, setLoading] = useState(true);
-  console.log("housing", housing)
+  console.log("requesting", requesting)
 
   const fetchRequest = async () => {
     try {
@@ -29,32 +29,51 @@ export function RequestList() {
     return <h1>Cargando...</h1>;
   }
 
-  if (!request || request.length === 0) {
+  if (!requesting || requesting.length === 0) {
     return <h1>No hay datos de busquedas disponibles.</h1>;
   }
 
   return (
     <span>
-      {request.map((house) => (
+      {requesting.map((request) => (
         //<Link to={`/housingdetails/${house._id}`} key={house._id}>
         <RequestCard
-          key={house._id}
-          _id={house._id}
-          house={house.description}
-          province={house.province}
-          municipality={house.municipality}
-          population={house.population}
-          neighborhood={house.neighborhood}
-          currency={house.currency}
-          price={house.price}
-          squareMeters={house.squareMeters}
-          description={house.description}
-          rooms={house.rooms}
-          baths={house.baths}
-          transaction={house.transaction}
-          type={house.type}
-          furnished={house.furnished}
-          garages={house.garages}
+          key={request._id}
+          _id={request._id}
+          realState={request.realState}
+          agent={request.agent}
+          type={request.type}
+          transaction={request.transaction}
+          country={request.country}
+          province={request.province}
+          municipality={request.municipality}
+          population={request.population}
+          neighborhood={request.neighborhood}
+          minM2={request.minM2}
+          maxM2={request.maxM2}
+          currency={request.currency}
+          minPrice={request.minPrice}
+          maxPrice={request.maxPrice}
+          floorLevel={request.floorLevel}
+          facing={request.facing}
+          propertyAge={request.propertyAge}
+          rooms={request.rooms}
+          baths={request.baths}
+          garages={request.garages}
+          condition={request.condition}
+          furnished={request.furnished}
+          kitchenEquipment={request.kitchenEquipment}  
+          closets={request.closets}
+          airConditioned={request.airConditioned}
+          heating={request.heating}
+          elevator={request.elevator}
+          outsideView={request.outsideView}
+          garden={request.garden}
+          pool={request.pool}
+          terrace={request.terrace}
+          storage={request.storage}
+          accesible={request.accesible}
+          status={request.status}       
         />
         // </Link>
       ))}

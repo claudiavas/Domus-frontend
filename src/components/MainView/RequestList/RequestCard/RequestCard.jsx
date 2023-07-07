@@ -37,8 +37,12 @@ export function RequestCard ({realState, agent, type, transaction,country, commu
 
     // LE DAMOS FORMATO AL PRECIO
     // LE damos formato al precio minimo y al precio maximo
-    const formattedPrice = (new Intl.NumberFormat('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 }))
-    .format(price)
+    const formattedMinPrice = (new Intl.NumberFormat('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 }))
+    .format(minPrice)
+    .replace('.', ' ')
+    .replace(',', ',');
+    const formattedMaxPrice = (new Intl.NumberFormat('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 }))
+    .format(maxPrice)
     .replace('.', ' ')
     .replace(',', ',');
 
@@ -92,7 +96,9 @@ export function RequestCard ({realState, agent, type, transaction,country, commu
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', margin: '0px', padding: 0, marginBottom: '5px', flexGrow: 1 }}>
                   <FullscreenOutlinedIcon />
-                  <h5 style={{ margin: '0px', marginLeft: '5px', marginRight: '50px' }}>{squareMeters} m2</h5>
+                  <h5 style={{ margin: '0px', marginLeft: '5px', marginRight: '50px' }}>{minM2} m2</h5>
+                  <BedOutlinedIcon style={{ marginRight: '10px' }} />
+                  <h5 style={{ margin: '0px', marginLeft: '5px', marginRight: '50px' }}>{maxM2} m2</h5>
                   <BedOutlinedIcon style={{ marginRight: '10px' }} />
                   <h5 style={{ margin: '0px' }}>{rooms}</h5>
                   {baths ? 
@@ -117,7 +123,8 @@ export function RequestCard ({realState, agent, type, transaction,country, commu
               <Card style={{ flex: '0 0 auto', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ marginTop: '0px', marginLeft: '5px', padding: "4px" }}>
                   <h4 style={{ margin: '0px', padding: 0, color: "#1976d2", display: "flex", justifyContent: 'space-between', alignItems: "center" }}>
-                    {formattedPrice} {currencySymbol}  <div>precio/m2: {precioxm2} {currencySymbol} </div>
+                    {formattedMinPrice} {currencySymbol}  <div>Precio Minimo: {minPrice} {currencySymbol} </div>
+                    <div>Precio Máximo: {maxPrice} {currencySymbol} </div>
                     <Button onClick={() => navigate(`/housingdetails/${_id}`)} color="primary" variant="outlined">Ver Más</Button>
                   </h4>
                 </div>
