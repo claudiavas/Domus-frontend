@@ -9,7 +9,18 @@ export function HousingList() {
   const [housing, setHousing] = useState([]);
   const [loading, setLoading] = useState(true);
   console.log("housing", housing)
-  const {room} = useContext(HousingContext);
+  const { meter, room, baths, garage, minPrice } = useContext(HousingContext);
+
+  const housingFiltrado = housing.filter((house) => {
+    // Aplicar el filtro de habitaciones y metros cuadrados
+    
+    const cumpleFiltroHabitaciones = room ? house.rooms === parseInt(room) : true;
+    const cumpleFiltroMetrosCuadrados = house.squareMeters >= meter;
+    const cumpleFiltroBaths = baths ? house.baths === parseInt(baths) : true;
+    const cumpleFiltroGarage = garage ? house.garages === parseInt(garage) : true;
+    const cumpleFiltroMinPrice = house.price >= minPrice;
+    return cumpleFiltroHabitaciones && cumpleFiltroMinPrice &&  cumpleFiltroMetrosCuadrados && cumpleFiltroBaths && cumpleFiltroGarage;
+  });
 
   const fetchHousing = async () => {
     try {
@@ -35,18 +46,10 @@ export function HousingList() {
     return <h1>No hay datos de viviendas disponibles.</h1>;
   }
 
-return (
-  <>
-  <div>
-    
-    {housing
-      .filter((house) => {
-        if (room && room !== '') {
-          return house.rooms === parseInt(room);
-        }
-        return true;
-      })
-      .map((house) => (
+  return (
+    <div>
+      {/* Renderizar los elementos filtrados */}
+      {housingFiltrado.map((house) => (
         <HouseCard
           key={house._id}
           _id={house._id}
@@ -61,11 +64,47 @@ return (
           description={house.description}
           rooms={house.rooms}
           baths={house.baths}
+          garages={house.garages}
         />
-        // </Link>
       ))}
-  </div>
-  </>
-);
+    </div>
+
+
+
+
+
+
+
+    // <>
+    // <div>
+
+    //   {housing
+    //     .filter((house) => {
+    //       if (room && room !== '') {
+    //         return house.rooms === parseInt(room);
+    //       }
+    //       return true;
+    //     })
+    //     .map((house) => (
+    //       <HouseCard
+    //         key={house._id}
+    //         _id={house._id}
+    //         house={house.description}
+    //         province={house.province}
+    //         municipality={house.municipality}
+    //         population={house.population}
+    //         neighborhood={house.neighborhood}
+    //         currency={house.currency}
+    //         price={house.price}
+    //         squareMeters={house.squareMeters}
+    //         description={house.description}
+    //         rooms={house.rooms}
+    //         baths={house.baths}
+    //       />
+    //       // </Link>
+    //     ))}
+    // </div>
+    // </>
+  );
 
 }

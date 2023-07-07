@@ -16,109 +16,109 @@ import HousingContext from './HousingContextFilter';
 
 //Location
 const listaInmuebles = [
-    {
-      provincia: 'Madrid',
-      municipio: 'Vaciamadrid',
+  {
+    provincia: 'Madrid',
+    municipio: 'Vaciamadrid',
 
-    },
-    {
-      provincia: 'Barcelona',
-      municipio: 'Barcelona',
+  },
+  {
+    provincia: 'Barcelona',
+    municipio: 'Barcelona',
 
-    },
-    {
-      provincia: 'Madrid',
-      municipio: 'Getafe',
+  },
+  {
+    provincia: 'Madrid',
+    municipio: 'Getafe',
 
-    },
-    {
-      provincia: 'Valencia',
-      municipio: 'Lliria',
+  },
+  {
+    provincia: 'Valencia',
+    municipio: 'Lliria',
 
-    },
-    {
-      provincia: 'Valencia',
-      municipio: 'Benisano',
+  },
+  {
+    provincia: 'Valencia',
+    municipio: 'Benisano',
 
-    },
-  ];
+  },
+];
 
-  const locationsMunicipio = [
-    {
-      value: 'Lliria',
-      label: 'Lliria',
-    },
-    {
-      value: 'Benisano',
-      label: 'Benisano',
-    },
-    {
-      value: 'Villar del Arzobispo',
-      label: 'Villar del Arzobispo',
-    },
-    
-  ];
-  const locationsProvince = [
-    {
-      value: 'Lliria',
-      label: 'Lliria',
-    },
-    {
-      value: 'Benisano',
-      label: 'Benisano',
-    },
-    {
-      value: 'Villar del Arzobispo',
-      label: 'Villar del Arzobispo',
-    },
-    
-  ];
+const locationsMunicipio = [
+  {
+    value: 'Lliria',
+    label: 'Lliria',
+  },
+  {
+    value: 'Benisano',
+    label: 'Benisano',
+  },
+  {
+    value: 'Villar del Arzobispo',
+    label: 'Villar del Arzobispo',
+  },
 
-  // export function LocationFilter() {
-  //   return (
-  //     <Box
-  //       component="form"
-  //       sx={{
-  //         '& .MuiTextField-root': { m: 1, width: '25ch' },
-  //       }}
-  //       noValidate
-  //       autoComplete="off"
-  //     >
-  //       <div>
-  //         <TextField
-  //           id="outlined-select-currency"
-  //           select
-  //           label="Provincia"
-  //           defaultValue=" "
-  //           //helperText="Selecciona un precio minimo"
-  //         >
-  //           {locationsProvince.map((option) => (
-  //             <MenuItem key={option.value} value={option.value}>
-  //               {option.label}
-  //             </MenuItem>
-  //           ))}
-  //         </TextField>
-  //         <TextField
-  //           id="outlined-select-currency-native"
-  //           select
-  //           label="Población"
-  //           defaultValue=" "
-  //           SelectProps={{
-  //             native: true,
-  //           }}
-  //           //helperText="Selecciona un precio maximo"
-  //         >
-  //           {locationsMunicipio.map((option) => (
-  //             <option key={option.value} value={option.value}>
-  //               {option.label}
-  //             </option>
-  //           ))}
-  //         </TextField>
-  //       </div>
-  //     </Box>
-  //   );
-    
-  // }
+];
+const locationsProvince = [
+  {
+    value: 'Lliria',
+    label: 'Lliria',
+  },
+  {
+    value: 'Benisano',
+    label: 'Benisano',
+  },
+  {
+    value: 'Villar del Arzobispo',
+    label: 'Villar del Arzobispo',
+  },
+
+];
+
+// export function LocationFilter() {
+//   return (
+//     <Box
+//       component="form"
+//       sx={{
+//         '& .MuiTextField-root': { m: 1, width: '25ch' },
+//       }}
+//       noValidate
+//       autoComplete="off"
+//     >
+//       <div>
+//         <TextField
+//           id="outlined-select-currency"
+//           select
+//           label="Provincia"
+//           defaultValue=" "
+//           //helperText="Selecciona un precio minimo"
+//         >
+//           {locationsProvince.map((option) => (
+//             <MenuItem key={option.value} value={option.value}>
+//               {option.label}
+//             </MenuItem>
+//           ))}
+//         </TextField>
+//         <TextField
+//           id="outlined-select-currency-native"
+//           select
+//           label="Población"
+//           defaultValue=" "
+//           SelectProps={{
+//             native: true,
+//           }}
+//           //helperText="Selecciona un precio maximo"
+//         >
+//           {locationsMunicipio.map((option) => (
+//             <option key={option.value} value={option.value}>
+//               {option.label}
+//             </option>
+//           ))}
+//         </TextField>
+//       </div>
+//     </Box>
+//   );
+
+// }
 export function LocationFilter() {
   const [provincia, setProvincia] = useState('');
   const [municipio, setMunicipio] = useState('');
@@ -168,52 +168,52 @@ export function LocationFilter() {
     setInmueblesFiltrados(inmueblesFiltrados);
   };
 
-      return (
-        <Box
-          component="form"
-          sx={{
-            '& .MuiTextField-root': { m: 1, width: '25ch' },
-          }}
-          noValidate
-          autoComplete="off"
+  return (
+    <Box
+      component="form"
+      sx={{
+        '& .MuiTextField-root': { m: 1, width: '25ch' },
+      }}
+      noValidate
+      autoComplete="off"
+    >
+      <div>
+        <TextField
+          id="outlined-select-currency"
+          select
+          label="Provincia"
+          value={provincia}
+          onChange={handleProvinciaChange}
         >
-          <div>
-            <TextField
-              id="outlined-select-currency"
-              select
-              label="Provincia"
-              value={provincia}
-              onChange={handleProvinciaChange}
-            >
-              {locationsProvince.map((option) => (
+          {locationsProvince.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}
             </MenuItem>
           ))}
-            </TextField>
-            <TextField
-              id="outlined-select-currency-native"
-              select
-              label="Población"
-              value={municipio}
-              onChange={handleMunicipioChange}
-              SelectProps={{
-                native: true,
-              }}
-            >
-              {locationsMunicipio.map((option) => (
+        </TextField>
+        <TextField
+          id="outlined-select-currency-native"
+          select
+          label="Población"
+          value={municipio}
+          onChange={handleMunicipioChange}
+          SelectProps={{
+            native: true,
+          }}
+        >
+          {locationsMunicipio.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
-            </TextField>
-            <Button variant="contained" onClick={handleFiltrarClick}>
-              Filtrar
-            </Button>
-          </div>
-        </Box>
-      );
-    }
+        </TextField>
+        <Button variant="contained" onClick={handleFiltrarClick}>
+          Filtrar
+        </Button>
+      </div>
+    </Box>
+  );
+}
 
 
 //End Location
@@ -222,6 +222,10 @@ export function LocationFilter() {
 // Price filter
 
 const currencies = [
+  {
+    value: '1000€',
+    label: '1000€',
+  },
   {
     value: '10000€',
     label: '10000€',
@@ -246,74 +250,81 @@ const currencies = [
     value: '60000€',
     label: '60000€',
   },
+  {
+    value: '150000',
+    label: '150000€',
+  },
+  {
+    value: '500000',
+    label: '500000€',
+  },
 ];
 
 export function PriceFilter() {
+  const { minPrice, setminPrice } = useContext(HousingContext);
+  const { maxPrice, setmaxPrice } = useContext(HousingContext);
+
+  const handleChangeMinPrice = (event) => {
+    setminPrice(event.target.select);
+  };
+  console.log("El precio minimo es: ", minPrice);
+
   return (
-    <Box
-      component="form"
-      sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch' },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <div>
-        <TextField
-          id="outlined-select-currency"
-          select
+<FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+      <InputLabel id="demo-select-small-label">Precio Minimo</InputLabel>
+    <Select
+          labelId="demo-select-small-label"
+          id="demo-select-small"
+          value={minPrice}
           label="Precio minimo"
-          defaultValue="10000€"
-          helperText="Selecciona un precio minimo"
+          onChange={handleChangeMinPrice}
         >
-          {currencies.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          id="outlined-select-currency-native"
-          select
-          label="Precio maximo"
-          defaultValue="60000"
-          SelectProps={{
-            native: true,
-          }}
-          helperText="Selecciona un precio maximo"
-        >
-          {currencies.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </TextField>
-      </div>
-    </Box>
+          <MenuItem value={1000}>1000</MenuItem>
+          <MenuItem value={10000}>10000</MenuItem>
+          <MenuItem value={20000}>20000</MenuItem>
+          <MenuItem value={40000}>40000</MenuItem>
+          <MenuItem value={150000}>150000</MenuItem>
+          <MenuItem value={500000}>500000</MenuItem>
+          
+  </Select>
+  </FormControl>
+    
   );
 
-  
+
 }
 
 ///// End Price filter
 ///// Start Square_meters filter
 
-function meters(value = number) {
+function meters(value) {
   return `${value}²`;
 }
 
 export function SquareMeters() {
+
+  const { meter, setMeter } = useContext(HousingContext);
+  const [filterValue, setFilterValue] = useState(60);
+
+  const handleChangeMeters = (event, value) => {
+    setFilterValue(value)
+    setMeter(value)
+    console.log("Esto son los metros cuadrados seleccionados", value);
+  };
+
+
   return (
-    <Box sx={{ width: 200}}>
+    <Box sx={{ width: 200 }}>
       <Slider
         aria-label="M²"
-        defaultValue={60}
+        value={filterValue}
         getAriaValueText={meters}
         valueLabelDisplay="auto"
-        step={10}
+        step={20}
         marks={true}
         min={30}
-        max={500}
+        max={300}
+        onChange={handleChangeMeters}
       />
     </Box>
   );
@@ -322,7 +333,7 @@ export function SquareMeters() {
 /// rooms filter
 export function RoomFilter() {
   //const [room, setRoom] = React.useState('');
-  const {room, setRoom} = useContext(HousingContext);
+  const { room, setRoom } = useContext(HousingContext);
 
 
   const handleChangeRooms = (event) => {
@@ -339,7 +350,7 @@ export function RoomFilter() {
         label="Room"
         onChange={handleChangeRooms}
       >
-        
+
         <MenuItem value={1}>1</MenuItem>
         <MenuItem value={2}>2</MenuItem>
         <MenuItem value={3}>3</MenuItem>
@@ -355,7 +366,7 @@ export function RoomFilter() {
         <MenuItem value={13}>13</MenuItem>
         <MenuItem value={14}>14</MenuItem>
         <MenuItem value={15}>15</MenuItem>
-        
+
       </Select>
     </FormControl>
   );
@@ -366,9 +377,7 @@ export function RoomFilter() {
 
 /// baths filter
 export function BathFilter() {
-  //const [bath, setBath] = React.useState('');
-
-  const {baths, setBaths} = useContext(HousingContext);
+  const { baths, setBaths } = useContext(HousingContext);
 
 
   const handleChangeBaths = (event) => {
@@ -385,13 +394,13 @@ export function BathFilter() {
         label="Bath"
         onChange={handleChangeBaths}
       >
-        
+
         <MenuItem value={1}>1</MenuItem>
         <MenuItem value={2}>2</MenuItem>
         <MenuItem value={3}>3</MenuItem>
         <MenuItem value={4}>4</MenuItem>
         <MenuItem value={5}>5</MenuItem>
-                
+
       </Select>
     </FormControl>
   );
@@ -400,9 +409,9 @@ export function BathFilter() {
 
 /// garages filter
 export function GaragesFilter() {
-  const [garage, setGarage] = React.useState('');
+  const { garage, setGarage } = useContext(HousingContext);
 
-  const handleChange = (event) => {
+  const handleChangeGarage = (event) => {
     setGarage(event.target.value);
   };
 
@@ -414,15 +423,15 @@ export function GaragesFilter() {
         id="demo-select-small"
         value={garage}
         label="Garage"
-        onChange={handleChange}
+        onChange={handleChangeGarage}
       >
-        
+
         <MenuItem value={1}>1</MenuItem>
         <MenuItem value={2}>2</MenuItem>
         <MenuItem value={3}>3</MenuItem>
         <MenuItem value={4}>4</MenuItem>
         <MenuItem value={5}>5</MenuItem>
-                
+
       </Select>
     </FormControl>
   );
@@ -442,7 +451,7 @@ export function CheckboxesFilters() {
     terrace: false,
     storage: false,
     accessible: false,
-        
+
   });
 
   const handleChange = (event) => {
@@ -452,7 +461,7 @@ export function CheckboxesFilters() {
     });
   };
 
-  const { closet, air_condicioned, heating, elevator, outside_view, garden, pool, terrace, storage, accessible} = state;
+  const { closet, air_condicioned, heating, elevator, outside_view, garden, pool, terrace, storage, accessible } = state;
   const error = [closet, air_condicioned, heating, elevator, outside_view, garden, pool, terrace, storage, accessible].filter((v) => v).length !== 2;
 
   return (
@@ -514,7 +523,7 @@ export function CheckboxesFilters() {
             }
             label="Trastero"
           />
-           <FormControlLabel
+          <FormControlLabel
             control={
               <Checkbox checked={accessible} onChange={handleChange} name="accessible" />
             }
@@ -522,7 +531,7 @@ export function CheckboxesFilters() {
           />
         </FormGroup>
       </FormControl>
-      
+
     </Box>
   );
 }
