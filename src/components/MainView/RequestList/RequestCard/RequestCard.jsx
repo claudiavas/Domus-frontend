@@ -52,16 +52,16 @@ export function RequestCard ({realState, agent, type, transaction,country, commu
       return text.replace(/\([^()]*\)/g, "").trim()
     };
     
-    const locationText = [
-      province.PRO,
-      municipality.DMUN50,
-      population.NENTSI50,
-      neighborhood.NNUCLE50
-    ]
-      .filter(Boolean)
-      .filter((value, index, self) => self.indexOf(value) === index)
-      .map(removeTextInParentheses)
-      .join(", ")
+   // const locationText = [
+   //   province.PRO,
+   //   municipality.DMUN50,
+   //   population.NENTSI50,
+   //   neighborhood.NNUCLE50
+   // ]
+   //   .filter(Boolean)
+   //   .filter((value, index, self) => self.indexOf(value) === index)
+   //   .map(removeTextInParentheses)
+   //   .join(", ")
     
 
       return (
@@ -78,7 +78,7 @@ export function RequestCard ({realState, agent, type, transaction,country, commu
           <span style={{ flex: '1 0 39%' }}>
             {/* LEFT SIDE */}
             <Card style={{ height: 230 }}>
-              <PhotoCarousel showThumbs={showThumbsValue} style={{ height: '100%'}} />
+              {/*<PhotoCarousel showThumbs={showThumbsValue} style={{ height: '100%'}} />*/}
             </Card>
           </span>
       
@@ -89,10 +89,10 @@ export function RequestCard ({realState, agent, type, transaction,country, commu
               <Card style={{ flex: '1 0 auto', display: 'flex', flexDirection: 'column', margin: '0px 0px 8px 0px'}}>
               <div style={{ display: 'inline-flex', margin: '10px 10px 8px 5px' }}>
               </div>
-                <h4 style={{ margin: '5px 5px 5px 5px', marginBottom: '5px', flexGrow: 1 }}>{description}</h4>
+                <h4 style={{ margin: '5px 5px 5px 5px', marginBottom: '5px', flexGrow: 1 }}>{}</h4>
                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px', flexGrow: 1 }}>
                   <LocationOnOutlinedIcon style={{ marginRight: '5px' }} />
-                  <h6 style={{ margin: '0px' }}>{locationText}</h6>
+                  <h6 style={{ margin: '0px' }}>{}</h6>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', margin: '0px', padding: 0, marginBottom: '5px', flexGrow: 1 }}>
                   <FullscreenOutlinedIcon />
