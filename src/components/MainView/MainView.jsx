@@ -14,6 +14,7 @@ import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import Filters from './Filters/Filters';
 import { useState, useContext, useEffect } from 'react';
 import { HousingList } from './HousingList/HousingList';
+import { RequestList } from './RequestList/RequestList';
 import { AuthContext } from '../Contexts/AuthContext';
 import { useNavigate } from "react-router-dom";
 
@@ -253,7 +254,8 @@ export function MainView(props) {
                           
             </TabPanel>
             <TabPanel value={tabValue} index={1}>
-              Requerimientos
+              <RequestList/>
+            
             </TabPanel>
         </Box>
       </Box>

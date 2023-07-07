@@ -67,8 +67,8 @@ export const getProfile = async (_id) => {
 
 
 // REQUEST
-export const getActiveRequest = async (_id) => {
-  const {data} = await axios.get(`http://localhost:${PORT}/request/${_id}`);
+export const getActiveRequest = async () => {
+  const {data} = await axios.get(`http://localhost:${PORT}/api/request`);
   return data;
 } 
 

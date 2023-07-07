@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { RequestCard } from './RequestCard/RequestCard';
 import { getActiveRequest } from '../../apiService/apiService';
-import { request } from 'http';
-//import { Link } from 'react-router-dom';
+
 
 export function RequestList() {
   const [requesting, setRequest] = useState([]);
