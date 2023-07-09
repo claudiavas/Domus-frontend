@@ -9,7 +9,7 @@ export function HousingList() {
   const [housing, setHousing] = useState([]);
   const [loading, setLoading] = useState(true);
   console.log("housing", housing)
-  const { meter, room, baths, garage, minPrice } = useContext(HousingContext);
+  const { meter, room, baths, garage, minPrice, maxPrice } = useContext(HousingContext);
 
   const housingFiltrado = housing.filter((house) => {
     // Aplicar el filtro de habitaciones y metros cuadrados
@@ -19,7 +19,9 @@ export function HousingList() {
     const cumpleFiltroBaths = baths ? house.baths === parseInt(baths) : true;
     const cumpleFiltroGarage = garage ? house.garages === parseInt(garage) : true;
     const cumpleFiltroMinPrice = house.price >= minPrice;
-    return cumpleFiltroHabitaciones && cumpleFiltroMinPrice &&  cumpleFiltroMetrosCuadrados && cumpleFiltroBaths && cumpleFiltroGarage;
+    const cumpleFiltroMaxPrice = house.price <= maxPrice;
+
+    return cumpleFiltroHabitaciones &&  cumpleFiltroMetrosCuadrados && cumpleFiltroBaths && cumpleFiltroGarage && cumpleFiltroMinPrice  && cumpleFiltroMaxPrice;
   });
 
   const fetchHousing = async () => {

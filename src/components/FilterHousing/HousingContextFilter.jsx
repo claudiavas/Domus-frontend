@@ -7,11 +7,11 @@ export function InmueblesProvider({ children }) {
   const [baths, setBaths] = useState('');
   const [meter, setMeter] = useState(60);
   const [garage, setGarage] = useState ('');
-  const [minPrice, setminPrice] = useState ('');
-  const [maxPrice, setmaxPrice] = useState ('');
+  const [minPrice, setMinPrice] = useState ('');
+  const [maxPrice, setMaxPrice] = useState ('');
 
   return (
-    <HousingContext.Provider value={{ room, setRoom, baths, setBaths, meter, setMeter, garage, setGarage, minPrice, setminPrice, maxPrice, setmaxPrice }}>
+    <HousingContext.Provider value={{ room, setRoom, baths, setBaths, meter, setMeter, garage, setGarage, minPrice, setMinPrice, maxPrice, setMaxPrice }}>
       {children}
     </HousingContext.Provider>
   );

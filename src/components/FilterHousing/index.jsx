@@ -221,53 +221,14 @@ export function LocationFilter() {
 
 // Price filter
 
-const currencies = [
-  {
-    value: '1000€',
-    label: '1000€',
-  },
-  {
-    value: '10000€',
-    label: '10000€',
-  },
-  {
-    value: '20000€',
-    label: '20000€',
-  },
-  {
-    value: '30000€',
-    label: '30000€',
-  },
-  {
-    value: '40000€',
-    label: '40000€',
-  },
-  {
-    value: '50000€',
-    label: '50000€',
-  },
-  {
-    value: '60000€',
-    label: '60000€',
-  },
-  {
-    value: '150000',
-    label: '150000€',
-  },
-  {
-    value: '500000',
-    label: '500000€',
-  },
-];
-
-export function PriceFilter() {
-  const { minPrice, setminPrice } = useContext(HousingContext);
-  const { maxPrice, setmaxPrice } = useContext(HousingContext);
+export function PriceFilterMin() {
+  const { minPrice, setMinPrice} = useContext(HousingContext);
+  
 
   const handleChangeMinPrice = (event) => {
-    setminPrice(event.target.select);
+    setMinPrice(event.target.value);
   };
-  console.log("El precio minimo es: ", minPrice);
+  
 
   return (
 <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
@@ -288,10 +249,42 @@ export function PriceFilter() {
           
   </Select>
   </FormControl>
-    
+     
   );
+  
 
+}
 
+export function PriceFilterMax() {
+  const { maxPrice, setMaxPrice } = useContext(HousingContext);
+  
+
+  const handleChangeMaxPrice = (event) => {
+    setMaxPrice(event.target.value);
+  };
+  
+  return (
+<FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+      <InputLabel id="demo-select-small-label">Precio Maximo</InputLabel>
+    <Select
+          labelId="demo-select-small-label"
+          id="demo-select-small"
+          value={maxPrice}
+          label="Precio maximo"
+          onChange={handleChangeMaxPrice}
+        >
+          <MenuItem value={1000}>1000</MenuItem>
+          <MenuItem value={10000}>10000</MenuItem>
+          <MenuItem value={20000}>20000</MenuItem>
+          <MenuItem value={40000}>40000</MenuItem>
+          <MenuItem value={150000}>150000</MenuItem>
+          <MenuItem value={500000}>500000</MenuItem>
+          
+  </Select>
+  </FormControl>
+     
+  );
+  
 }
 
 ///// End Price filter
