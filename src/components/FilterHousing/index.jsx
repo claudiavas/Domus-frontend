@@ -258,11 +258,13 @@ export function PriceFilterMin() {
 export function PriceFilterMax() {
   const { maxPrice, setMaxPrice } = useContext(HousingContext);
   
+  
 
   const handleChangeMaxPrice = (event) => {
     setMaxPrice(event.target.value);
   };
-  
+
+    
   return (
 <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
       <InputLabel id="demo-select-small-label">Precio Maximo</InputLabel>
