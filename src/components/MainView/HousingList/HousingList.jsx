@@ -8,8 +8,8 @@ import HousingContext from '../../FilterHousing/HousingContextFilter';
 export function HousingList() {
   const [housing, setHousing] = useState([]);
   const [loading, setLoading] = useState(true);
-  console.log("housing", housing)
-  const { meter, room, baths, garage, minPrice, maxPrice } = useContext(HousingContext);
+  console.log("housing", housing);
+  const { meter, room, baths, garage, minPrice, maxPrice, checkbox } = useContext(HousingContext);
 
   const housingFiltrado = housing.filter((house) => {
     // Aplicar el filtro de habitaciones y metros cuadrados
@@ -20,8 +20,18 @@ export function HousingList() {
     const cumpleFiltroGarage = garage ? house.garages === parseInt(garage) : true;
     const cumpleFiltroMinPrice = house.price >= minPrice;
     const cumpleFiltroMaxPrice = house.price <= maxPrice;
+    const cumpleFiltroCheckbox =  (!checkbox.closet || house.closet) &&
+    (!checkbox.air_condicioned || house.air_condicioned) &&
+    (!checkbox.heating || house.heating) &&
+    (!checkbox.elevator || house.elevator) &&
+    (!checkbox.outside_view || house.outside_view) &&
+    (!checkbox.garden || house.garden) &&
+    (!checkbox.pool || house.pool) &&
+    (!checkbox.terrace || house.terrace) &&
+    (!checkbox.storage || house.storage) &&
+    (!checkbox.accessible || house.accessible);
 
-    return cumpleFiltroHabitaciones &&  cumpleFiltroMetrosCuadrados && cumpleFiltroBaths && cumpleFiltroGarage && cumpleFiltroMinPrice  && cumpleFiltroMaxPrice;
+    return cumpleFiltroHabitaciones &&  cumpleFiltroMetrosCuadrados && cumpleFiltroBaths && cumpleFiltroGarage && cumpleFiltroMinPrice  && cumpleFiltroMaxPrice && cumpleFiltroCheckbox;
   });
 
   const fetchHousing = async () => {
@@ -67,6 +77,7 @@ export function HousingList() {
           rooms={house.rooms}
           baths={house.baths}
           garages={house.garages}
+          
         />
       ))}
     </div>

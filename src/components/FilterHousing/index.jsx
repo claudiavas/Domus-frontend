@@ -435,28 +435,16 @@ export function GaragesFilter() {
 
 /// checkbox filters
 export function CheckboxesFilters() {
-  const [state, setState] = React.useState({
-    closet: false,
-    air_condicioned: false,
-    heating: false,
-    elevator: false,
-    outside_view: false,
-    garden: false,
-    pool: false,
-    terrace: false,
-    storage: false,
-    accessible: false,
+  const {checkbox, setCheckbox} = useContext(HousingContext);
 
-  });
-
-  const handleChange = (event) => {
-    setState({
-      ...state,
+  const handleChangeCheckbox = (event) => {
+    setCheckbox({
+      ...checkbox,
       [event.target.name]: event.target.checked,
     });
   };
 
-  const { closet, air_condicioned, heating, elevator, outside_view, garden, pool, terrace, storage, accessible } = state;
+  const { closet, air_condicioned, heating, elevator, outside_view, garden, pool, terrace, storage, accessible } = checkbox;
   const error = [closet, air_condicioned, heating, elevator, outside_view, garden, pool, terrace, storage, accessible].filter((v) => v).length !== 2;
 
   return (
@@ -466,61 +454,61 @@ export function CheckboxesFilters() {
         <FormGroup>
           <FormControlLabel
             control={
-              <Checkbox checked={closet} onChange={handleChange} name="closet" />
+              <Checkbox checked={closet} onChange={handleChangeCheckbox} name="closet" />
             }
             label="Armarios"
           />
           <FormControlLabel
             control={
-              <Checkbox checked={air_condicioned} onChange={handleChange} name="air_condicioned" />
+              <Checkbox checked={air_condicioned} onChange={handleChangeCheckbox} name="air_condicioned" />
             }
             label="Aire acondicionado"
           />
           <FormControlLabel
             control={
-              <Checkbox checked={heating} onChange={handleChange} name="heating" />
+              <Checkbox checked={heating} onChange={handleChangeCheckbox} name="heating" />
             }
             label="Calefacción"
           />
           <FormControlLabel
             control={
-              <Checkbox checked={elevator} onChange={handleChange} name="elevator" />
+              <Checkbox checked={elevator} onChange={handleChangeCheckbox} name="elevator" />
             }
             label="Ascensor"
           />
           <FormControlLabel
             control={
-              <Checkbox checked={outside_view} onChange={handleChange} name="outside_view" />
+              <Checkbox checked={outside_view} onChange={handleChangeCheckbox} name="outside_view" />
             }
             label="Vistas al exterior"
           />
           <FormControlLabel
             control={
-              <Checkbox checked={garden} onChange={handleChange} name="garden" />
+              <Checkbox checked={garden} onChange={handleChangeCheckbox} name="garden" />
             }
             label="Jardín"
           />
           <FormControlLabel
             control={
-              <Checkbox checked={pool} onChange={handleChange} name="pool" />
+              <Checkbox checked={pool} onChange={handleChangeCheckbox} name="pool" />
             }
             label="Piscina"
           />
           <FormControlLabel
             control={
-              <Checkbox checked={terrace} onChange={handleChange} name="terrace" />
+              <Checkbox checked={terrace} onChange={handleChangeCheckbox} name="terrace" />
             }
             label="Terraza"
           />
           <FormControlLabel
             control={
-              <Checkbox checked={storage} onChange={handleChange} name="storage" />
+              <Checkbox checked={storage} onChange={handleChangeCheckbox} name="storage" />
             }
             label="Trastero"
           />
           <FormControlLabel
             control={
-              <Checkbox checked={accessible} onChange={handleChange} name="accessible" />
+              <Checkbox checked={accessible} onChange={handleChangeCheckbox} name="accessible" />
             }
             label="Accesible"
           />
