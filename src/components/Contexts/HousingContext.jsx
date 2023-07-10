@@ -14,12 +14,13 @@ export const HousingProvider = ({ children }) => {
     } catch (error) {
       console.error(error);
     }
-  };
+  }
 
   useEffect(() => {
     fetchHousing();
   }, []);
-    
+  
+  
 
   const contextValue = {
     housing,

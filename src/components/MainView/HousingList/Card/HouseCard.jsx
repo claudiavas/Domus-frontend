@@ -13,7 +13,7 @@ import { AuthContext } from '../../../Contexts/AuthContext';
 import { TranslationContext } from '../../../Contexts/TranslationContext';
 
 
-export function HouseCard ({_id, province, municipality, population, neighborhood, 
+export default function HouseCard ({_id, province, municipality, population, neighborhood, 
   description, currency, price, squareMeters, rooms, transaction, type, furnished, garages, baths}) {
     
     const navigate = useNavigate()
