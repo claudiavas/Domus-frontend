@@ -27,11 +27,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <TranslationProvider>
             <ImagesProvider>
               <InmueblesProvider>
-            <App />
+                <App />
               </InmueblesProvider>
             </ImagesProvider>
           </TranslationProvider>
-          
+
 
         </HousingProvider>
       </LocationProvider>
