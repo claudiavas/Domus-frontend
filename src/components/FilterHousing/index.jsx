@@ -15,110 +15,7 @@ import Button from '@mui/material/Button';
 import HousingContext from './HousingContextFilter';
 
 //Location
-const listaInmuebles = [
-  {
-    provincia: 'Madrid',
-    municipio: 'Vaciamadrid',
 
-  },
-  {
-    provincia: 'Barcelona',
-    municipio: 'Barcelona',
-
-  },
-  {
-    provincia: 'Madrid',
-    municipio: 'Getafe',
-
-  },
-  {
-    provincia: 'Valencia',
-    municipio: 'Lliria',
-
-  },
-  {
-    provincia: 'Valencia',
-    municipio: 'Benisano',
-
-  },
-];
-
-const locationsMunicipio = [
-  {
-    value: 'Lliria',
-    label: 'Lliria',
-  },
-  {
-    value: 'Benisano',
-    label: 'Benisano',
-  },
-  {
-    value: 'Villar del Arzobispo',
-    label: 'Villar del Arzobispo',
-  },
-
-];
-const locationsProvince = [
-  {
-    value: 'Lliria',
-    label: 'Lliria',
-  },
-  {
-    value: 'Benisano',
-    label: 'Benisano',
-  },
-  {
-    value: 'Villar del Arzobispo',
-    label: 'Villar del Arzobispo',
-  },
-
-];
-
-// export function LocationFilter() {
-//   return (
-//     <Box
-//       component="form"
-//       sx={{
-//         '& .MuiTextField-root': { m: 1, width: '25ch' },
-//       }}
-//       noValidate
-//       autoComplete="off"
-//     >
-//       <div>
-//         <TextField
-//           id="outlined-select-currency"
-//           select
-//           label="Provincia"
-//           defaultValue=" "
-//           //helperText="Selecciona un precio minimo"
-//         >
-//           {locationsProvince.map((option) => (
-//             <MenuItem key={option.value} value={option.value}>
-//               {option.label}
-//             </MenuItem>
-//           ))}
-//         </TextField>
-//         <TextField
-//           id="outlined-select-currency-native"
-//           select
-//           label="Población"
-//           defaultValue=" "
-//           SelectProps={{
-//             native: true,
-//           }}
-//           //helperText="Selecciona un precio maximo"
-//         >
-//           {locationsMunicipio.map((option) => (
-//             <option key={option.value} value={option.value}>
-//               {option.label}
-//             </option>
-//           ))}
-//         </TextField>
-//       </div>
-//     </Box>
-//   );
-
-// }
 export function LocationFilter() {
   const [provincia, setProvincia] = useState('');
   const [municipio, setMunicipio] = useState('');
@@ -196,6 +93,22 @@ export function LocationFilter() {
           select
           label="Población"
           value={municipio}
+          onChange={handleMunicipioChange}
+          SelectProps={{
+            native: true,
+          }}
+        >
+          {locationsMunicipio.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </TextField>
+        <TextField
+          id="outlined-select-currency-native"
+          select
+          label="Barrio"
+          value={neighborhood}
           onChange={handleMunicipioChange}
           SelectProps={{
             native: true,
