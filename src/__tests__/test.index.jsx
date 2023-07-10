@@ -16,7 +16,7 @@ describe('Register', () => {
   });
   it('renders the register form', async () => {
     render(
-      <AuthContext.Provider value={{ setisLoggedIn: jest.fn() }}>
+      <AuthContext.Provider value={{ setIsLoggedIn: jest.fn() }}>
         <Register />
       </AuthContext.Provider>
     );
@@ -29,9 +29,9 @@ describe('Register', () => {
     expect(screen.getByText('Registrarme')).toBeInTheDocument();
   });
   it('submits the register form with correct data', async () => {
-    const setisLoggedIn = jest.fn();
+    const setIsLoggedIn = jest.fn();
     render(
-      <AuthContext.Provider value={{ setisLoggedIn }}>
+      <AuthContext.Provider value={{ setIsLoggedIn }}>
         <Register />
       </AuthContext.Provider>
     );
@@ -59,7 +59,7 @@ describe('Register', () => {
     expect(setIsLoggedIn).toHaveBeenCalledWith(true);
   });
   it('displays error message if registration failed', async () => {
-    const setisLoggedIn = jest.fn();
+    const setIsLoggedIn = jest.fn();
     render(
       <AuthContext.Provider value={{ setIsLoggedIn }}>
         <Register />
