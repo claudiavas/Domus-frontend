@@ -1,8 +1,12 @@
 import React from 'react';
 import { Box, Button, Container, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
+import { useNavigate } from 'react-router-dom';
 
 export function PageNotFound() {
+
+  const navigate = useNavigate()
+
   return (
     <Box
       sx={{
@@ -28,7 +32,7 @@ export function PageNotFound() {
               Oops...la página que estás buscando no existe
             </Typography>
             <br/>
-            <Button variant="contained">Regresar al Inicio</Button>
+            <Button variant="contained" onClick={() => navigate("/")}>Regresar al Inicio</Button>
           </Grid>
         </Grid>
       </Container>
