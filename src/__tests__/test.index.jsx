@@ -16,7 +16,7 @@ describe('Register', () => {
   });
   it('renders the register form', async () => {
     render(
-      <AuthContext.Provider value={{ setLoginState: jest.fn() }}>
+      <AuthContext.Provider value={{ setisLoggedIn: jest.fn() }}>
         <Register />
       </AuthContext.Provider>
     );
@@ -29,9 +29,9 @@ describe('Register', () => {
     expect(screen.getByText('Registrarme')).toBeInTheDocument();
   });
   it('submits the register form with correct data', async () => {
-    const setLoginState = jest.fn();
+    const setisLoggedIn = jest.fn();
     render(
-      <AuthContext.Provider value={{ setLoginState }}>
+      <AuthContext.Provider value={{ setisLoggedIn }}>
         <Register />
       </AuthContext.Provider>
     );
@@ -56,12 +56,12 @@ describe('Register', () => {
       subscription: false
     });
     expect(window.localStorage.getItem('token')).toEqual('123');
-    expect(setLoginState).toHaveBeenCalledWith(true);
+    expect(setIsLoggedIn).toHaveBeenCalledWith(true);
   });
   it('displays error message if registration failed', async () => {
-    const setLoginState = jest.fn();
+    const setisLoggedIn = jest.fn();
     render(
-      <AuthContext.Provider value={{ setLoginState }}>
+      <AuthContext.Provider value={{ setIsLoggedIn }}>
         <Register />
       </AuthContext.Provider>
     );
