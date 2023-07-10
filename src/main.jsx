@@ -28,9 +28,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <ImagesProvider>
               <InmueblesProvider>
             <App />
+              </InmueblesProvider>
             </ImagesProvider>
           </TranslationProvider>
-          </InmueblesProvider>
+          
 
         </HousingProvider>
       </LocationProvider>
