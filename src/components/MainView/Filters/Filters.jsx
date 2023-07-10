@@ -5,7 +5,7 @@ function Filters(props) {
 
     return (
   
-      <div>
+      <div style={{ marginLeft:'1em'}}>
         <Toolbar />
         <h2>Ubicación</h2>
          <LocationFilter/> 
@@ -18,9 +18,7 @@ function Filters(props) {
          <SquareMeters /> 
         <Divider />  
         <RoomFilter/>
-        <Divider />  
         <BathFilter/>
-        <Divider />  
         <GaragesFilter/>
         <Divider />  
         <CheckboxesFilters/>

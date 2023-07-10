@@ -336,7 +336,7 @@ export function RoomFilter() {
   };
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+    <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
       <InputLabel id="demo-select-small-label">Habitaciones</InputLabel>
       <Select
         labelId="demo-select-small-label"
@@ -380,7 +380,7 @@ export function BathFilter() {
   };
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+    <FormControl sx={{ m: 1, minWidth: 90 }} size="small">
       <InputLabel id="demo-select-small-label">Baños</InputLabel>
       <Select
         labelId="demo-select-small-label"
@@ -411,7 +411,7 @@ export function GaragesFilter() {
   };
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+    <FormControl sx={{ m: 1, minWidth: 90 }} size="small">
       <InputLabel id="demo-select-small-label">Garaje</InputLabel>
       <Select
         labelId="demo-select-small-label"
