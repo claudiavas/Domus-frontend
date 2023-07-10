@@ -22,7 +22,7 @@ const defaultTheme = createTheme();
 export function Register() {
   const navigate = useNavigate();
   const [error, setError] = useState('');
-  const { setLoginState } = useContext(AuthContext);
+  const { setIsLoggedIn } = useContext(AuthContext);
   const [isLoading, setLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [subscription, setSubscription] = useState(false); 
@@ -54,7 +54,7 @@ export function Register() {
         setLoading(false);
       }, 5000);
     }
-    setLoginState(true);
+    setIsLoggedIn(true);
   };
 
   return (

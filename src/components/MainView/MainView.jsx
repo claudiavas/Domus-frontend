@@ -85,13 +85,13 @@ export function MainView(props) {
 
   // Lógica para cerrar sesión...
 
-  const { loginState, setLoginState } = useContext(AuthContext);
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
   const logout = () => {
     localStorage.removeItem('token');
-    setLoginState(false);
+    setIsLoggedIn(false);
     navigate("/login")
-    console.log("loginState en MainView:", loginState)
+    console.log("isLoggedIn en MainView:", isLoggedIn)
     console.log("logout ejecutándose")
    };
 
@@ -101,7 +101,7 @@ export function MainView(props) {
    useEffect(() => { 
     if (!localStorage.getItem('token')) {
       navigate("/login")};
-  }, [loginState]);
+  }, [isLoggedIn]);
   
   return (
       <Box sx={{ display: 'flex' }}>
