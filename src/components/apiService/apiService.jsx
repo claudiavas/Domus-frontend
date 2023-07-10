@@ -44,9 +44,8 @@ export const register = async (body) => {
 
 export const resetPassword = async (_id, body) => {
   const { data } = await axios.put(`http://localhost:${PORT}/user/resetpassword/${_id}`, body);
-  console.log("body en apiService", body)
   return data;
-}
+};
 
 export const findUserByEmail = async (email) => {
   console.log("ejecutando findUserByEmail")
