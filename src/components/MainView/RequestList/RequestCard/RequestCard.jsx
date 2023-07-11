@@ -75,12 +75,6 @@ export function RequestCard ({realState, agent, type, transaction,country, commu
             height: '230px'
           }}
         >
-          <span style={{ flex: '1 0 39%' }}>
-            {/* LEFT SIDE */}
-            <Card style={{ height: 230 }}>
-              {/*<PhotoCarousel showThumbs={showThumbsValue} style={{ height: '100%'}} />*/}
-            </Card>
-          </span>
       
           <span style={{ flex: '1 0 45%', marginLeft: '10px', marginRight: '10px', padding: 0  }}>
             {/* CENTER */}
@@ -123,7 +117,7 @@ export function RequestCard ({realState, agent, type, transaction,country, commu
               <Card style={{ flex: '0 0 auto', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ marginTop: '0px', marginLeft: '5px', padding: "4px" }}>
                   <h4 style={{ margin: '0px', padding: 0, color: "#1976d2", display: "flex", justifyContent: 'space-between', alignItems: "center" }}>
-                    {} {currencySymbol}  <div>Precio Minimo: {minPrice} {currencySymbol} </div>
+                     <div>Precio Minimo: {minPrice} {currencySymbol} </div>
                     <div>Precio Máximo: {maxPrice} {currencySymbol} </div>
                     <Button onClick={() => navigate(`/housingdetails/${_id}`)} color="primary" variant="outlined">Editar</Button>
                   </h4>
@@ -131,7 +125,12 @@ export function RequestCard ({realState, agent, type, transaction,country, commu
               </Card>
             </span>
           </span>
-      
+          <span style={{ flex: '1 0 39%' }}>
+            {/* LEFT SIDE */}
+            <Card style={{ height: 230 }}>
+              {/*<PhotoCarousel showThumbs={showThumbsValue} style={{ height: '100%'}} />*/}
+            </Card>
+          </span>
           <span>
             {/* RIGHT */}
             <Card style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
