@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { LocationContext } from '../../Contexts/LocationContext';
-import { HousingContext } from '../../Contexts/HousingContext';
 import { TextField, Button, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Paper, Grid, Switch, Typography } from '@mui/material/';
 import { updateHousing } from '../../apiService/apiService';
 import { Images } from '../Images/Images';
@@ -20,7 +19,6 @@ export const UpdateHousing = () => {
   console.log("housingData", housingData);
 
   const { provinces } = useContext(LocationContext);
-  const { housing, setHousing } = useContext(HousingContext);
   const { imageUrls, setImageUrls } = useContext(ImagesContext)
   const { profile } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -31,24 +29,12 @@ export const UpdateHousing = () => {
   const [zipCodes, setZipCodes] = useState([]);
   const [roads, setRoads] = useState([]);
 
-  const [selectedProvince, setSelectedProvince] = useState(() => {
-    return provinces.find((province) => province.PRO === housingData.province.PRO) || null;
-  });
-  const [selectedMunicipality, setSelectedMunicipality] = useState(() => {
-    return municipalities.find((municipality) => municipality.DMUN50 === housingData.municipality.DMUN50) || null;
-  });
-  const [selectedPopulation, setSelectedPopulation] = useState(() => {
-    return populations.find((population) => population.NENTSI50 === housingData.population.NENTSI50) || null;
-  });
-  const [selectedNeighborhood, setSelectedNeighborhood] = useState(() => {
-    return neighborhoods.find((neighborhood) => neighborhood.NNUCLE50 === housingData.neighborhood.NNUCLE50) || null;
-  });
-  const [selectedZipCode, setSelectedZipCode] = useState(() => {
-    return zipCodes.find((zipCode) => zipCode.CPOS === housingData.zipCode.CPOS) || null;
-  });
-  const [selectedRoad, setSelectedRoad] = useState(() => {
-    return roads.find((road) => road.NVIA === housingData.roadName.NVIA) || null;
-  });
+  const [selectedProvince, setSelectedProvince] = useState([]);
+  const [selectedMunicipality, setSelectedMunicipality] = useState([]);
+  const [selectedPopulation, setSelectedPopulation] = useState([]);
+  const [selectedNeighborhood, setSelectedNeighborhood] = useState([]);
+  const [selectedZipCode, setSelectedZipCode] = useState([]);
+  const [selectedRoad, setSelectedRoad] = useState([]);
 
   const [formData, setFormData] = useState({
     user: profile._id,
@@ -58,12 +44,12 @@ export const UpdateHousing = () => {
     type: housingData.type,
     transaction: housingData.transaction,
     country: housingData.country,
-    province: housingData.province.PRO,
-    municipality: housingData.municipality.DMUN50,
-    population: housingData.population.NENTSI50,
-    neighborhood: housingData.neighborhood.NNUCLE50,
-    zipCode: housingData.zipCode.CPOS,
-    roadName: housingData.roadName ? housingData.roadName.NVIA : "null",
+    // province: housingData.province,
+    // municipality: housingData.municipality,
+    // population: housingData.population,
+    // neighborhood: housingData.neighborhood,
+    // zipCode: housingData.zipCode,
+    roadName: housingData.roadName ? housingData.roadName : "null",
     squareMeters: housingData.squareMeters,
     currency: housingData.currency,
     price: housingData.price,
@@ -250,14 +236,12 @@ export const UpdateHousing = () => {
 
   useEffect(() => {
     if (selectedPopulation) {
-      console.log("selectedPopulation", selectedPopulation);
       fetchNeighborhoods();
     }
   }, [selectedPopulation]);
 
   useEffect(() => {
     if (selectedNeighborhood) {
-      console.log("selectedNeighborhood", selectedNeighborhood);
       fetchZipCodes();
     }
   }, [selectedNeighborhood]);
@@ -436,7 +420,7 @@ export const UpdateHousing = () => {
                   labelId="province-label"
                   label="Provincia"
                   name="province"
-                  value={selectedProvince}
+                  value={formData.province}
                   onChange={handleChange}
                 // error={!!errors.province}
                 // helpertext={errors.province}
@@ -459,7 +443,7 @@ export const UpdateHousing = () => {
                   labelId="municipality-label"
                   label="Municipio*"
                   name="municipality"
-                  value={selectedMunicipality}
+                  value={formData.municipality}
                   onChange={handleChange}
                 // error={!!errors.municipality}
                 // helpertext={errors.municipality}
@@ -482,7 +466,7 @@ export const UpdateHousing = () => {
                   labelId="population-label"
                   label="Población*"
                   name="population"
-                  value={selectedPopulation}
+                  value={formData.population}
                   onChange={handleChange}
                 // error={!!errors.population}
                 // helpertext={errors.population}
@@ -505,7 +489,7 @@ export const UpdateHousing = () => {
                   labelId="neighborhood-label*"
                   label="Barrio*"
                   name="neighborhood"
-                  value={selectedNeighborhood}
+                  value={formData.neighborhood}
                   onChange={handleChange}
                 // error={!!errors.neighborhood} 
                 // helpertext={errors.neighborhood}
@@ -528,7 +512,7 @@ export const UpdateHousing = () => {
                   labelId="zipCode-label"
                   name="zipCode"
                   label="Código Postal"
-                  value={selectedZipCode}
+                  value={formData.zipCode}
                   onChange={handleChange}
                 // error={!!errors.zipCode}
                 // helpertext={errors.zipCode}
@@ -553,7 +537,7 @@ export const UpdateHousing = () => {
                   labelId="roadName-label"
                   label="Vía"
                   name="roadName"
-                  value={selectedRoad}
+                  value={formData.roadName}
                   onChange={handleChange}
                 // error={!!errors.roadName}
                 // helpertext={errors.roadName}
