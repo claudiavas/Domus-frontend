@@ -71,6 +71,12 @@ export const getProfile = async (_id) => {
   }
 
 
+// REQUEST
+export const getActiveRequest = async () => {
+  const {data} = await axios.get(`http://localhost:${PORT}/api/request`);
+  return data;
+} 
+
 //GEOAPI
 
 export const getCommunities = async () => { 
