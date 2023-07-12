@@ -36,7 +36,7 @@ zipCode: Código Postal
     CÓDIGO: CPOS (numérico, 5 dígitos)
     NOMBRE: -
 
-Road: Calles
+roadName: Calles
     ENDPOINT: https://apiv1.geoapi.es/calles?CPRO=04&CMUM=902&CUN=0002201&CPOS=04700&type=JSON&key=&sandbox=0
     PARÁMETROS: CPRO, CMUM, CUN, CPOS
     CÓDIGO: CVIA
