@@ -44,9 +44,8 @@ export const register = async (body) => {
 
 export const resetPassword = async (_id, body) => {
   const { data } = await axios.put(`http://localhost:${PORT}/user/resetpassword/${_id}`, body);
-  console.log("body en apiService", body)
   return data;
-}
+};
 
 export const findUserByEmail = async (email) => {
   console.log("ejecutando findUserByEmail")
@@ -71,6 +70,12 @@ export const getProfile = async (_id) => {
   return data;
   }
 
+
+// REQUEST
+export const getActiveRequest = async () => {
+  const {data} = await axios.get(`http://localhost:${PORT}/api/request`);
+  return data;
+} 
 
 //GEOAPI
 

@@ -19,17 +19,17 @@ const defaultTheme = createTheme();
 export function HomePage() {
   
   const navigate = useNavigate();
-  const { loginState } = useContext(AuthContext);
+  const { isLoggedIn } = useContext(AuthContext);
 
   //Lógica para enviar al usuario al mainview si está autorizado...
 
   useEffect(() => {
-    if (!loginState || !localStorage.getItem('token')) {
+    if (!isLoggedIn || !localStorage.getItem('token')) {
       navigate("/");
     } else {
-      loginState && navigate("/mainview");
+      isLoggedIn && navigate("/mainview");
     }
-  }, [loginState]);
+  }, [isLoggedIn]);
 
   return (
     <ThemeProvider theme={defaultTheme}>

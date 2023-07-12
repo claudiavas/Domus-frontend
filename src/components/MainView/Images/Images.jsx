@@ -1,17 +1,27 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, Input, Chip, IconButton, DialogActions, Grid } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloseIcon from '@mui/icons-material/Close';
 import { ImagesContext } from '../../Contexts/ImagesContext';
 import axios from 'axios';
+import { useLocation } from "react-router-dom";
 
 
 export const Images = () => {
-  const { setImageUrls } = useContext(ImagesContext);
+  const { imageUrls, setImageUrls } = useContext(ImagesContext);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [previewUrls, setPreviewUrls] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const location = useLocation();
+  const { housingData = {} } = location.state || {};
+
+useEffect(() => {
+  if (housingData.images) {
+    setImageUrls(housingData.images);
+    setPreviewUrls(housingData.images);
+  }
+}, [housingData.images, setImageUrls]);
 
   const handleUploadImages = async () => {
     try {
@@ -38,7 +48,6 @@ export const Images = () => {
       const uploadedImageUrls = responses.map((response) => response.data.secure_url);
       setImageUrls((prevImageUrls) => [...prevImageUrls, ...uploadedImageUrls]);
 
-      console.log("Uploaded image URLs:", uploadedImageUrls);
     } catch (error) {
       console.error("Error uploading files:", error);
     } finally {
@@ -46,6 +55,10 @@ export const Images = () => {
       handleCloseDialog();
     }
   };
+
+  useEffect(() => {
+    console.log("imageUrls:", imageUrls);
+  }, [imageUrls]);
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);

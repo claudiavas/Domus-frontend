@@ -2,90 +2,86 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Snackbar, Alert } from '@mui/material';
 import { resetPassword } from '../apiService/apiService';
 import { AuthContext } from '../Contexts/AuthContext';
+import { useParams } from 'react-router-dom';
+import { getPayload } from '../apiService/apiService';
 
-export const ResetPassword = () => {
+export const ResetPassword = ({open, onClose}) => {
+  
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const { token } = useParams();
   const { profile, setProfile } = useContext(AuthContext);
+
 
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
+  const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
 
-  const [open, setOpen] = useState(false);
-  const [errorOpened, setErrorOpened] = useState(false);
-  const [successOpened, setSuccessOpened] = useState(false);
-  
-  const [user, setUser] = useState({});
- 
   const handleUpdate = async (updatedUser) => {
     try {
-      console.log("updated user", profile._id, updatedUser)
-      const response = await resetPassword(profile._id, updatedUser);
-      console.log(response.data);
-      setSuccessMessage("Contraseña actualizada correctamente.");
-      setSuccessOpened(true);
+      if (isLoggedIn) {
+        const response = await resetPassword(profile._id, {password: newPassword});
+        setSuccessMessage("Contraseña actualizada correctamente.");
+        setSuccessSnackbarOpen(true);
+        onClose(); // Cerrar el diálogo aquí
+      } else {
+        // Obtener el payload decodificado del token
+        const payload = await getPayload(token);
+        const userId = payload.userId;
+  
+        // Enviar el userId y la nueva contraseña al backend
+        const response = await resetPassword(userId, {password: newPassword});
+        setSuccessMessage("Contraseña actualizada correctamente.");
+        setSuccessSnackbarOpen(true);
+        onClose(); // Cerrar el diálogo aquí
+      }
     } catch (error) {
       console.error('Error al actualizar la contraseña:', error);
       setErrorMessage('Error al actualizar la contraseña. Por favor, intenta nuevamente.');
-      setErrorOpened(true);
+      setErrorSnackbarOpen(true);
     }
   };
-
+  
+  
   const handleSubmit = async (event) => {
-    event.preventDefault();
-
+    
     if (!newPassword) {
       setErrorMessage('Ingresa una contraseña válida');
-      setErrorOpened(true);
+      setErrorSnackbarOpen(true);
       return;
     }
 
     if (!confirmPassword) {
       setErrorMessage('Confirma tu contraseña');
-      setErrorOpened(true);
+      setErrorSnackbarOpen(true);
       return;
     }
 
     if (newPassword !== confirmPassword) {
       setErrorMessage('Las contraseñas no coinciden.');
-      setErrorOpened(true);
+      setErrorSnackbarOpen(true);
       return;
     }
 
-    const updatedUser = { ...user, password: newPassword };
-    handleUpdate(updatedUser);
+    handleUpdate(profile.id, newPassword);
     handleClose();
   };
 
   const handleClose = () => {
-    setOpen(false);
     setNewPassword('');
     setConfirmPassword('');
     setErrorMessage('');
-    setErrorOpened(false);
+    setErrorSnackbarOpen(false);
     setSuccessMessage('');
-    setSuccessOpened(false);
-  };
-
-  useEffect(() => {
-    setErrorOpened(false);
-    setErrorMessage('');
-    setSuccessOpened(false);
-    setSuccessMessage('');
-  }, [open]);
-
-  const handleErrorMessageClose = () => {
-    setErrorOpened(false);
-  };
-
-  const handleSuccessMessageClose = () => {
-    setSuccessOpened(false);
+    setSuccessSnackbarOpen(false);
+    onClose();
   };
 
   return (
     <>
-      <Button color="primary" variant="outlined" onClick={() => setOpen(true)}>Cambiar contraseña</Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Cambiar Contraseña</DialogTitle>
         <DialogContent>
@@ -118,14 +114,30 @@ export const ResetPassword = () => {
         </DialogActions>
       </Dialog>
 
-      <Snackbar open={errorOpened} autoHideDuration={5000} onClose={handleErrorMessageClose}>
-        <Alert elevation={6} variant="filled" onClose={handleErrorMessageClose} severity="error">
+      <Snackbar 
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+        open={errorSnackbarOpen} 
+        autoHideDuration={5000} 
+        onClose={() => setErrorSnackbarOpen(false)} 
+        >
+        <Alert 
+          elevation={6} 
+          variant="filled" 
+          severity="error">
           {errorMessage}
         </Alert>
       </Snackbar>
 
-      <Snackbar open={successOpened} autoHideDuration={5000} onClose={handleSuccessMessageClose}>
-        <Alert elevation={6} variant="filled" onClose={handleSuccessMessageClose} severity="success">
+      <Snackbar 
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+        open={successSnackbarOpen} 
+        autoHideDuration={5000} 
+        onClose={() => setSuccessSnackbarOpen(false)} 
+        >
+        <Alert 
+          elevation={6} 
+          variant="filled"
+          severity="success">
           {successMessage}
         </Alert>
       </Snackbar>

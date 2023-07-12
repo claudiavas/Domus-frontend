@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Box, Typography, Avatar, TextField, Link, Grid, Snackbar } from '@mui/material';
+import { Container, Box, Typography, Avatar, TextField, Link, Grid, Snackbar, Alert } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -11,21 +11,24 @@ export function ForgotPassword() {
   const navigate = useNavigate();
   const [sent, setSent] = useState(false);
   const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
+  const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
+  
 
     const sendEmail = async (email, name) => {
       try {
-        console.log('ejecutandosendEmail');
         const body = {
           email: email,
           name: name
         };
         const response = await sendPasswordResetEmail(body);
-        console.log('Correo de recuperación de contraseña enviado correctamente');
+        setSuccessSnackbarOpen(true);
+        setSuccessMessage('Correo de recuperación de contraseña enviado correctamente');
       } catch (error) {
         console.error('Error al enviar el correo de recuperación de contraseña:', error);
-        throw new Error('Ocurrió un error al enviar el correo de recuperación de contraseña');
+        setErrorMessage('Ocurrió un error al enviar el correo de recuperación de contraseña');
       }
     };
 
@@ -33,14 +36,14 @@ export function ForgotPassword() {
     event.preventDefault();
     try {
       if (!email) {
-        setError('Por favor ingresa tu correo electrónico');
-        setSnackbarOpen(true);
+        setErrorMessage('Por favor ingresa tu correo electrónico');
+        setErrorSnackbarOpen(true);
         return;
       }
 
       if (!email.includes('@') || !email.includes('.') || email.length > 320 || email.length < 6) {
-        setError('Por favor ingresa un correo electrónico válido');
-        setSnackbarOpen(true);
+        setErrorMessage('Por favor ingresa un correo electrónico válido');
+        setErrorSnackbarOpen(true);
         return;
       }
 
@@ -54,29 +57,16 @@ export function ForgotPassword() {
           const surname = user.surname;
           sendEmail(email, name, surname);
         } else {
-          setError('El correo electrónico no se encuentra en nuestra base de datos, por favor revísalo o regístrate.');
-          setSnackbarOpen(true);
+          setErrorMessage('El correo electrónico no se encuentra en nuestra base de datos, por favor revísalo o regístrate.');
+          setErrorSnackbarOpen(true);
         }
       
     } catch (error) {
       console.error('Error:', error);
-      setError('El correo electrónico no se encuentra en nuestra base de datos, por favor revísalo o regístrate.');
-      setSnackbarOpen(true);
+      setErrorMessage('El correo electrónico no se encuentra en nuestra base de datos, por favor revísalo o regístrate.');
+      setErrorSnackbarOpen(true);
     }
   };
-  
-useEffect(() => {
-  error && setSnackbarOpen(true);
-}, [error]);
-
-useEffect(() => {
-  snackbarOpen === false && setError('')
-}, [snackbarOpen]);
-
-  const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
-  };
-
 
   const defaultTheme = createTheme();
 
@@ -134,13 +124,34 @@ useEffect(() => {
           </Box>
         </Box>
       </Container>
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={handleSnackbarClose}
-        message={error}
-      />
+
+      <Snackbar 
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+        open={errorSnackbarOpen} 
+        autoHideDuration={5000} 
+        onClose={() => setErrorSnackbarOpen(false)} 
+        >
+        <Alert 
+          elevation={6} 
+          variant="filled" 
+          severity="error">
+          {errorMessage}
+        </Alert>
+      </Snackbar>
+
+      <Snackbar 
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
+        open={successSnackbarOpen} 
+        autoHideDuration={5000} 
+        onClose={() => setSuccessSnackbarOpen(false)} 
+        >
+        <Alert 
+          elevation={6} 
+          variant="filled"
+          severity="success">
+          {successMessage}
+        </Alert>
+      </Snackbar>
     </ThemeProvider>
   );
 }

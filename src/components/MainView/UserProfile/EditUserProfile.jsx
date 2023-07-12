@@ -8,6 +8,7 @@ import { ImagesContext } from '../../Contexts/ImagesContext';
 import { AuthContext } from '../../Contexts/AuthContext';
 import { Dining } from '@mui/icons-material';
 import { ResetPassword } from '../../Authentication/ResetPassword';
+import { updateUser } from '../../apiService/apiService';
 
 export const EditUserProfile = () => {
 
@@ -18,6 +19,16 @@ export const EditUserProfile = () => {
   const { imageUrls } = useContext(ImagesContext);
   const { profile } = useContext(AuthContext);
   const [subscription, setSubscription] = useState(true);
+
+  const [open, setOpen] = useState(false); // Estado para controlar la apertura del diálogo para cambiar la contraseña
+
+  const handleResetPasswordOpen = () => {
+    setOpen(true); // Abrir el diálogo de cambiar contraseña estableciendo el estado en true
+  };
+
+  const handleResetPasswordClose = () => {
+    setOpen(false);
+  };
 
   const snackbarStyle = {
     backgroundColor: '#2196f3', // Color de fondo de la notificación
@@ -292,7 +303,8 @@ export const EditUserProfile = () => {
                 </span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <ResetPassword/>
+              <Button color="primary" variant="outlined" onClick={handleResetPasswordOpen}>Cambiar contraseña</Button>
+              {open && <ResetPassword open={open} onClose={handleResetPasswordClose}/>}
               </div>
             </div>
           </Paper>

@@ -21,7 +21,7 @@ export function Login() {
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { setLoginState } = useContext(AuthContext);
+  const { setIsLoggedIn } = useContext(AuthContext);
   const [isError, setIsError] = useState(false);
 
   const handleSubmit = async (event) => {
@@ -48,7 +48,7 @@ export function Login() {
         setLoading(false);
       }, 5000);
     }
-    setLoginState(true);
+    setIsLoggedIn(true);
   };
 
 

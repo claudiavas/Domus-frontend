@@ -6,7 +6,7 @@ import { login } from '../apiService/apiService';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [loginState, setLoginState] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [checking, setChecking] = useState(true);
   const [payload, setPayload] = useState({})
   const [profile, setProfile] = useState({})
@@ -35,13 +35,22 @@ export const AuthProvider = ({ children }) => {
    // Verificar si el usuario tiene un token en el localStorage
    useEffect(() => {
     const token = localStorage.getItem('token');
-    setLoginState(true);
-    fetchPayload(token)
+    console.log("token", token);
+    if (token) {
+      setIsLoggedIn(true);
+      fetchPayload(token)
+    }
   }, []);
 
   useEffect(() => {
+    console.log("payload", payload)
     fetchProfile(payload);
+    console.log("isLoggedIn", isLoggedIn)
   }, [payload]);
+
+  useEffect(() => {
+    console.log("profile", profile)
+  }, [profile]);
 
 
   useEffect(() => {
@@ -50,8 +59,8 @@ export const AuthProvider = ({ children }) => {
 
 
   const contextValue = {
-    loginState,
-    setLoginState,
+    isLoggedIn,
+    setIsLoggedIn,
     checking,
     profile,
     payload
