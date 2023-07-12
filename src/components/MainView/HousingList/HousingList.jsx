@@ -1,19 +1,18 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import HouseCard from './Card/HouseCard';
-import { getActiveHousing } from '../../apiService/apiService';
-import HousingContext from '../../FilterHousing/HousingContextFilter';
+import { HousingContext } from '../../Contexts/HousingContext';
+import { AuthContext } from '../../Contexts/AuthContext';
+import HousingContextFilter from '../../FilterHousing/HousingContextFilter';
 //import { RoomFilter } from '../../FilterHousing';
 //import { Link } from 'react-router-dom';
 
-export function HousingList() {
-  const [housing, setHousing] = useState([]);
-  const [loading, setLoading] = useState(true);
-  console.log("housing", housing);
-  const { meter, room, baths, garage, minPrice, maxPrice, checkbox } = useContext(HousingContext);
-
+export function HousingList({myHousingSwitch}) {
+  const { housing } = useContext(HousingContext);
+  const { profile } = useContext(AuthContext);
+  const { meter, room, baths, garage, minPrice, maxPrice, checkbox } = useContext(HousingContextFilter)
   const housingFiltrado = housing.filter((house) => {
     // Aplicar el filtro de habitaciones y metros cuadrados
-    
+    const myHousingFilter = myHousingSwitch ? house.user._id === profile._id : true
     const cumpleFiltroHabitaciones = room ? house.rooms === parseInt(room) : true;
     const cumpleFiltroMetrosCuadrados = house.squareMeters >= meter;
     const cumpleFiltroBaths = baths ? house.baths === parseInt(baths) : true;
@@ -31,28 +30,9 @@ export function HousingList() {
     (!checkbox.storage || house.storage) &&
     (!checkbox.accessible || house.accessible);
 
-    return cumpleFiltroHabitaciones &&  cumpleFiltroMetrosCuadrados && cumpleFiltroBaths && cumpleFiltroGarage && cumpleFiltroMinPrice  && cumpleFiltroMaxPrice && cumpleFiltroCheckbox;
+    return myHousingFilter && cumpleFiltroHabitaciones &&  cumpleFiltroMetrosCuadrados && cumpleFiltroBaths && cumpleFiltroGarage && cumpleFiltroMinPrice  && cumpleFiltroMaxPrice && cumpleFiltroCheckbox;
   });
 
-  const fetchHousing = async () => {
-    try {
-      const data = await getActiveHousing();
-      setHousing(data);
-      setLoading(false); // Indicar que la carga ha finalizado
-    } catch (error) {
-      // Manejar el error aquí
-      console.error(error);
-      setLoading(false); // Indicar que la carga ha finalizado (incluso en caso de error)
-    }
-  };
-
-  useEffect(() => {
-    fetchHousing();
-  }, []);
-
-  if (loading) {
-    return <h1>Cargando...</h1>;
-  }
 
   if (!housing || housing.length === 0) {
     return <h1>No hay datos de viviendas disponibles.</h1>;
@@ -73,13 +53,16 @@ export function HousingList() {
           currency={house.currency}
           price={house.price}
           squareMeters={house.squareMeters}
-          description={house.description}
+          title={house.title}
           rooms={house.rooms}
           baths={house.baths}
           transaction={house.transaction}
           type={house.type}
           furnished={house.furnished}
           garages={house.garages}
+          images={house.images}
+          showRealEstateLogo={house.showRealEstateLogo}
+          user={house.user}
         />
       ))}
     </div>
