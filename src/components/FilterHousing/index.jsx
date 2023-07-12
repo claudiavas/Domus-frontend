@@ -25,10 +25,12 @@ export function LocationFilter() {
   const { provinces } = useContext(LocationContext);
   console.log("Las provincias son: ", provinces)
   const [municipalities, setMunicipalities] = useState([]);
+  const [populations, setPopulations] = useState([]);
   const [neighborhoods, setNeighborhoods] = useState([]);
 
   const [selectedMunicipality, setSelectedMunicipality] = useState([]);
   const [selectedProvince, setSelectedProvince] = useState([]);
+  const [selectedPopulation, setSelectedPopulation] = useState([]);
   const [selectedNeighborhood, setSelectedNeighborhood] = useState([]);
 
   const [formData, setFormData] = useState({});
@@ -63,6 +65,9 @@ export function LocationFilter() {
       case 'neighborhood':
         setSelectedNeighborhood(value);
         break;
+      case 'population':
+        setSelectedPopulation(value);
+        break;
 
     }
 
@@ -81,9 +86,20 @@ export function LocationFilter() {
     }
   };
 
+  const fetchPopulations = async () => {
+    try {
+      const { data } = await axios.get(`https://apiv1.geoapi.es/poblaciones?CPRO=${selectedProvince.CPRO}&CMUM=${selectedMunicipality.CMUM}&type=JSON&key=eb280e481fbc76bc3be11e0e4b108687b76439c4d70beb2fbab3d7e56d772760&sandbox=0`);
+      setPopulations(data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const fetchNeighborhoods = async () => {
     try {
-      const { data } = await axios.get(`https://apiv1.geoapi.es/nucleos?CPRO=${selectedProvince.CPRO}&CMUM=${selectedMunicipality.CMUM}&NENTSI50=${selectedMunicipality.DMUN50}&type=JSON&key=eb280e481fbc76bc3be11e0e4b108687b76439c4d70beb2fbab3d7e56d772760&sandbox=0`);
+      const encodedNENTS150 = selectedPopulation.NENTSI50.replace(/\s/g, '%20');
+      console.log("encodedNENTS150", encodedNENTS150);
+      const { data } = await axios.get(`https://apiv1.geoapi.es/nucleos?CPRO=${selectedProvince.CPRO}&CMUM=${selectedMunicipality.CMUM}&NENTSI50=${encodedNENTS150}&type=JSON&key=eb280e481fbc76bc3be11e0e4b108687b76439c4d70beb2fbab3d7e56d772760&sandbox=0`);
       setNeighborhoods(data.data);
     } catch (error) {
       console.error(error);
@@ -98,9 +114,16 @@ export function LocationFilter() {
 
   useEffect(() => {
     if (selectedMunicipality) {
-      fetchNeighborhoods();
+      fetchPopulations();
     }
   }, [selectedMunicipality]);
+
+  useEffect(() => {
+    if (selectedPopulation) {
+      console.log("selectedPopulation", selectedPopulation);
+      fetchNeighborhoods();
+    }
+  }, [selectedPopulation]);
 
 
 
@@ -144,6 +167,25 @@ export function LocationFilter() {
           {municipalities.map((municipality) => (
             <MenuItem key={municipality.CMUM} value={municipality}>
               {municipality.DMUN50}
+            </MenuItem>
+          ))}
+
+        </Select>
+      </FormControl> 
+      <FormControl style={{ width: '90%' }}>
+        <InputLabel id="province-label">Población*</InputLabel>
+        <Select
+          labelId="population-label"
+          name="population"
+          value={formData.population}
+          onChange={handleChange}
+        // error={!!errors.province}
+        // helpertext={errors.province}
+        >
+
+          {populations.map((population) => (
+            <MenuItem key={population.CUN} value={population}>
+              {population.NENTSI50}
             </MenuItem>
           ))}
 
