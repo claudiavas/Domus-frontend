@@ -11,8 +11,8 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../../../Contexts/AuthContext';
 import CardMembershipIcon from '@mui/icons-material/CardMembership';
-import { PhoneNumber } from './PhoneNumber';
-import { WhatsAppButton } from './WhattsappButton';
+import { PhoneNumber } from '../../Contact/PhoneNumber';
+import { WhatsAppButton } from '../../Contact/WhatsappButton';
 
 export default function HouseCard({ _id, user, showRealEstateLogo, province, municipality, population, neighborhood, images, currency, price, squareMeters, rooms, transaction, type, furnished, garages, baths, title }) {
   const { profile } = useContext(AuthContext);

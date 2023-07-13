@@ -39,8 +39,8 @@ export function RequestList() {
         <RequestCard
           key={request._id}
           _id={request._id}
-          realState={request.realState}
-          agent={request.agent}
+          showRealEstateLogo={request.showRealEstateLogo}
+          user={request.user}
           type={request.type}
           transaction={request.transaction}
           country={request.country}
