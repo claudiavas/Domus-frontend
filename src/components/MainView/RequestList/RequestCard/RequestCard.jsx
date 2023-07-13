@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Button, CardActionArea, CardActions, Box, Card, CardContent, CardMedia, Divider, Avatar, Chip } from '@mui/material';
+import { Button, CardActionArea, CardActions, Box, Card, CardContent, CardMedia, Divider, Avatar, Chip, AlertTitle, Tooltip, IconButton } from '@mui/material';
 import BedOutlinedIcon from '@mui/icons-material/BedOutlined';
 import BathtubIcon from '@mui/icons-material/Bathtub';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
@@ -8,11 +8,13 @@ import FullscreenOutlinedIcon from '@mui/icons-material/FullscreenOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from '../../../Contexts/AuthContext';
-import { TranslationContext } from '../../../Contexts/TranslationContext';
+import { AuthContext} from '../../../Contexts/AuthContext';
+import CardMembershipIcon from '@mui/icons-material/CardMembership';
+import { PhoneNumber } from '../../Contact/PhoneNumber';
+import { WhatsAppButton } from '../../Contact/WhatsappButton';
 
 
-export function RequestCard ({realState, agent, type, transaction,country, community, province, municipality,
+export function RequestCard ({realState, user, type, transaction,country, community, province, municipality,
   population, neighborhood, minM2, maxM2, currency, minPrice, maxPrice, floorLevel, 
   facing, propertyAge, rooms, baths, garages, condition, furnished, kitchenEquipment, 
   closets, airConditioned, heating, elevator, outsideView, garden, pool, terrace, storage,
@@ -22,7 +24,7 @@ export function RequestCard ({realState, agent, type, transaction,country, commu
     const showThumbsValue = false;
 
     const { profile } = useContext(AuthContext);
-    const translations = useContext(TranslationContext);
+    //const translations = useContext(TranslationContext);
 
     // console.log("translations.type:", translations.type);
 
@@ -132,46 +134,71 @@ export function RequestCard ({realState, agent, type, transaction,country, commu
             </Card>
           </span>
           <span>
-            {/* RIGHT */}
-            <Card style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '10px' }}>
-                {profile.realEstateLogo && profile.avatar ? (
-                  <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                    <div>{profile.avatar}</div>
-                    <div>{profile.realEstateLogo}</div>
-                  </div>
+        {/* RIGHT */}
+        <Card style={{ padding: "15px 3px 5px 3px", display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', width: "150px"}}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '10px' }}>
+            {user.realEstateLogo && showRealEstateLogo && user.profilePicture ? (
+              <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                <div><Avatar alt="profile picture" src={user.profilePicture} sx={{ width: 56, height: 56 }} /></div>
+                <div><Avatar alt="real estate logo" src={user.realEstateLogo} sx={{ width: 75, height: 75 }} /></div>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                {user.profilePicture ? (
+                  <div><Avatar alt="profile picture" src={user.profilePicture} sx={{ width: 56, height: 56 }} /></div>
                 ) : (
-                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    {profile.avatar ? (
-                      profile.avatar
-                    ) : (
-                      <Avatar sx={{ width: 55, height: 55 }}/>
-                    )}
-                  </div>
+
+                  <Avatar sx={{ width: 56, height: 56 }} />
                 )}
               </div>
-              <div style={{ alignSelf: 'center', marginTop: '10px' }}>
-                <h4 style={{ fontWeight: 'bold', textAlign: 'center', margin: '0px' }}>
-                  {profile.name} {profile.surname}
-                </h4>
-              </div>
-              <div style={{ marginTop: 'auto' }}>
-                {profile.phone && (
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <LocalPhoneOutlinedIcon fontSize='extrasmall' style={{ marginRight: '5px' }}/>
-                    <span><h5>{profile.phone}</h5></span>
-                  </div>
-                )}
-                {profile.email && (
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <EmailOutlinedIcon fontSize='extrasmall' style={{ marginRight: '5px' }} />
-                    <span><h6>{profile.email}</h6></span>
-                  </div>
-                )}
-              </div>
-            </Card>
-          </span>
-        </Box>
-      )
+            )}
+          </div>
+
+          <div style={{ alignSelf: 'center', marginTop: '10px' }}>
+            <h4 style={{ fontWeight: 'bold', textAlign: 'center', margin: '0px' }}>
+              {user.name} {user.surname}
+            </h4>
+          </div>
+
+          {user.agentRegistrationNumber && user.agentRegistrationCommunity &&
+            <Tooltip title={`Registro No. ${profile.agentRegistrationNumber} C.A. de ${profile.agentRegistrationCommunity}`}>
+              <IconButton
+                size="small"
+                style={{ marginBottom: '5px' }}
+                color="success"
+              >
+                <CardMembershipIcon fontSize="medium" />
+              </IconButton>
+            </Tooltip>}
+
+
+
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '10px' }}>
+
+          {user.telephone1 && 
+            <WhatsAppButton phoneNumber={user.telephone1} />}
+           
+
+          {user.telephone2 && 
+            <PhoneNumber phoneNumber={user.telephone2} />}
+
+          <Tooltip title={user.email} arrow>
+            <IconButton
+              component="a"
+              href={`mailto:${user.email}`}
+              size="small"
+              style={{ marginBottom: '5px' }}
+              color="primary"
+            >
+              <EmailOutlinedIcon fontSize="medium" />
+            </IconButton>
+          </Tooltip>
+
+          </div>
+
+        </Card>
+      </span>
+    </Box >
+  )
 }
       
