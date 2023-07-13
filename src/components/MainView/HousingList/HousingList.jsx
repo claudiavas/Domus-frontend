@@ -7,12 +7,13 @@ import HousingContextFilter from '../../FilterHousing/HousingContextFilter';
 //import { Link } from 'react-router-dom';
 
 export function HousingList({myHousingSwitch}) {
+  console.log("myHousingSwitch", myHousingSwitch);
   const { housing } = useContext(HousingContext);
   const { profile } = useContext(AuthContext);
   const { meter, room, baths, garage, minPrice, maxPrice, checkbox } = useContext(HousingContextFilter)
   const housingFiltrado = housing.filter((house) => {
     // Aplicar el filtro de habitaciones y metros cuadrados
-    const myHousingFilter = myHousingSwitch ? house.user._id === profile._id : true
+    const myHousingFilter = myHousingSwitch ? house.user._id === profile._id : true;
     const cumpleFiltroHabitaciones = room ? house.rooms === parseInt(room) : true;
     const cumpleFiltroMetrosCuadrados = house.squareMeters >= meter;
     const cumpleFiltroBaths = baths ? house.baths === parseInt(baths) : true;
@@ -63,6 +64,7 @@ export function HousingList({myHousingSwitch}) {
           images={house.images}
           showRealEstateLogo={house.showRealEstateLogo}
           user={house.user}
+          userId={house.user._id}
         />
       ))}
     </div>
