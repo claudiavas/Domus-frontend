@@ -112,7 +112,8 @@ export function MainView(props) {
 
 // Lógica para filtrar las viviendas del usuario logueado
   const handleMyHousingSwitch = () => {
-    setMyHousing((prevValue) => !prevValue);
+    setMyHousingSwitch((prevValue) => !prevValue);
+    console.log("myHousingSwitch:", myHousingSwitch)
   };
 
   const handleMyRequestsSwitch = () => {

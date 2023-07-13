@@ -26,8 +26,7 @@ return (
         <Route path="/housinglist" element={<HousingList/>}></Route>
         <Route path="/forgotpassword" element={<ForgotPassword/>}></Route>
         <Route path="/changepassword" element={<ResetPassword/>}></Route>
-        <Route path="/resetpassword" element={<ResetPassword isLoggedin={true} />}></Route>
-        <Route path="/resetpassword/:token" element={<ResetPassword isLoggedin={false} />}></Route>
+        <Route path="/resetpassword" element={<ResetPassword}></Route>
         <Route path="/userprofile" element={<EditUserProfile/>}></Route>
         <Route path="/mainview" element={<MainView/>}></Route>
         <Route path="/housingdetails/:_id" element={<HousingDetails/>}></Route>
