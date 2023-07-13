@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -13,118 +14,207 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import HousingContext from './HousingContextFilter';
+import { LocationContext } from '../Contexts/LocationContext'
 
 //Location
 
 export function LocationFilter() {
-  const [provincia, setProvincia] = useState('');
-  const [municipio, setMunicipio] = useState('');
+  // const [provincia, setProvincia] = useState('');
+  // const [municipio, setMunicipio] = useState('');
 
-  const handleProvinciaChange = (event) => {
-    setProvincia(event.target.value);
+  const { provinces } = useContext(LocationContext);
+  console.log("Las provincias son: ", provinces)
+  const [municipalities, setMunicipalities] = useState([]);
+  const [populations, setPopulations] = useState([]);
+  const [neighborhoods, setNeighborhoods] = useState([]);
+
+  const [selectedMunicipality, setSelectedMunicipality] = useState([]);
+  const [selectedProvince, setSelectedProvince] = useState([]);
+  const [selectedPopulation, setSelectedPopulation] = useState([]);
+  const [selectedNeighborhood, setSelectedNeighborhood] = useState([]);
+
+  const [formData, setFormData] = useState({});
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log(formData, formData)
+    // Borrar los errores previos antes de la validación
+    // clearErrors();   
+    try {
+      // await validationSchema.validate(formData, { abortEarly: false });
+      const response = await addHousing(formData);
+      console.log(formData, formData)
+      setHousing([...housing, formData]); // Actualizar el estado de housing en el contexto
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleMunicipioChange = (event) => {
-    setMunicipio(event.target.value);
+  const handleChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    const fieldValue = type === 'checkbox' ? checked : value;
+
+    switch (name) {
+      case 'province':
+        setSelectedProvince(value);
+        break;
+      case 'municipality':
+        setSelectedMunicipality(value);
+        break;
+      case 'neighborhood':
+        setSelectedNeighborhood(value);
+        break;
+      case 'population':
+        setSelectedPopulation(value);
+        break;
+
+    }
+
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: fieldValue,
+    }));
   };
 
-  const handleFiltrarClick = () => {
-    // Realizar la acción de filtrado o realizar la acción deseada con los valores seleccionados
-    // Por ejemplo, puedes filtrar los datos o llamar a una función externa
-    const filtro = {
-      provincia: provincia,
-      municipio: municipio,
-    };
-
-    // Llamar a una función externa pasando el filtro como argumento
-    filtrarDatos(filtro);
+  const fetchMunicipalities = async () => {
+    try {
+      const { data } = await axios.get(`https://apiv1.geoapi.es/municipios?CPRO=${selectedProvince.CPRO}&type=JSON&key=eb280e481fbc76bc3be11e0e4b108687b76439c4d70beb2fbab3d7e56d772760&sandbox=0`);
+      setMunicipalities(data.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const filtrarDatos = (filtro) => {
-    // Aquí puedes realizar la lógica de filtrado con el filtro proporcionado
-    // Por ejemplo, puedes filtrar un listado de inmuebles
-    // y actualizar el estado con los datos filtrados
-
-    // Ejemplo:
-    const inmueblesFiltrados = listaInmuebles.filter((inmueble) => {
-      if (filtro.provincia && filtro.municipio) {
-        return (
-          inmueble.provincia === filtro.provincia &&
-          inmueble.municipio === filtro.municipio
-        );
-      } else if (filtro.provincia) {
-        return inmueble.provincia === filtro.provincia;
-      } else if (filtro.municipio) {
-        return inmueble.municipio === filtro.municipio;
-      } else {
-        return true;
-      }
-    });
-
-    // Actualizar el estado con los inmuebles filtrados
-    setInmueblesFiltrados(inmueblesFiltrados);
+  const fetchPopulations = async () => {
+    try {
+      const { data } = await axios.get(`https://apiv1.geoapi.es/poblaciones?CPRO=${selectedProvince.CPRO}&CMUM=${selectedMunicipality.CMUM}&type=JSON&key=eb280e481fbc76bc3be11e0e4b108687b76439c4d70beb2fbab3d7e56d772760&sandbox=0`);
+      setPopulations(data.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  const fetchNeighborhoods = async () => {
+    try {
+      const encodedNENTS150 = selectedPopulation.NENTSI50.replace(/\s/g, '%20');
+      console.log("encodedNENTS150", encodedNENTS150);
+      const { data } = await axios.get(`https://apiv1.geoapi.es/nucleos?CPRO=${selectedProvince.CPRO}&CMUM=${selectedMunicipality.CMUM}&NENTSI50=${encodedNENTS150}&type=JSON&key=eb280e481fbc76bc3be11e0e4b108687b76439c4d70beb2fbab3d7e56d772760&sandbox=0`);
+      setNeighborhoods(data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedProvince) {
+      fetchMunicipalities();
+    }
+  }, [selectedProvince]);
+
+  useEffect(() => {
+    if (selectedMunicipality) {
+      fetchPopulations();
+    }
+  }, [selectedMunicipality]);
+
+  useEffect(() => {
+    if (selectedPopulation) {
+      console.log("selectedPopulation", selectedPopulation);
+      fetchNeighborhoods();
+    }
+  }, [selectedPopulation]);
+
+
+
+
+  ///////////////////////////////////////////////////////////////////////
 
   return (
-    <Box
-      component="form"
-      sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch' },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <div>
-        <TextField
-          id="outlined-select-currency"
-          select
-          label="Provincia"
-          value={provincia}
-          onChange={handleProvinciaChange}
+    <div>
+
+      <FormControl style={{ width: '90%' }}>
+        <InputLabel id="province-label">Provincia*</InputLabel>
+        <Select
+          labelId="province-label"
+          name="province"
+          value={formData.province}
+          onChange={handleChange}
+        // error={!!errors.province}
+        // helpertext={errors.province}
         >
-          {locationsProvince.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
+
+          {provinces.map((province) => (
+            <MenuItem key={province.CPRO} value={province}>
+              {province.PRO}
             </MenuItem>
           ))}
-        </TextField>
-        <TextField
-          id="outlined-select-currency-native"
-          select
-          label="Población"
-          value={municipio}
-          onChange={handleMunicipioChange}
-          SelectProps={{
-            native: true,
-          }}
+
+        </Select>
+      </FormControl> 
+
+<FormControl style={{ width: '90%' }}>
+        <InputLabel id="municipality-label">Municipio*</InputLabel>
+        <Select
+          labelId="municipality-label"
+          name="municipality"
+          value={formData.municipality}
+          onChange={handleChange}
+        // error={!!errors.municipality}
+        // helpertext={errors.municipality}
         >
-          {locationsMunicipio.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
+
+          {municipalities.map((municipality) => (
+            <MenuItem key={municipality.CMUM} value={municipality}>
+              {municipality.DMUN50}
+            </MenuItem>
           ))}
-        </TextField>
-        <TextField
-          id="outlined-select-currency-native"
-          select
-          label="Barrio"
-          value={neighborhood}
-          onChange={handleMunicipioChange}
-          SelectProps={{
-            native: true,
-          }}
+
+        </Select>
+      </FormControl> 
+      <FormControl style={{ width: '90%' }}>
+        <InputLabel id="province-label">Población*</InputLabel>
+        <Select
+          labelId="population-label"
+          name="population"
+          value={formData.population}
+          onChange={handleChange}
+        // error={!!errors.province}
+        // helpertext={errors.province}
         >
-          {locationsMunicipio.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
+
+          {populations.map((population) => (
+            <MenuItem key={population.CUN} value={population}>
+              {population.NENTSI50}
+            </MenuItem>
           ))}
-        </TextField>
-        <Button variant="contained" onClick={handleFiltrarClick}>
-          Filtrar
-        </Button>
-      </div>
-    </Box>
+
+        </Select>
+      </FormControl> 
+
+
+ <FormControl style={{ width: '90%' }}>
+        <InputLabel id="neighborhood-label">Barrio*</InputLabel>
+        <Select
+          labelId="neighborhood-label*"
+          name="neighborhood"
+          value={formData.neighborhood}
+          onChange={handleChange}
+        // error={!!errors.neighborhood} 
+        // helpertext={errors.neighborhood}
+        >
+
+          {neighborhoods.map((neighborhood) => (
+            <MenuItem key={neighborhood.CUN} value={neighborhood}>
+              {neighborhood.NNUCLE50}
+            </MenuItem>
+          ))}
+
+        </Select>
+      </FormControl> 
+
+    </div>
+
   );
 }
 
@@ -135,71 +225,71 @@ export function LocationFilter() {
 // Price filter
 
 export function PriceFilterMin() {
-  const { minPrice, setMinPrice} = useContext(HousingContext);
-  
+  const { minPrice, setMinPrice } = useContext(HousingContext);
+
 
   const handleChangeMinPrice = (event) => {
     setMinPrice(event.target.value);
   };
-  
+
 
   return (
-<FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
       <InputLabel id="demo-select-small-label">Precio Minimo</InputLabel>
-    <Select
-          labelId="demo-select-small-label"
-          id="demo-select-small"
-          value={minPrice}
-          label="Precio minimo"
-          onChange={handleChangeMinPrice}
-        >
-          <MenuItem value={1000}>1000</MenuItem>
-          <MenuItem value={10000}>10000</MenuItem>
-          <MenuItem value={20000}>20000</MenuItem>
-          <MenuItem value={40000}>40000</MenuItem>
-          <MenuItem value={150000}>150000</MenuItem>
-          <MenuItem value={500000}>500000</MenuItem>
-          
-  </Select>
-  </FormControl>
-     
+      <Select
+        labelId="demo-select-small-label"
+        id="demo-select-small"
+        value={minPrice}
+        label="Precio minimo"
+        onChange={handleChangeMinPrice}
+      >
+        <MenuItem value={1000}>1000</MenuItem>
+        <MenuItem value={10000}>10000</MenuItem>
+        <MenuItem value={20000}>20000</MenuItem>
+        <MenuItem value={40000}>40000</MenuItem>
+        <MenuItem value={150000}>150000</MenuItem>
+        <MenuItem value={500000}>500000</MenuItem>
+
+      </Select>
+    </FormControl>
+
   );
-  
+
 
 }
 
 export function PriceFilterMax() {
   const { maxPrice, setMaxPrice } = useContext(HousingContext);
-  
-  
+
+
 
   const handleChangeMaxPrice = (event) => {
     setMaxPrice(event.target.value);
   };
 
-    
+
   return (
-<FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
       <InputLabel id="demo-select-small-label">Precio Maximo</InputLabel>
-    <Select
-          labelId="demo-select-small-label"
-          id="demo-select-small"
-          value={maxPrice}
-          label="Precio maximo"
-          onChange={handleChangeMaxPrice}
-        >
-          <MenuItem value={1000}>1000</MenuItem>
-          <MenuItem value={10000}>10000</MenuItem>
-          <MenuItem value={20000}>20000</MenuItem>
-          <MenuItem value={40000}>40000</MenuItem>
-          <MenuItem value={150000}>150000</MenuItem>
-          <MenuItem value={500000}>500000</MenuItem>
-          
-  </Select>
-  </FormControl>
-     
+      <Select
+        labelId="demo-select-small-label"
+        id="demo-select-small"
+        value={maxPrice}
+        label="Precio maximo"
+        onChange={handleChangeMaxPrice}
+      >
+        <MenuItem value={1000}>1000</MenuItem>
+        <MenuItem value={10000}>10000</MenuItem>
+        <MenuItem value={20000}>20000</MenuItem>
+        <MenuItem value={40000}>40000</MenuItem>
+        <MenuItem value={150000}>150000</MenuItem>
+        <MenuItem value={500000}>500000</MenuItem>
+
+      </Select>
+    </FormControl>
+
   );
-  
+
 }
 
 ///// End Price filter
@@ -348,7 +438,7 @@ export function GaragesFilter() {
 
 /// checkbox filters
 export function CheckboxesFilters() {
-  const {checkbox, setCheckbox} = useContext(HousingContext);
+  const { checkbox, setCheckbox } = useContext(HousingContext);
 
   const handleChangeCheckbox = (event) => {
     setCheckbox({
