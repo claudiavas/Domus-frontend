@@ -14,8 +14,8 @@ import { PhoneNumber } from '../../Contact/PhoneNumber';
 import { WhatsAppButton } from '../../Contact/WhatsappButton';
 
 
-export function RequestCard({ user, showRealEstateLogo, type, transaction, country, community, province, municipality,
-  population, neighborhood, minM2, maxM2, currency, minPrice, maxPrice, floorLevel,
+export function RequestCard({ user, showRealEstateLogo, type, transaction, country, province, municipality, population, neighborhood,
+   minM2, maxM2, currency, minPrice, maxPrice, floorLevel,
   facing, propertyAge, rooms, baths, garages, condition, furnished, kitchenEquipment,
   closets, airConditioned, heating, elevator, outsideView, garden, pool, terrace, storage,
   accesible, status, _id }) {
@@ -54,16 +54,16 @@ export function RequestCard({ user, showRealEstateLogo, type, transaction, count
     return text.replace(/\([^()]*\)/g, "").trim()
   };
 
-  // const locationText = [
-  //   province.PRO,
-  //   municipality.DMUN50,
-  //   population.NENTSI50,
-  //   neighborhood.NNUCLE50
-  // ]
-  //   .filter(Boolean)
-  //   .filter((value, index, self) => self.indexOf(value) === index)
-  //   .map(removeTextInParentheses)
-  //   .join(", ")
+   const locationText = [
+     province.PRO,
+     municipality.DMUN50,
+     population.NENTSI50,
+     neighborhood.NNUCLE50
+   ]
+     .filter(Boolean)
+     .filter((value, index, self) => self.indexOf(value) === index)
+     .map(removeTextInParentheses)
+     .join(", ")
 
 
   return (
@@ -88,7 +88,7 @@ export function RequestCard({ user, showRealEstateLogo, type, transaction, count
             <h4 style={{ margin: '5px 5px 5px 5px', marginBottom: '5px', flexGrow: 1 }}>{ }</h4>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px', flexGrow: 1 }}>
               <LocationOnOutlinedIcon style={{ marginRight: '5px' }} />
-              <h6 style={{ margin: '0px' }}>{ }</h6>
+              <h6 style={{ margin: '0px' }}>{locationText}</h6>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', margin: '0px', padding: 0, marginBottom: '5px', flexGrow: 1 }}>
               <FullscreenOutlinedIcon />
@@ -130,7 +130,6 @@ export function RequestCard({ user, showRealEstateLogo, type, transaction, count
       <span style={{ flex: '1 0 29%' }}>
         {/* LEFT SIDE */}
         <Card style={{ height: 230 }}>
-
         </Card>
       </span>
       <span>
