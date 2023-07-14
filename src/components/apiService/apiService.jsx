@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const PORT = 8000;
-const BackendUrl = "https://verde-backend-production.up.railway.app/";
+const BackendUrl = "https://verde-backend-production.up.railway.app";
 
 //HOUSING
 
