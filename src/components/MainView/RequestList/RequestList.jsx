@@ -3,7 +3,7 @@ import { RequestCard } from './RequestCard/RequestCard';
 import { getActiveRequest } from '../../apiService/apiService';
 
 
-export function RequestList() {
+export function RequestList({myHousingSwitch}) {
   const [requesting, setRequest] = useState([]);
   const [loading, setLoading] = useState(true);
   console.log("requesting", requesting)
@@ -39,8 +39,8 @@ export function RequestList() {
         <RequestCard
           key={request._id}
           _id={request._id}
-          realState={request.realState}
-          agent={request.agent}
+          showRealEstateLogo={request.showRealEstateLogo}
+          user={request.user}
           type={request.type}
           transaction={request.transaction}
           country={request.country}
