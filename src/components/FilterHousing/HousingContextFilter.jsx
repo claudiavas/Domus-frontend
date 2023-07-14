@@ -21,9 +21,13 @@ export function InmueblesProvider({ children }) {
     storage: false,
     accessible: false,
   });
+  const [province, setProvince] = useState();
+  const [municipality, setMunicipality] = useState();
+  const [neighborhood, setNeighborhood] = useState();
+  const [population, setPopulation] = useState();
 
   return (
-    <HousingContext.Provider value={{ room, setRoom, baths, setBaths, meter, setMeter, garage, setGarage, minPrice, setMinPrice, maxPrice, setMaxPrice, checkbox, setCheckbox }}>
+    <HousingContext.Provider value={{ room, setRoom, baths, setBaths, meter, setMeter, garage, setGarage, minPrice, setMinPrice, maxPrice, setMaxPrice, checkbox, setCheckbox, province, setProvince, municipality, setMunicipality, neighborhood, setNeighborhood, population, setPopulation  }}>
       {children}
     </HousingContext.Provider>
   );

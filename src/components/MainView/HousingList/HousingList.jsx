@@ -9,7 +9,7 @@ import HousingContextFilter from '../../FilterHousing/HousingContextFilter';
 export function HousingList({myHousingSwitch}) {
   const { housing } = useContext(HousingContext);
   const { profile } = useContext(AuthContext);
-  const { meter, room, baths, garage, minPrice, maxPrice, checkbox } = useContext(HousingContextFilter)
+  const { meter, room, baths, garage, minPrice, maxPrice, checkbox, province } = useContext(HousingContextFilter)
   const housingFiltrado = housing.filter((house) => {
     // Aplicar el filtro de habitaciones y metros cuadrados
     const myHousingFilter = myHousingSwitch ? house.user._id === profile._id : true
@@ -29,8 +29,9 @@ export function HousingList({myHousingSwitch}) {
     (!checkbox.terrace || house.terrace) &&
     (!checkbox.storage || house.storage) &&
     (!checkbox.accessible || house.accessible);
+    const cumpleFiltroProvince = province ? house.province : {};
 
-    return myHousingFilter && cumpleFiltroHabitaciones &&  cumpleFiltroMetrosCuadrados && cumpleFiltroBaths && cumpleFiltroGarage && cumpleFiltroMinPrice  && cumpleFiltroMaxPrice && cumpleFiltroCheckbox;
+    return myHousingFilter && cumpleFiltroProvince && cumpleFiltroHabitaciones &&  cumpleFiltroMetrosCuadrados && cumpleFiltroBaths && cumpleFiltroGarage && cumpleFiltroMinPrice  && cumpleFiltroMaxPrice && cumpleFiltroCheckbox;
   });
 
 
