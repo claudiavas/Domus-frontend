@@ -8,7 +8,7 @@ function Filters(props) {
       <div style={{ marginLeft:'1em'}}>
         <Toolbar />
         <h2>Ubicación</h2>
-         <LocationFilter/>
+         {/* <LocationFilter/> */}
         <Divider />
         <h2>Precio</h2>  
          <PriceFilterMin /> 

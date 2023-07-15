@@ -47,22 +47,37 @@ export function LocationFilter() {
       console.error(error);
     }
   };
+  
+  const { province, setProvince } = useContext(HousingContext);
+  const { municipality, setMunicipality } = useContext(HousingContext);
+  const { neighborhood, setNeighborhood } = useContext(HousingContext);
+  const { population, setPopulation } = useContext(HousingContext);
+
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
     const fieldValue = type === 'checkbox' ? checked : value;
+    setProvince(setSelectedProvince.value);
+    setMunicipality(setSelectedMunicipality.value);
+    setNeighborhood(setSelectedNeighborhood.value);
+    setPopulation(setSelectedPopulation.value);
+
 
     switch (name) {
       case 'province':
+        setProvince(value);
         setSelectedProvince(value);
         break;
       case 'municipality':
+        setMunicipality(value);
         setSelectedMunicipality(value);
         break;
-      // case 'neighborhood':
-      //   setSelectedNeighborhood(value);
-      //   break;
+      case 'neighborhood':
+        setNeighborhood(value);
+        setSelectedNeighborhood(value);
+        break;
       case 'population':
+        setPopulation(value);
         setSelectedPopulation(value);
         break;
 
