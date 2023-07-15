@@ -34,6 +34,7 @@ export const addHousing = async (body) => {
 
 export const login = async (body) => {
   const { data } = await axios.post(`http://localhost:${PORT}/user/login`, body);
+  console.log("data", data)
   return data;
 }
 
@@ -42,8 +43,8 @@ export const register = async (body) => {
   return data;
 }
 
-export const resetPassword = async (_id, body) => {
-  const { data } = await axios.put(`http://localhost:${PORT}/user/resetpassword/${_id}`, body);
+export const resetPassword = async (userId, body) => {
+  const { data } = await axios.put(`http://localhost:${PORT}/user/resetpassword/${userId}`, body);
   return data;
 };
 
@@ -92,8 +93,6 @@ export const getProvinces = async () => {
 // SENDEMAIL
 
 export const sendPasswordResetEmail = async (body) => {
-  console.log("ejecutando sendPasswordResetEmail")
   const {data} = await axios.post(`http://localhost:${PORT}/api/sendemail`, body);
-  console.log(data);
   return data;
 }
