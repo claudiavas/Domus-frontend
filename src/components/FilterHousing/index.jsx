@@ -19,11 +19,8 @@ import { LocationContext } from '../Contexts/LocationContext'
 //Location
 
 export function LocationFilter() {
-  // const [provincia, setProvincia] = useState('');
-  // const [municipio, setMunicipio] = useState('');
 
   const { provinces } = useContext(LocationContext);
-  console.log("Las provincias son: ", provinces)
   const [municipalities, setMunicipalities] = useState([]);
   const [populations, setPopulations] = useState([]);
   const [neighborhoods, setNeighborhoods] = useState([]);
@@ -31,7 +28,7 @@ export function LocationFilter() {
   const [selectedMunicipality, setSelectedMunicipality] = useState([]);
   const [selectedProvince, setSelectedProvince] = useState([]);
   const [selectedPopulation, setSelectedPopulation] = useState([]);
-  const [selectedNeighborhood, setSelectedNeighborhood] = useState([]);
+  // const [selectedNeighborhood, setSelectedNeighborhood] = useState([]);
 
   const [formData, setFormData] = useState({});
 
@@ -62,9 +59,9 @@ export function LocationFilter() {
       case 'municipality':
         setSelectedMunicipality(value);
         break;
-      case 'neighborhood':
-        setSelectedNeighborhood(value);
-        break;
+      // case 'neighborhood':
+      //   setSelectedNeighborhood(value);
+      //   break;
       case 'population':
         setSelectedPopulation(value);
         break;
@@ -98,7 +95,6 @@ export function LocationFilter() {
   const fetchNeighborhoods = async () => {
     try {
       const encodedNENTS150 = selectedPopulation.NENTSI50.replace(/\s/g, '%20');
-      console.log("encodedNENTS150", encodedNENTS150);
       const { data } = await axios.get(`https://apiv1.geoapi.es/nucleos?CPRO=${selectedProvince.CPRO}&CMUM=${selectedMunicipality.CMUM}&NENTSI50=${encodedNENTS150}&type=JSON&key=eb280e481fbc76bc3be11e0e4b108687b76439c4d70beb2fbab3d7e56d772760&sandbox=0`);
       setNeighborhoods(data.data);
     } catch (error) {
@@ -120,7 +116,6 @@ export function LocationFilter() {
 
   useEffect(() => {
     if (selectedPopulation) {
-      console.log("selectedPopulation", selectedPopulation);
       fetchNeighborhoods();
     }
   }, [selectedPopulation]);
