@@ -17,11 +17,12 @@ export function ForgotPassword() {
   const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
   
 
-    const sendEmail = async (email, name) => {
+    const sendEmail = async (email, name, userId) => {
       try {
         const body = {
           email: email,
-          name: name
+          name: name,
+          userId: userId
         };
         const response = await sendPasswordResetEmail(body);
         setSuccessSnackbarOpen(true);
@@ -54,8 +55,8 @@ export function ForgotPassword() {
         if (response && response.length > 0) {
           const user = response[0];
           const name = user.name;
-          const surname = user.surname;
-          sendEmail(email, name, surname);
+          const userId = user._id;
+          sendEmail(email, name, userId);
         } else {
           setErrorMessage('El correo electrónico no se encuentra en nuestra base de datos, por favor revísalo o regístrate.');
           setErrorSnackbarOpen(true);

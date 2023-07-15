@@ -196,14 +196,12 @@ export const AddHousing = () => {
 
   useEffect(() => {
     if (selectedPopulation) {
-      console.log("selectedPopulation", selectedPopulation);
       fetchNeighborhoods();
     }
   }, [selectedPopulation]);
 
   useEffect(() => {
     if (selectedNeighborhood) {
-      console.log("selectedNeighborhood", selectedNeighborhood);
       fetchZipCodes();
     }
   }, [selectedNeighborhood]);

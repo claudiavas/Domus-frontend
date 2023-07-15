@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { getProfile } from '../apiService/apiService';
 import { getPayload } from '../apiService/apiService';
-import { login } from '../apiService/apiService';
+import {Login} from '../Authentication/Login';
 
 export const AuthContext = createContext();
 

@@ -13,6 +13,7 @@ import { HousingList } from './components/MainView/HousingList/HousingList';
 import { UpdateHousing } from './components/MainView/HousingDetails/UpdateHousing';
 import { EditUserProfile } from './components/MainView/UserProfile/EditUserProfile';
 import { ResetPassword } from './components/Authentication/ResetPassword';
+import { PasswordRecovery } from './components/Authentication/PasswordRecovery';
 
 const App = () => {
 
@@ -26,6 +27,7 @@ return (
         <Route path="/housinglist" element={<HousingList/>}></Route>
         <Route path="/forgotpassword" element={<ForgotPassword/>}></Route>
         <Route path="/resetpassword" element={<ResetPassword/>}></Route>
+        <Route path="/passwordrecovery" element={<PasswordRecovery/>}></Route>
         <Route path="/userprofile" element={<EditUserProfile/>}></Route>
         <Route path="/mainview" element={<MainView/>}></Route>
         <Route path="/housingdetails/:_id" element={<HousingDetails/>}></Route>
