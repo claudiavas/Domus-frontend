@@ -33,9 +33,10 @@ export function HousingList({myHousingSwitch}) {
     (!checkbox.terrace || house.terrace) &&
     (!checkbox.storage || house.storage) &&
     (!checkbox.accessible || house.accessible);
-    const cumpleFiltroProvince = province ? house.province : {};
+    const cumpleFiltroProvince = province ? (house.province === province) : true;
 
-    return myHousingFilter && cumpleFiltroProvince && cumpleFiltroHabitaciones &&  cumpleFiltroMetrosCuadrados && cumpleFiltroBaths && cumpleFiltroGarage && cumpleFiltroMinPrice  && cumpleFiltroMaxPrice && cumpleFiltroCheckbox;
+
+    return myHousingFilter  && cumpleFiltroHabitaciones &&  cumpleFiltroMetrosCuadrados && cumpleFiltroBaths && cumpleFiltroGarage && cumpleFiltroMinPrice  && cumpleFiltroMaxPrice && cumpleFiltroCheckbox && cumpleFiltroProvince;
   });
 
 
