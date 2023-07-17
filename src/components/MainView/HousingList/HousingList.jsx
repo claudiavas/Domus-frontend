@@ -33,7 +33,7 @@ export function HousingList({myHousingSwitch}) {
     (!checkbox.terrace || house.terrace) &&
     (!checkbox.storage || house.storage) &&
     (!checkbox.accessible || house.accessible);
-    const cumpleFiltroProvince = province ? (house.province === province) : true;
+    const cumpleFiltroProvince = province ? (house.province.CPRO === province.CPRO) : true;
 
 
     return myHousingFilter  && cumpleFiltroHabitaciones &&  cumpleFiltroMetrosCuadrados && cumpleFiltroBaths && cumpleFiltroGarage && cumpleFiltroMinPrice  && cumpleFiltroMaxPrice && cumpleFiltroCheckbox && cumpleFiltroProvince;
