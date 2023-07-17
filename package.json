@@ -9,7 +9,7 @@
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "jest",
-    "start": "serve dist -s -n -L -p $PORT"
+    "start": "serve verde-frontend"
   },
   "dependencies": {
     "@emotion/react": "^11.11.0",
@@ -26,6 +26,7 @@
     "react-dom": "^18.2.0",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.11.2",
+    "serve": "^14.2.0",
     "yup": "^1.2.0"
   },
   "devDependencies": {
