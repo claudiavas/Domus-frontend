@@ -26,6 +26,9 @@ export const EditUserProfile = () => {
     setOpen(true); // Abrir el diálogo de cambiar contraseña estableciendo el estado en true
   };
 
+  console.log("profile: ", profile);
+  console.log("profileId: ", profile._id);
+
   const handleResetPasswordClose = () => {
     setOpen(false);
   };
@@ -56,7 +59,7 @@ export const EditUserProfile = () => {
     telephone2: profile.telephone2,
     profileSummary: profile.profileSummary,
     realEstateLogo: profile.realEstateLogo,
-    userType: 'Agente',
+    userType: 'Agent',
     profilePicture: profile.profilePicture,
     subscription: profile.subscription,
   });
@@ -304,7 +307,7 @@ export const EditUserProfile = () => {
               </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Button color="primary" variant="outlined" onClick={handleResetPasswordOpen}>Cambiar contraseña</Button>
-              {open && <ResetPassword open={open} onClose={handleResetPasswordClose}/>}
+              {open && <ResetPassword open={open} onClose={handleResetPasswordClose} userId={profile._id} email={profile.email}/>}
               </div>
             </div>
           </Paper>

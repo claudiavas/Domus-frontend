@@ -34,7 +34,6 @@ export function Login() {
         email: email.value,
         password: password.value
       });
-      console.log("esto es response", response);
       const token = response.token;
       window.localStorage.setItem("token", token);
       navigate("/MainView");

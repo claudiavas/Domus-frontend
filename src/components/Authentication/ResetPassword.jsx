@@ -2,52 +2,66 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Snackbar, Alert } from '@mui/material';
 import { resetPassword } from '../apiService/apiService';
 import { AuthContext } from '../Contexts/AuthContext';
-import { useParams } from 'react-router-dom';
-import { getPayload } from '../apiService/apiService';
+import { login } from '../apiService/apiService';
+import { useNavigate } from 'react-router-dom';
 
-export const ResetPassword = ({open, onClose}) => {
-  
+export const ResetPassword = ({ open, onClose, userId, email }) => {
+
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
-  const { token } = useParams();
-  const { profile, setProfile } = useContext(AuthContext);
-
-
+  const navigate = useNavigate();
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
   const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
 
-  const handleUpdate = async (updatedUser) => {
+  const handleLogin = async (newPassword, email) => {
+    setIsLoading(true);
     try {
-      if (isLoggedIn) {
-        const response = await resetPassword(profile._id, {password: newPassword});
-        setSuccessMessage("Contraseña actualizada correctamente.");
-        setSuccessSnackbarOpen(true);
-        onClose(); // Cerrar el diálogo aquí
-      } else {
-        // Obtener el payload decodificado del token
-        const payload = await getPayload(token);
-        const userId = payload.userId;
-  
-        // Enviar el userId y la nueva contraseña al backend
-        const response = await resetPassword(userId, {password: newPassword});
-        setSuccessMessage("Contraseña actualizada correctamente.");
-        setSuccessSnackbarOpen(true);
-        onClose(); // Cerrar el diálogo aquí
+      const response = await login({
+        email: email,
+        password: newPassword
+      });
+      const token = response.token;
+      window.localStorage.setItem("token", token);
+      navigate("/MainView");
+    } catch (error) {
+      console.log("este es el error", error);
+      setErrorMessage(error);
+      setErrorSnackbarOpen(true);
+      setTimeout(() => {
+        setErrorMessage("");
+        setErrorSnackbarOpen(false);
+        setIsLoading(false);
+      }, 5000);
+    }
+    setIsLoggedIn(true);
+  };
+
+
+  const handleUpdate = async (userId, newPassword) => {
+    try {
+      const response = await resetPassword(userId, { password: newPassword });
+      setSuccessMessage(response.message || "Contraseña actualizada correctamente.");
+      setSuccessSnackbarOpen(true);
+      alert("Contraseña actualizada correctamente.");
+      if (!isLoggedIn) {
+        handleLogin(newPassword, email);
       }
+      // onClose();
+
     } catch (error) {
       console.error('Error al actualizar la contraseña:', error);
+      alert("Error al actualizar la contraseña. Por favor, intenta nuevamente.");
       setErrorMessage('Error al actualizar la contraseña. Por favor, intenta nuevamente.');
       setErrorSnackbarOpen(true);
     }
   };
-  
-  
+
   const handleSubmit = async (event) => {
-    
+ 
     if (!newPassword) {
       setErrorMessage('Ingresa una contraseña válida');
       setErrorSnackbarOpen(true);
@@ -66,8 +80,8 @@ export const ResetPassword = ({open, onClose}) => {
       return;
     }
 
-    handleUpdate(profile.id, newPassword);
-    handleClose();
+    handleUpdate(userId, newPassword)
+    onClose();
   };
 
   const handleClose = () => {
@@ -114,28 +128,28 @@ export const ResetPassword = ({open, onClose}) => {
         </DialogActions>
       </Dialog>
 
-      <Snackbar 
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
-        open={errorSnackbarOpen} 
-        autoHideDuration={5000} 
-        onClose={() => setErrorSnackbarOpen(false)} 
-        >
-        <Alert 
-          elevation={6} 
-          variant="filled" 
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={errorSnackbarOpen}
+        autoHideDuration={5000}
+        onClose={() => setErrorSnackbarOpen(false)}
+      >
+        <Alert
+          elevation={6}
+          variant="filled"
           severity="error">
           {errorMessage}
         </Alert>
       </Snackbar>
 
-      <Snackbar 
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
-        open={successSnackbarOpen} 
-        autoHideDuration={5000} 
-        onClose={() => setSuccessSnackbarOpen(false)} 
-        >
-        <Alert 
-          elevation={6} 
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={successSnackbarOpen}
+        autoHideDuration={5000}
+        onClose={() => setSuccessSnackbarOpen(false)}
+      >
+        <Alert
+          elevation={6}
           variant="filled"
           severity="success">
           {successMessage}

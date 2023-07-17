@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const PORT = 8000;
+// const BackendUrl = "https://localhost:8000";
 const BackendUrl = "https://verde-backend-production.up.railway.app";
 
 //HOUSING
@@ -43,8 +43,8 @@ export const register = async (body) => {
   return data;
 }
 
-export const resetPassword = async (_id, body) => {
-  const { data } = await axios.put(`${BackendUrl}/user/resetpassword/${_id}`, body);
+export const resetPassword = async (userId, body) => {
+  const { data } = await axios.put(`${BackendUrl}/user/resetpassword/${userId}`, body);
   return data;
 };
 
@@ -93,8 +93,6 @@ export const getProvinces = async () => {
 // SENDEMAIL
 
 export const sendPasswordResetEmail = async (body) => {
-  console.log("ejecutando sendPasswordResetEmail")
   const {data} = await axios.post(`${BackendUrl}/api/sendemail`, body);
-  console.log(data);
   return data;
 }
