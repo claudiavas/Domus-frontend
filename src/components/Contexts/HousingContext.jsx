@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getActiveHousing } from '../apiService/apiService';
+import { getActiveHousing, updateHousing } from '../apiService/apiService';
 
 export const HousingContext = createContext();
 
@@ -20,7 +20,7 @@ export const HousingProvider = ({ children }) => {
 
   useEffect(() => {
     fetchHousing();
-  }, []);  
+  }, [housing]);  
 
   useEffect(() => {
     console.log("housing", housing)
@@ -30,6 +30,7 @@ export const HousingProvider = ({ children }) => {
 
   const contextValue = {
     housing,
+    setHousing,
   };
 
   return (

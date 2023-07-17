@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
-import { Grid, Typography, TextField, Input } from '@mui/material/';
+import { Grid, Typography, TextField, Input, Card, Chip, Divider, Checkbox } from '@mui/material/';
 import Paper from '@mui/material/Paper';
 import { getActiveHousing, getHouse, updateHousing } from '../../apiService/apiService';
 import { PhotoGallery } from './PhotoGallery';
@@ -13,6 +13,18 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../../Contexts/AuthContext';
 import { HousingContext } from '../../Contexts/HousingContext';
+import CardMembershipIcon from '@mui/icons-material/CardMembership';
+import { PhoneNumber } from '../Contact/PhoneNumber';
+import { WhatsAppButton } from '../Contact/WhatsappButton';
+import BedOutlinedIcon from '@mui/icons-material/BedOutlined';
+import BathtubIcon from '@mui/icons-material/Bathtub';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import FullscreenOutlinedIcon from '@mui/icons-material/FullscreenOutlined';
+import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import { Avatar } from '@mui/material';
+import { Tooltip } from '@mui/material';
 
 export const HousingDetails = () => {
 
@@ -23,14 +35,66 @@ export const HousingDetails = () => {
   console.log("housing en HousingDetails", housing)
   const { profile } = useContext(AuthContext);
 
-  // Buscar la vivienda por ID
   const housingData = housing.find((item) => item._id === _id);
-  console.log("housingData en HousingDetails", housingData)
-  
+
+  // Buscar la vivienda por ID
+  useEffect(() => {
+    console.log("housingData en HousingDetails", housingData)
+  }, [housing]);
+
   if (!housingData) {
     return <div>Vivienda no encontrada</div>;
   }
- 
+  const user = housingData.user
+  console.log("user en HousingDetails", user)
+
+
+  const precioxm2 = (housingData.price / housingData.squareMeters).toFixed(0);
+  let currencySymbol = '';
+  if (housingData.currency === 'USD') {
+    currencySymbol = '$';
+  } else if (housingData.currency === 'EUR') {
+    currencySymbol = '€';
+  }
+
+  const formattedPrice = (new Intl.NumberFormat('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 }))
+    .format(housingData.price)
+    .replace('.', ' ')
+    .replace(',', ',');
+
+  const removeTextInParentheses = (text) => {
+    return text.replace(/\([^()]*\)/g, "").trim()
+  };
+
+  const locationText = [
+    housingData.province.PRO,
+    housingData.municipality.DMUN50,
+    housingData.population.NENTSI50,
+    housingData.neighborhood.NNUCLE50
+  ]
+    .filter(Boolean)
+    .filter((value, index, self) => self.indexOf(value) === index)
+    .map(removeTextInParentheses)
+    .join(", ");
+
+
+  const booleanItems = [
+    housingData.airConditioned && { label: 'Aire acondicionado', value: housingData.airConditioned },
+    housingData.heating && { label: 'Calefacción', value: housingData.heating },
+    housingData.elevator && { label: 'Ascensor', value: housingData.elevator },
+    housingData.storage && { label: 'Trastero', value: housingData.storage },
+    housingData.outsideview && { label: 'Vista Exterior', value: housingData.outsideview },
+    housingData.garden && { label: 'Jardín', value: housingData.garden },
+    housingData.pool && { label: 'Piscina', value: housingData.pool },
+    housingData.terrace && { label: 'Terraza', value: housingData.terrace },
+    housingData.closets && { label: 'Closets', value: housingData.closets },
+    housingData.accessible && { label: 'Accesible', value: housingData.accessible },
+  ];
+
+  const halfLength = Math.ceil(booleanItems.length / 2);
+  const firstHalf = booleanItems.slice(0, halfLength);
+  const secondHalf = booleanItems.slice(halfLength);
+
   const handleDeleteHousing = async (_id, status) => {
     updateHousing(_id, { status: "DELETED" });
     await setFormData((prevState) => ({
@@ -42,110 +106,247 @@ export const HousingDetails = () => {
   }
 
   return (
-
-    //  HEADING
-
     <div style={{ margin: '0 3rem 3rem 3rem' }}>
+      {/* HEADING & DELETE BUTTON */}
       <h1 style={{ marginTop: 0, background: '#1976d2', color: 'white', padding: '0.5rem', display: 'flex', justifyContent: 'space-between' }}>
         <span>Detalle del Inmueble</span>
         {housingData.user._id === profile._id &&
-        <IconButton color="inherit" aria-label="eliminar">
-          <DeleteIcon onClick={() => (handleDeleteHousing(_id))} />
-        </IconButton>}
+          <IconButton onClick={() => handleDeleteHousing(_id)} color="inherit" aria-label="eliminar">
+            <DeleteIcon />
+          </IconButton>}
       </h1>
 
+      {/* PHOTOGALLERY */}
+      <PhotoGallery itemData={housingData.images} />
 
-      <PhotoGallery />
+      <Grid container spacing={1}>
+        {/* TITLE */}
+        <Grid item xs={12} md={12} lg={12}>
+          {housingData.title && <Typography variant="h6">{housingData.title}</Typography>}
+        </Grid>
 
-      <Grid container spacing={3}>
-        <Grid item xs={8} style={{ gridColumn: '1 / span 8' }}>
 
-          <Paper elevation={3} style={{ padding: '1rem', marginBottom: '0.6rem' }}>
-            {/* Datos del inmueble */}
+        {/* FIRST COLUMN */}
 
-            <br></br>
-            <Typography variant="h6">Características</Typography>
-            <div>
-            {housingData.title && <Typography>Título: {housingData.title}</Typography>}
-            {housingData.description && <Typography>Descripción: {housingData.description}</Typography>}
-            {housingData.user && <Typography>Usuario: {housingData.user._id}</Typography>}
-            {housingData.images && <Typography>Imágenes: {housingData.images}</Typography>}
-            {housingData.type && <Typography>Tipo de inmueble: {housingData.type}</Typography>}
-            {housingData.transaction && <Typography>Transacción: {housingData.transaction}</Typography>}
-            {housingData.currency && <Typography>Moneda: {housingData.currency}</Typography>}
-            {housingData.price && <Typography>Precio: {housingData.price}</Typography>}
-            {housingData.squareMeters && <Typography>Metros cuadrados: {housingData.squareMeters}</Typography>}
-            {housingData.country && <Typography>País: {housingData.country}</Typography>}
-            {/* {housingData.province && <Typography>Provincia: {housingData.province}</Typography>}
-            {housingData.municipality && <Typography>Municipalidad: {housingData.municipality}</Typography>}
-            {housingData.neighborhood && <Typography>Barrio: {housingData.neighborhood}</Typography>}
-            {housingData.zipCode && <Typography>Código Postal: {housingData.zipCode}</Typography>}
-            {housingData.roadName && <Typography>Vía: {housingData.roadName}</Typography>} */}
-            {housingData.houseNumber && <Typography>Número de portal: {housingData.houseNumber}</Typography>}
-            {housingData.floor && <Typography>Piso: {housingData.floor}</Typography>}
-            {housingData.door && <Typography>Puerta: {housingData.door}</Typography>}
-            {housingData.stair && <Typography>Escalera: {housingData.stair}</Typography>}
-            {housingData.rooms && <Typography>Dormitorios: {housingData.rooms}</Typography>}
-            {housingData.baths && <Typography>Baños: {housingData.baths}</Typography>}
-            {housingData.garage && <Typography>Garages: {housingData.garage}</Typography>}
-            {housingData.floorLevel && <Typography>Nivel de piso: {housingData.floorLevel}</Typography>}
-            {housingData.facing && <Typography>Orientación: {housingData.facing}</Typography>}
-            {housingData.propertyAge && <Typography>Antigüedad del inmueble: {housingData.propertyAge}</Typography>}
-            {housingData.condition && <Typography>Condición: {housingData.condition}</Typography>}
-            {housingData.furnished && <Typography>Amueblado: {housingData.furnished}</Typography>}
-            {housingData.kitchenEquipment && <Typography>Equipamiento de cocina: {housingData.kitchenEquipment}</Typography>}
-            {housingData.airConditioned && <Typography>Aire acondicionado: {housingData.airConditioned}</Typography>}
-            {housingData.heating && <Typography>Calefacción: {housingData.heating}</Typography>}
-            {housingData.elevator && <Typography>Ascensor: {housingData.elevator}</Typography>}
-            {housingData.storage && <Typography>Trastero: {housingData.storage}</Typography>}
-            {housingData.outsideview && <Typography>Vista Exterior: {housingData.outsideview}</Typography>}
-            {housingData.garden && <Typography>Jardín: {housingData.garden}</Typography>}
-            {housingData.pool && <Typography>Piscina: {housingData.pool}</Typography>}
-            {housingData.terrace && <Typography>Terraza: {housingData.terrace}</Typography>}
-            {housingData.closets && <Typography>Closets: {housingData.closets}</Typography>}
-            {housingData.accessible && <Typography>Accesible: {housingData.accessible}</Typography>}
+        {/* CHIPS */}
+        <Grid item xs={12} md={6} lg={6} >
+
+          <Card style={{ height: "100%" }}>
+            <div style={{ padding: "8px 8px 8px 8px", display: 'inline-flex' }}>
+              <Chip label={housingData.transaction} color="primary" variant="contained" size="small" style={{ marginRight: '15px' }} />
+              <Chip label={housingData.type} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />
+              {housingData.furnished && <Chip label={housingData.furnished} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />}
             </div>
-          </Paper>
+
+
+            {/* LOCATION */}
+
+            <div style={{ padding: "8px 8px 8px 8px", display: 'flex', alignItems: 'center', marginBottom: '5px', flexGrow: 1 }}>
+              <LocationOnOutlinedIcon style={{ marginRight: '5px' }} />
+              <h6 style={{ margin: '0px' }}>{locationText}</h6>
+            </div>
+
+
+            {/* ADDRESS */}
+
+            <Grid item xs={6} style={{ padding: "8px 8px 8px 8px" }}>
+              {housingData.houseNumber && <Typography>Número de portal: {housingData.houseNumber}</Typography>}
+              {housingData.floor && <Typography>Piso: {housingData.floor}</Typography>}
+              {housingData.door && <Typography>Puerta: {housingData.door}</Typography>}
+              {housingData.stair && <Typography>Escalera: {housingData.stair}</Typography>}
+            </Grid>
+
+            <Divider style={{ margin: "10px" }} />
+
+            {/* DESCRIPTION */}
+
+            <div style={{ padding: "8px 8px 8px 8px" }}>
+              {housingData.description && <Typography variant="p">{housingData.description}</Typography>}
+            </div>
+          </Card>
+        </Grid>
+
+        {/* SECOND COLUMN */}
+        <Grid item xs={12} md={6} lg={4} style={{ position: 'sticky', top: 0, zIndex: 999, height: '100%' }}>
+          {/* MAIN ICONS */}
+          <Card style={{ padding: "8px 8px 8px 8px", height: "100%" }}>
+            <div style={{ display: 'flex', alignItems: 'center', margin: '0px', padding: 0, marginBottom: '5px', flexGrow: 1 }}>
+              <FullscreenOutlinedIcon />
+              <h5 style={{ margin: '0px', marginLeft: '5px', marginRight: '50px' }}>{housingData.squareMeters} m2</h5>
+              <BedOutlinedIcon style={{ marginRight: '10px' }} />
+              <h5 style={{ margin: '0px' }}>{housingData.rooms}</h5>
+              {housingData.baths ? (
+                <div style={{ display: 'flex', alignItems: 'center', margin: '0px', padding: 0, marginBottom: '5px', marginLeft: "60px", flexGrow: 1 }}>
+                  <BathtubIcon style={{ marginRight: '10px' }} />
+                  <h5 style={{ margin: '0px' }}>{housingData.baths}</h5>
+                </div>
+              ) : (
+                <div></div>
+              )}
+              {housingData.garages ? (
+                <div style={{ display: 'flex', alignItems: 'center', margin: '0px', padding: 0, marginBottom: '5px', flexGrow: 1 }}>
+                  <DirectionsCarIcon style={{ marginRight: '10px' }} />
+                  <h5 style={{ margin: '0px' }}>{housingData.garages}</h5>
+                </div>
+              ) : (
+                <div></div>
+              )}
+            </div>
+
+            <Divider style={{ margin: "10px" }} />
+
+            {/* TEXT ESPECIFICATIONS */}
+
+            <div style={{ padding: "8px 8px 8px 8px" }}>
+              <Grid container spacing={2}>
+                <Grid item xs={7}>
+                  {housingData.floorLevel && (
+                    <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>Nivel de piso:</Typography>
+                  )}
+                  {housingData.facing && (
+                    <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>Orientación:</Typography>
+                  )}
+                  {housingData.propertyAge && (
+                    <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>Antigüedad del inmueble:</Typography>
+                  )}
+                  {housingData.condition && (
+                    <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>Condición:</Typography>
+                  )}
+                  {housingData.furnished && (
+                    <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>Amueblado:</Typography>
+                  )}
+                  {housingData.kitchenEquipment && (
+                    <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>Equipamiento de cocina:</Typography>
+                  )}
+                </Grid>
+                <Grid item xs={5}>
+                  {housingData.floorLevel && <Typography variant="subtitle1">{housingData.floorLevel}</Typography>}
+                  {housingData.facing && <Typography variant="subtitle1">{housingData.facing}</Typography>}
+                  {housingData.propertyAge && <Typography variant="subtitle1">{housingData.propertyAge}</Typography>}
+                  {housingData.condition && <Typography variant="subtitle1">{housingData.condition}</Typography>}
+                  {housingData.furnished && <Typography variant="subtitle1">{housingData.furnished}</Typography>}
+                  {housingData.kitchenEquipment && <Typography variant="subtitle1">{housingData.kitchenEquipment}</Typography>}
+                </Grid>
+              </Grid>
+            </div>
+
+            <Divider style={{ margin: "10px" }} />
+
+            {/* BOOLEAN ESPECIFICATIONS */}
+            <Grid container spacing={1}>
+              {booleanItems.map((item, index) => (
+                item && (
+                  <Grid item xs={6} key={index}>
+                    <Typography>
+                      <Checkbox checked={true} />
+                      {item.label && <span>{item.label}</span>} {item.value && <span>{item.value}</span>}
+                    </Typography>
+                  </Grid>
+                )
+              ))}
+            </Grid>
+
+
+
+          </Card>
         </Grid>
 
 
-        <Grid item xs={4} style={{ gridColumn: '9 / span 4' }}>
+        {/* THIRD COLUMN */}
 
-          <Paper
-            elevation={3}
-            style={{
-              position: 'sticky',
-              top: 0,
-              zIndex: 100,
-              backgroundColor: 'white',
-              padding: '1rem',
-              marginBottom: '0.6rem'
-            }}>
+        <Grid item xs={12} md={4} lg={2} style={{ position: 'sticky', top: 0, zIndex: 999 }}>
+          {/* PRICING */}
 
-            {/* Datos de la inmobiliaria */}
-            <p>DATOS DE LA INMOBILIARIA</p>
-            <br />
-            <br />
-            <br />
-            {/* Datos del usuario */}
-            <p>DATOS DEL USUARIO</p>
+          <Card style={{ height: "100%" }}>
+            <div style={{ margin: '8px 8px 8px 8px' }}>
+              <h4 style={{ margin: '0px', padding: 0, color: "#1976d2", alignItems: "center" }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}><Typography>Precio:</Typography> {formattedPrice} {currencySymbol}</div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}><Typography>Precio/m2:</Typography> {precioxm2} {currencySymbol}</div>
+              </h4>
+            </div>
 
-          </Paper>
+            <Divider style={{ margin: "10px" }} />
+
+
+            {/* AGENT */}
+
+
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '10px' }}>
+              {user.realEstateLogo && housingData.showRealEstateLogo && user.profilePicture ? (
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <div><Avatar alt="profile picture" src={user.profilePicture} sx={{ width: 56, height: 56 }} /></div>
+                  <div><Avatar alt="real estate logo" src={user.realEstateLogo} sx={{ width: 75, height: 75 }} /></div>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  {user.profilePicture ? (
+                    <div><Avatar alt="profile picture" src={user.profilePicture} sx={{ width: 56, height: 56 }} /></div>
+                  ) : (
+                    <Avatar sx={{ width: 56, height: 56 }} />
+                  )}
+                </div>
+              )}
+            </div>
+
+            <div style={{ alignSelf: 'center', marginTop: '20px', marginBottom: '20px' }}>
+              <h4 style={{ fontWeight: 'bold', textAlign: 'center', margin: '0px' }}>
+                {user.name} {user.surname}
+              </h4>
+            </div>
+            <div style={{ justifyContent: 'center', alignItems: 'center', marginTop: '5px' }}>
+              {user.agentRegistrationNumber && user.agentRegistrationCommunity && (
+                <Tooltip title={`Registro No. ${profile.agentRegistrationNumber} C.A. de ${profile.agentRegistrationCommunity}`}>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <IconButton size="small" color="success" style={{ margin: '0 2px 0 0' }}>
+                      <CardMembershipIcon fontSize="small" />
+                    </IconButton>
+                    <Typography variant="body2">{`${profile.agentRegistrationNumber} C.A. de ${profile.agentRegistrationCommunity}`}</Typography>
+                  </div>
+                </Tooltip>
+              )}
+            </div>
+
+            <div style={{ justifyContent: 'center', alignItems: 'center', marginTop: '5px' }}>
+              {user.telephone1 && (
+                <div style={{ display: 'flex', alignItems: 'center', margin: '0 0 2px 0' }}>
+                  <WhatsAppButton phoneNumber={user.telephone1} />
+                  <Typography variant="body2" style={{ margin: '0 0 0 5px' }}>{user.telephone1}</Typography>
+                </div>
+              )}
+              {user.telephone2 && (
+                <div style={{ display: 'flex', alignItems: 'center', margin: '0 0 2px 0' }}>
+                  <PhoneNumber phoneNumber={user.telephone2} />
+                  <Typography variant="body2" style={{ margin: '0 0 0 10px' }}>{user.telephone2}</Typography>
+                </div>
+              )}
+              <Tooltip title={user.email} arrow>
+                <div style={{ display: 'flex', alignItems: 'center', margin: '0 0 5px 0' }}>
+                  <IconButton component="a" href={`mailto:${user.email}`} size="small" color="primary" style={{ margin: '0 5px 0 0' }}>
+                    <EmailOutlinedIcon fontSize="small" />
+                  </IconButton>
+                  <Typography variant="body2">{user.email}</Typography>
+                </div>
+              </Tooltip>
+            </div>
+
+
+
+          </Card>
         </Grid>
-
-
       </Grid>
-      {housingData.user._id === profile._id &&
-      <Link to={`/updatehousing/${_id}`} state={{ housingData }}>
-        <Box sx={{ position: 'fixed', right: '20px', bottom: '20px', zIndex: '9999' }}>
-          <Fab
-            color="secondary"
-            aria-label="edit">
-            <EditIcon />
-          </Fab>
-        </Box>
-      </Link>}
 
+      <div>
+        {/* UPDATE HOUSING BUTTON */}
+        {housingData.user._id === profile._id &&
+          <Link to={`/updatehousing/${_id}`} state={{ housingData }}>
+            <Box sx={{ position: 'fixed', right: '20px', bottom: '20px', zIndex: '9999' }}>
+              <Fab color="secondary" aria-label="edit">
+                <EditIcon />
+              </Fab>
+            </Box>
+          </Link>}
+      </div>
     </div>
   );
-};
+
+} 

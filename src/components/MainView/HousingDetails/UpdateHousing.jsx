@@ -7,6 +7,7 @@ import { Images } from '../Images/Images';
 import { ImagesContext } from '../../Contexts/ImagesContext';
 import { AuthContext } from '../../Contexts/AuthContext';
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { HousingContext } from '../../Contexts/HousingContext';
 //import { useForm } from 'react-hook-form';
 //import { yupResolver } from '@hookform/resolvers/yup';
 //import * as Yup from 'yup';
@@ -15,6 +16,7 @@ export const UpdateHousing = () => {
 
   const { _id } = useParams(); // Obtener el parámetro de la URL
   const location = useLocation();
+  const { housing, setHousing } = useContext(HousingContext);
   const { housingData } = location.state;
   console.log("housingData", housingData);
 
@@ -44,11 +46,11 @@ export const UpdateHousing = () => {
     type: housingData.type,
     transaction: housingData.transaction,
     country: housingData.country,
-    // province: housingData.province,
-    // municipality: housingData.municipality,
-    // population: housingData.population,
-    // neighborhood: housingData.neighborhood,
-    // zipCode: housingData.zipCode,
+    province: housingData.province,
+    municipality: housingData.municipality,
+    population: housingData.population,
+    neighborhood: housingData.neighborhood,
+    zipCode: housingData.zipCode,
     roadName: housingData.roadName ? housingData.roadName : "null",
     squareMeters: housingData.squareMeters,
     currency: housingData.currency,
@@ -123,6 +125,7 @@ export const UpdateHousing = () => {
   //     resolver: yupResolver(validationSchema)
   //   });
 
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(formData, formData)
@@ -130,12 +133,22 @@ export const UpdateHousing = () => {
     // clearErrors();   
     try {
       // await validationSchema.validate(formData, { abortEarly: false });
-      const response = await updateHousing(_id, formData);
+      const response = updateHousing(_id, formData);
       navigate(`/housingdetails/${housingData._id}`)
     } catch (error) {
       console.error(error);
     }
   };
+
+  const handleDeleteHousing = async (_id, status) => {
+    updateHousing(_id, { status: "DELETED" });
+    await setFormData((prevState) => ({
+      ...prevState,
+      status: "DELETED",
+    }));
+    alert("Vivienda eliminada correctamente")
+    navigate("/mainview");
+  }
 
   //   } catch (error) {
   //     error.inner.forEach((err) => {
@@ -153,19 +166,19 @@ export const UpdateHousing = () => {
 
     switch (name) {
       case 'province':
-        setSelectedProvince(fieldValue);
+        setSelectedProvince(value);
         break;
       case 'municipality':
-        setSelectedMunicipality(fieldValue);
+        setSelectedMunicipality(value);
         break;
       case 'population':
-        setSelectedPopulation(fieldValue);
+        setSelectedPopulation(value);
         break;
       case 'neighborhood':
-        setSelectedNeighborhood(fieldValue);
+        setSelectedNeighborhood(value);
         break;
       case 'zipCode':
-        setSelectedZipCode(fieldValue);
+        setSelectedZipCode(value);
         break;
       default:
         setFormData((prevFormData) => ({
