@@ -18,6 +18,7 @@ export default function HouseCard({ _id, user, showRealEstateLogo, province, mun
   const { profile } = useContext(AuthContext);
   const navigate = useNavigate();
   const showThumbsValue = false;
+  
   const precioxm2 = (price / squareMeters).toFixed(0);
   let currencySymbol = '';
   if (currency === 'USD') {
