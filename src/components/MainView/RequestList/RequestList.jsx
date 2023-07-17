@@ -41,6 +41,7 @@ export function RequestList({myHousingSwitch}) {
           _id={request._id}
           showRealEstateLogo={request.showRealEstateLogo}
           user={request.user}
+          title={request.title}
           type={request.type}
           transaction={request.transaction}
           country={request.country}
@@ -71,8 +72,7 @@ export function RequestList({myHousingSwitch}) {
           pool={request.pool}
           terrace={request.terrace}
           storage={request.storage}
-          accesible={request.accesible}
-          status={request.status}       
+          accessible={request.accessible}
         />
         // </Link>
       ))}
