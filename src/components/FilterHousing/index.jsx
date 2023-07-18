@@ -243,6 +243,7 @@ export function LocationFilter() {
   const [selectedMunicipality, setSelectedMunicipality] = useState('');
   const [selectedProvince, setSelectedProvince] = useState('');
   const [selectedPopulation, setSelectedPopulation] = useState('');
+  const [selectedNeighborhood, setSelectedNeighborhood] = useState('');
 
   const [formData, setFormData] = useState({});
 

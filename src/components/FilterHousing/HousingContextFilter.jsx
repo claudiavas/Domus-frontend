@@ -22,7 +22,6 @@ export function InmueblesProvider({ children }) {
     accessible: false,
   });
   const [province, setProvince] = useState();
-  console.log("La provincia seleccionada es: ", province);
   const [municipality, setMunicipality] = useState();
   const [neighborhood, setNeighborhood] = useState();
   const [population, setPopulation] = useState();
