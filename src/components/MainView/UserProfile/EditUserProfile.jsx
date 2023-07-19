@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Box, Snackbar, Grid, Paper, TextField, Button, IconButton, Avatar, FormControl, InputLabel, Select, MenuItem, Typography, Checkbox } from '@mui/material';
+import { Box, Snackbar, Grid, Paper, TextField, Button, IconButton, Avatar, FormControl, InputLabel, Select, MenuItem, Typography, Checkbox, Fab } from '@mui/material';
 import { Container } from '@mui/material';
 import axios from 'axios';
 import { LocationContext } from '../../Contexts/LocationContext';
@@ -9,6 +9,8 @@ import { AuthContext } from '../../Contexts/AuthContext';
 import { Dining } from '@mui/icons-material';
 import { ResetPassword } from '../../Authentication/ResetPassword';
 import { updateUser } from '../../apiService/apiService';
+import { Header } from '../../HomePage/Header/Header';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 
 export const EditUserProfile = () => {
 
@@ -37,7 +39,7 @@ export const EditUserProfile = () => {
     backgroundColor: '#2196f3', // Color de fondo de la notificación
     color: '#fff', // Color del texto de la notificación
   };
-  
+
 
   const handleCheckboxChange = (event) => {
     setSubscription(event.target.checked);
@@ -100,9 +102,10 @@ export const EditUserProfile = () => {
 
     // HEADINGS
 
-    <div style={{ margin: '0rem 0rem 3rem 0rem' }}>
+    <div style={{ margin: '0 3rem 3rem 3rem' }}>
+      
+      <h1 style={{ marginTop: 0, background: '#1976d2', color: 'white', padding: '0.5rem' }}><Header component="Mi Perfil"/></h1>
 
-      <h1 style={{ marginTop: 0, background: '#1976d2', color: 'white', padding: '0.1rem' }}>Editar Perfil</h1>
 
       {/* Avatar + search icon  */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', margin: '2rem 10rem 0rem 10rem' }}>
@@ -315,7 +318,7 @@ export const EditUserProfile = () => {
       </Container>
 
       {/* Botón de envío */}
-      < div style={{ display: "flex", justifyContent: "flex-end", height: '2rem', margin: '0rem 10rem 0rem 0rem' }}> {/* Esto es un hack para que el botón no tape los campos de texto */}
+      < div style={{ display: "flex", justifyContent: "flex-end", height: '2rem', marginBottom: "6rem"}}> {/* Esto es un hack para que el botón no tape los campos de texto */}
         < Button
           type="submit"
           variant="contained"
@@ -335,6 +338,16 @@ export const EditUserProfile = () => {
         </Button >
       </div >
 
+    {/* BACK BUTTON */}
+      <Box sx={{ position: 'fixed', right: '20px', bottom: '20px', zIndex: '9999' }}>
+        <Fab color="action" aria-label="regresar">
+          {/* <IconButton aria-label="Volver" onClick={() => history.goBack()}> */}
+          <IconButton aria-label="Volver" onClick={() => (navigate(`/mainview`))}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </Fab>
+      </Box>
+
       {/*  </Box>*/}
       <Snackbar
           open={openSnackbar}
@@ -346,6 +359,8 @@ export const EditUserProfile = () => {
           style= {snackbarStyle} // Aplica el estilo personalizado al contenido de la notificación
         />
     </div >
-    
+
+   
+
   )
 };

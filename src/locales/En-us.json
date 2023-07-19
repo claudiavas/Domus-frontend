@@ -1,0 +1,57 @@
+{
+    "housing": {
+        "type": {
+            "apartment": "apartment",
+            "penthouse": "penthouse",
+            "duplex": "duplex",
+            "house": "house",
+            "chalet": "chalet",
+            "other": "other"
+        },
+        "transaction": {
+            "sale": "sale",
+            "rent": "rent",
+            "vacation_rentals": "vacation rentals"
+        },
+        "Floor Level": {
+            "top_floor": "top floor",
+            "intermediate_floor": "intermediate floor",
+            "ground_floor": "ground floor"
+        },
+        "Facing": {
+            "north": "north",
+            "south": "south",
+            "east": "east",
+            "west": "west"
+        },
+        "PropertyAge": {
+            "new": "new",
+            "up_to_5 years": "up to 5 years",
+            "6_to_10 years": "6 to 10 years",
+            "11_to_20 years": "11 to 20 years",
+            "more_than_20 years": "more than 20 years"
+        },
+        "condition": {
+            "new": "new",
+            "good_condition": "good condition",
+            "to_renovate": "to renovate"
+        },
+        "furnished": {
+            "unfurnished": "unfurnished",
+            "semifurnished": "semifurnished",
+            "furnished": "furnished"
+        },
+        "kitchenEquipment": {
+            "standard_equipment": "standard equipment",
+            "semi_equipped": "semi equipped",
+            "fully_equipped": "fully equipped"
+        },
+        "status": {
+            "active": "active",
+            "selled": "selled",
+            "rented": "rented",
+            "inactive": "inactive",
+            "deleted": "deleted"
+        }
+    }
+}

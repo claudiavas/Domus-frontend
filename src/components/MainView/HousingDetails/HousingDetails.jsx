@@ -25,6 +25,8 @@ import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { Avatar } from '@mui/material';
 import { Tooltip } from '@mui/material';
+import { Header } from '../../HomePage/Header/Header';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 
 export const HousingDetails = () => {
 
@@ -83,7 +85,7 @@ export const HousingDetails = () => {
     housingData.heating && { label: 'Calefacción', value: housingData.heating },
     housingData.elevator && { label: 'Ascensor', value: housingData.elevator },
     housingData.storage && { label: 'Trastero', value: housingData.storage },
-    housingData.outsideview && { label: 'Vista Exterior', value: housingData.outsideview },
+    housingData.outsideView && { label: 'Vista Exterior', value: housingData.outsideView },
     housingData.garden && { label: 'Jardín', value: housingData.garden },
     housingData.pool && { label: 'Piscina', value: housingData.pool },
     housingData.terrace && { label: 'Terraza', value: housingData.terrace },
@@ -97,24 +99,15 @@ export const HousingDetails = () => {
 
   const handleDeleteHousing = async (_id, status) => {
     updateHousing(_id, { status: "DELETED" });
-    await setFormData((prevState) => ({
-      ...prevState,
-      status: "DELETED",
-    }));
-    alert("Vivienda eliminada correctamente")
-    navigate("/mainview");
+      navigate("/mainview");
+      alert("Vivienda eliminada correctamente")
+  
   }
 
   return (
     <div style={{ margin: '0 3rem 3rem 3rem' }}>
-      {/* HEADING & DELETE BUTTON */}
-      <h1 style={{ marginTop: 0, background: '#1976d2', color: 'white', padding: '0.5rem', display: 'flex', justifyContent: 'space-between' }}>
-        <span>Detalle del Inmueble</span>
-        {housingData.user._id === profile._id &&
-          <IconButton onClick={() => handleDeleteHousing(_id)} color="inherit" aria-label="eliminar">
-            <DeleteIcon />
-          </IconButton>}
-      </h1>
+      {/* HEADING */}
+      <h1 style={{ marginTop: 0, background: '#1976d2', color: 'white', padding: '0.5rem', display: 'flex', justifyContent: 'space-between' }}><Header component="Detalle del Inmueble" /></h1>
 
       {/* PHOTOGALLERY */}
       <PhotoGallery itemData={housingData.images} />
@@ -337,14 +330,36 @@ export const HousingDetails = () => {
 
       <div>
         {/* UPDATE HOUSING BUTTON */}
+
         {housingData.user._id === profile._id &&
           <Link to={`/updatehousing/${_id}`} state={{ housingData }}>
             <Box sx={{ position: 'fixed', right: '20px', bottom: '20px', zIndex: '9999' }}>
               <Fab color="secondary" aria-label="edit">
-                <EditIcon />
+                 <EditIcon />
               </Fab>
             </Box>
           </Link>}
+
+          {/* DELETE HOUSING ICON */}
+
+      {housingData.user._id === profile._id &&
+            <Box sx={{ position: 'fixed', right: '100px', bottom: '20px', zIndex: '9999' }}>
+              <Fab color="error" aria-label="eliminar propiedad">
+                <DeleteIcon onClick={() => handleDeleteHousing(_id)}/>
+              </Fab>
+            </Box>}
+
+            {/* Botón para volver a la ventana de navegación anterior */}
+
+        <Box sx={{ position: 'fixed', right: '20px', bottom: '20px', zIndex: '9999' }}>
+            <Fab color="action" aria-label="regresar">
+              {/* <IconButton aria-label="Volver" onClick={() => history.goBack()}> */}
+              <IconButton aria-label="Volver" onClick={() => (navigate(`/mainview`))}>
+                <ChevronLeftIcon />
+              </IconButton>
+            </Fab>
+          </Box>
+
       </div>
     </div>
   );

@@ -10,13 +10,13 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
 import { Copyright } from './Footer/Copyright';
 import { useNavigate } from "react-router-dom";
-import { NavBar } from './NavBar/NavBar';
+import { NavBar } from './Header/NavBar';
 import { useEffect, useContext } from 'react';
 import { AuthContext } from '../Contexts/AuthContext';
 
 const defaultTheme = createTheme();
 
-export function HomePage() {
+export const HomePage = () => {
   
   const navigate = useNavigate();
   const { isLoggedIn } = useContext(AuthContext);

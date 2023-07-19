@@ -4,7 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export function NavBar() {
+export const NavBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isMenuInicio = location.pathname === '/';

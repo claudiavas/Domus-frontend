@@ -2,12 +2,15 @@ import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { LocationContext } from '../../Contexts/LocationContext';
 import { HousingContext } from '../../Contexts/HousingContext';
-import { TextField, Button, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Paper, Grid, Switch } from '@mui/material/';
+import { TextField, Button, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Paper, Grid, Switch, Fab, IconButton } from '@mui/material/';
 import { addHousing } from '../../apiService/apiService';
 import { Images } from '../Images/Images';
 import { ImagesContext } from '../../Contexts/ImagesContext';
 import { AuthContext } from '../../Contexts/AuthContext';
 import { useNavigate } from "react-router-dom";
+import { Header } from '../../HomePage/Header/Header';
+import { Box } from '@mui/system';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 //import { useForm } from 'react-hook-form';
 //import { yupResolver } from '@hookform/resolvers/yup';
 //import * as Yup from 'yup';
@@ -212,12 +215,14 @@ export const AddHousing = () => {
     }
   }, [selectedZipCode]);
 
+
   return (
 
     //  HEADING
 
     <div style={{ margin: '0 3rem 3rem 3rem' }}>
-      <h1 style={{ marginTop: 0, background: '#1976d2', color: 'white', padding: '0.5rem' }}>Añadir Propiedad</h1>
+      
+      <h1 style={{ marginTop: 0, background: '#1976d2', color: 'white', padding: '0.5rem' }}><Header component="Añadir Propiedad"/></h1>
 
       <form onSubmit={handleSubmit}>
 
@@ -867,13 +872,22 @@ export const AddHousing = () => {
         </Paper>
 
         {/* BOTÓN ENVIAR */}
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-
+        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "6rem" }}>
           <Button variant="contained" color="primary" type="submit">
             Enviar
           </Button>
-
         </div>
+
+        {/* Botón para volver a la ventana de navegación anterior */}
+
+        <Box sx={{ position: 'fixed', right: '20px', bottom: '20px', zIndex: '9999' }}>
+            <Fab color="action" aria-label="regresar">
+              {/* <IconButton aria-label="Volver" onClick={() => history.goBack()}> */}
+              <IconButton aria-label="Volver" onClick={() => (navigate(`/mainview`))}>
+                <ChevronLeftIcon />
+              </IconButton>
+            </Fab>
+          </Box>
 
       </form>
     </div>

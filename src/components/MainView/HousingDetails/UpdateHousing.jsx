@@ -1,24 +1,31 @@
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { LocationContext } from '../../Contexts/LocationContext';
-import { TextField, Button, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Paper, Grid, Switch, Typography } from '@mui/material/';
+import { TextField, Box, Fab, Button, FormControl, Link, InputLabel, Select, MenuItem, FormControlLabel, Paper, Grid, Switch, Typography } from '@mui/material/';
 import { updateHousing } from '../../apiService/apiService';
 import { Images } from '../Images/Images';
 import { ImagesContext } from '../../Contexts/ImagesContext';
 import { AuthContext } from '../../Contexts/AuthContext';
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { HousingContext } from '../../Contexts/HousingContext';
+import { Header } from '../../HomePage/Header/Header';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+// import { useHistory } from "react-router-dom";
+
+import IconButton from "@mui/material/IconButton";
+
 //import { useForm } from 'react-hook-form';
 //import { yupResolver } from '@hookform/resolvers/yup';
 //import * as Yup from 'yup';
 
 export const UpdateHousing = () => {
 
+
   const { _id } = useParams(); // Obtener el parámetro de la URL
   const location = useLocation();
   const { housing, setHousing } = useContext(HousingContext);
   const { housingData } = location.state;
-  console.log("housingData", housingData);
+  // const history = useHistory();
 
   const { provinces } = useContext(LocationContext);
   const { imageUrls, setImageUrls } = useContext(ImagesContext)
@@ -47,11 +54,11 @@ export const UpdateHousing = () => {
     transaction: housingData.transaction,
     country: housingData.country,
     province: housingData.province,
-    municipality: housingData.municipality,
-    population: housingData.population,
-    neighborhood: housingData.neighborhood,
-    zipCode: housingData.zipCode,
-    roadName: housingData.roadName ? housingData.roadName : "null",
+    // municipality: housingData.municipality,
+    // population: housingData.population,
+    // neighborhood: housingData.neighborhood,
+    // zipCode: housingData.zipCode,
+    // roadName: housingData.roadName ? housingData.roadName : "null",
     squareMeters: housingData.squareMeters,
     currency: housingData.currency,
     price: housingData.price,
@@ -140,15 +147,6 @@ export const UpdateHousing = () => {
     }
   };
 
-  const handleDeleteHousing = async (_id, status) => {
-    updateHousing(_id, { status: "DELETED" });
-    await setFormData((prevState) => ({
-      ...prevState,
-      status: "DELETED",
-    }));
-    alert("Vivienda eliminada correctamente")
-    navigate("/mainview");
-  }
 
   //   } catch (error) {
   //     error.inner.forEach((err) => {
@@ -265,12 +263,14 @@ export const UpdateHousing = () => {
     }
   }, [selectedZipCode]);
 
+
+
   return (
 
     //  HEADING
 
     <div style={{ margin: '0 3rem 3rem 3rem' }}>
-      <h1 style={{ marginTop: 0, background: '#1976d2', color: 'white', padding: '0.5rem' }}>Editar Propiedad</h1>
+      <h1 style={{ marginTop: 0, background: '#1976d2', color: 'white', padding: '0.5rem', display: 'flex', justifyContent: 'space-between' }}><Header component="Editar Inmueble" /></h1>
 
       <form onSubmit={handleSubmit}>
 
@@ -370,41 +370,41 @@ export const UpdateHousing = () => {
               </Grid>
             )}
 
-                <Grid item xs={9}>
-                  <FormControl style={{ width: '85%' }}>
-                    <TextField InputLabelProps={{ shrink: true }}
-                      name="title"
-                      label="Título"
-                      value={formData.title}
-                      onChange={handleChange}
-                    />
-                  </FormControl>
-                </Grid>
+            <Grid item xs={9}>
+              <FormControl style={{ width: '85%' }}>
+                <TextField InputLabelProps={{ shrink: true }}
+                  name="title"
+                  label="Título"
+                  value={formData.title}
+                  onChange={handleChange}
+                />
+              </FormControl>
+            </Grid>
 
-                <Grid container item xs={12} spacing={2}>
-                  <Grid item xs={9}>
-                    <FormControl style={{ width: '85%' }}>
-                      <TextField InputLabelProps={{ shrink: true }}
-                        name="description"
-                        label="Descripción"
-                        value={formData.description}
-                        onChange={handleChange}
-                      />
-                    </FormControl>
-                  </Grid>
-
-                  <Grid item xs={3}>
-                    <Button
-                      style={{ padding: "0px", width: '70%' }}
-                      variant="outlined"
-                      color="primary"
-                    >
-                      <Images />
-                    </Button>
-                  </Grid>
-                </Grid>
-
+            <Grid container item xs={12} spacing={2}>
+              <Grid item xs={9}>
+                <FormControl style={{ width: '85%' }}>
+                  <TextField InputLabelProps={{ shrink: true }}
+                    name="description"
+                    label="Descripción"
+                    value={formData.description}
+                    onChange={handleChange}
+                  />
+                </FormControl>
               </Grid>
+
+              <Grid item xs={3}>
+                <Button
+                  style={{ padding: "0px", width: '70%' }}
+                  variant="outlined"
+                  color="primary"
+                >
+                  <Images />
+                </Button>
+              </Grid>
+            </Grid>
+
+          </Grid>
         </Paper>
 
 
@@ -925,15 +925,26 @@ export const UpdateHousing = () => {
         </Paper>
 
         {/* BOTÓN ENVIAR */}
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "90px" }} sx={{ right: '40px'} }>
 
           <Button variant="contained" color="primary" type="submit">
             Enviar
           </Button>
 
+          {/* Botón para volver a la ventana de navegación anterior */}
+
+          <Box sx={{ position: 'fixed', right: '20px', bottom: '20px', zIndex: '9999' }}>
+            <Fab color="action" aria-label="regresar">
+              {/* <IconButton aria-label="Volver" onClick={() => history.goBack()}> */}
+              <IconButton aria-label="Volver" onClick={() => (navigate(`/housingdetails/${_id}`))}>
+                <ChevronLeftIcon />
+              </IconButton>
+            </Fab>
+          </Box>
         </div>
 
-      </form>
-    </div>
+      </form >
+
+    </div >
   )
 }

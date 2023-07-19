@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button, CardActionArea, CardActions, Box, Card, CardContent, CardMedia, Divider, Avatar, Chip, AlertTitle, Tooltip, IconButton } from '@mui/material';
 import { PhotoCarousel } from './PhotoCarousel';
 import BedOutlinedIcon from '@mui/icons-material/BedOutlined';
@@ -18,7 +19,9 @@ export default function HouseCard({ _id, user, showRealEstateLogo, province, mun
   const { profile } = useContext(AuthContext);
   const navigate = useNavigate();
   const showThumbsValue = false;
-  
+  const {t} = useTranslation();
+  console.log(`Translation key en housecard: housing.transaction.${transaction}`);
+
   const precioxm2 = (price / squareMeters).toFixed(0);
   let currencySymbol = '';
   if (currency === 'USD') {
@@ -73,9 +76,9 @@ export default function HouseCard({ _id, user, showRealEstateLogo, province, mun
             <div style={{ display: 'inline-flex', margin: '10px 10px 8px 5px' }}>
               {
                 <>
-                  <Chip label={transaction} color="primary" variant="contained" size="small" style={{ marginRight: '15px' }} />
-                  <Chip label={type} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />
-                  {furnished && <Chip label={furnished} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />}
+                  <Chip label={t(`housing.transaction.${transaction}`, transaction)} color="primary" variant="contained" size="small" style={{ marginRight: '15px' }} />
+                  <Chip label={t(`housing.transaction.${transaction}`, type)} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />
+                  {furnished && <Chip label={t(`housing.transaction.${transaction}`, transaction)} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />}
                 </>
               }
             </div>

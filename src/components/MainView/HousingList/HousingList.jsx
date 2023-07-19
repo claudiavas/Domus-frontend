@@ -3,10 +3,13 @@ import HouseCard from './Card/HouseCard';
 import { HousingContext } from '../../Contexts/HousingContext';
 import { AuthContext } from '../../Contexts/AuthContext';
 import HousingContextFilter from '../../FilterHousing/HousingContextFilter';
+import { useTranslation } from 'react-i18next';
 //import { RoomFilter } from '../../FilterHousing';
 //import { Link } from 'react-router-dom';
 
 export function HousingList({myHousingSwitch}) {
+
+  const {t} = useTranslation(['translation', 'filters']);
   
   console.log("myHousingSwitch", myHousingSwitch);
   const { housing } = useContext(HousingContext);
