@@ -339,7 +339,7 @@ export function LocationFilter() {
   }, [selectedPopulation]);
 
   return (
-    <div>
+    <div style={{ marginLeft:'1em'}}>
       <FormControl style={{ width: '90%' }}>
         <InputLabel id="province-label">Provincia*</InputLabel>
         <Select
@@ -355,6 +355,8 @@ export function LocationFilter() {
           ))}
         </Select>
       </FormControl>
+
+      <br></br><br></br>
 
       <FormControl style={{ width: '90%' }}>
         <InputLabel id="municipality-label">Municipio*</InputLabel>
@@ -372,6 +374,8 @@ export function LocationFilter() {
         </Select>
       </FormControl>
 
+      <br></br><br></br>
+
       <FormControl style={{ width: '90%' }}>
         <InputLabel id="population-label">Población*</InputLabel>
         <Select
@@ -388,6 +392,8 @@ export function LocationFilter() {
         </Select>
       </FormControl>
 
+      <br></br><br></br>
+
       <FormControl style={{ width: '90%' }}>
         <InputLabel id="neighborhood-label">Barrio*</InputLabel>
         <Select
@@ -403,6 +409,8 @@ export function LocationFilter() {
           ))}
         </Select>
       </FormControl>
+
+      <br></br><br></br>
     </div>
   );
 }
@@ -426,7 +434,8 @@ export function PriceFilterMin() {
 
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+    
+    <FormControl sx={{ m: 1, minWidth: 120, marginLeft:'1em' }} size="small">
       <InputLabel id="demo-select-small-label">Precio Minimo</InputLabel>
       <Select
         labelId="demo-select-small-label"
@@ -461,7 +470,7 @@ export function PriceFilterMax() {
 
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+    <FormControl sx={{ m: 1, minWidth: 120, marginLeft:'1em' }} size="small">
       <InputLabel id="demo-select-small-label">Precio Maximo</InputLabel>
       <Select
         labelId="demo-select-small-label"
@@ -504,7 +513,7 @@ export function SquareMeters() {
 
 
   return (
-    <Box sx={{ width: 200 }}>
+    <Box sx={{ width: '90%', marginLeft:'1em' }}>
       <Slider
         aria-label="M²"
         value={filterValue}
@@ -531,7 +540,7 @@ export function RoomFilter() {
   };
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
+    <FormControl sx={{ m: 1, minWidth: 150, marginLeft:'1em' }} size="small">
       <InputLabel id="demo-select-small-label">Habitaciones</InputLabel>
       <Select
         labelId="demo-select-small-label"
@@ -606,7 +615,7 @@ export function GaragesFilter() {
   };
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 90 }} size="small">
+    <FormControl sx={{ m: 1, minWidth: 90, marginLeft:'1em' }} size="small">
       <InputLabel id="demo-select-small-label">Garaje</InputLabel>
       <Select
         labelId="demo-select-small-label"
@@ -644,8 +653,7 @@ export function CheckboxesFilters() {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-        <FormLabel component="legend">Equipamiento</FormLabel>
+      <FormControl sx={{ marginLeft:'1em' }} component="fieldset" variant="standard">
         <FormGroup>
           <FormControlLabel
             control={
