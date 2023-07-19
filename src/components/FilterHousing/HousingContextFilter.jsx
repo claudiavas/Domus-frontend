@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react';
 
-const HousingContext = createContext();
+const HousingContextFilter = createContext();
 
 export function InmueblesProvider({ children }) {
   const [room, setRoom] = useState('');
@@ -27,11 +27,11 @@ export function InmueblesProvider({ children }) {
   const [population, setPopulation] = useState();
 
   return (
-    <HousingContext.Provider value={{ room, setRoom, baths, setBaths, meter, setMeter, garage, setGarage, minPrice, setMinPrice, maxPrice, setMaxPrice, checkbox, setCheckbox, province, setProvince, municipality, setMunicipality, neighborhood, setNeighborhood, population, setPopulation  }}>
+    <HousingContextFilter.Provider value={{ room, setRoom, baths, setBaths, meter, setMeter, garage, setGarage, minPrice, setMinPrice, maxPrice, setMaxPrice, checkbox, setCheckbox, province, setProvince, municipality, setMunicipality, neighborhood, setNeighborhood, population, setPopulation  }}>
       {children}
-    </HousingContext.Provider>
+    </HousingContextFilter.Provider>
   );
 }
 
-export default HousingContext;
+export default HousingContextFilter;
 
