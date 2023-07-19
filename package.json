@@ -4,11 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "start": "vite --host 0.0.0.0",
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "jest"
+    
   },
   "dependencies": {
     "@emotion/react": "^11.11.0",
@@ -28,6 +29,8 @@
     "react-i18next": "^13.0.2",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.14.2",
+    "react-router-dom": "^6.11.2",
+    "serve": "^14.2.0",
     "yup": "^1.2.0"
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Button, CardActionArea, CardActions, Box, Card, CardContent, CardMedia, Divider, Avatar, Chip, AlertTitle, Tooltip, IconButton } from '@mui/material';
+import { Button, Grid, Typography, Checkbox, CardActionArea, CardActions, Box, Card, CardContent, CardMedia, Divider, Avatar, Chip, AlertTitle, Tooltip, IconButton } from '@mui/material';
 import BedOutlinedIcon from '@mui/icons-material/BedOutlined';
 import BathtubIcon from '@mui/icons-material/Bathtub';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
@@ -12,13 +12,15 @@ import { AuthContext } from '../../../Contexts/AuthContext';
 import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import { PhoneNumber } from '../../Contact/PhoneNumber';
 import { WhatsAppButton } from '../../Contact/WhatsappButton';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
-export function RequestCard({ user, showRealEstateLogo, type, transaction, country, province, municipality, population, neighborhood,
-   minM2, maxM2, currency, minPrice, maxPrice, floorLevel,
+export function RequestCard({ user, title, showRealEstateLogo, type, transaction, country, province, municipality, population, neighborhood,
+  minM2, maxM2, currency, minPrice, maxPrice, floorLevel,
   facing, propertyAge, rooms, baths, garages, condition, furnished, kitchenEquipment,
   closets, airConditioned, heating, elevator, outsideView, garden, pool, terrace, storage,
-  accesible, status, _id }) {
+  accessible, _id }) {
 
   const navigate = useNavigate()
   const showThumbsValue = false;
@@ -29,6 +31,24 @@ export function RequestCard({ user, showRealEstateLogo, type, transaction, count
   // console.log("translations.type:", translations.type);
 
   //const precioxm2 = (price / squareMeters).toFixed(0);
+
+  const booleanItems = [
+    airConditioned && { label: 'Aire acondicionado', value: airConditioned },
+    heating && { label: 'Calefacción', value: heating },
+    elevator && { label: 'Ascensor', value: elevator },
+    storage && { label: 'Trastero', value: storage },
+    outsideView && { label: 'Vista Exterior', value: outsideView },
+    garden && { label: 'Jardín', value: garden },
+    pool && { label: 'Piscina', value: pool },
+    terrace && { label: 'Terraza', value: terrace },
+    closets && { label: 'Closets', value: closets },
+    accessible && { label: 'Accesible', value: accessible },
+  ];
+
+  const halfLength = Math.ceil(booleanItems.length / 2);
+  const firstHalf = booleanItems.slice(0, halfLength);
+  const secondHalf = booleanItems.slice(halfLength);
+
 
   let currencySymbol = '';
   if (currency === 'USD') {
@@ -54,16 +74,16 @@ export function RequestCard({ user, showRealEstateLogo, type, transaction, count
     return text.replace(/\([^()]*\)/g, "").trim()
   };
 
-   const locationText = [
-     province.PRO,
-     municipality.DMUN50,
-     population.NENTSI50,
-     neighborhood.NNUCLE50
-   ]
-     .filter(Boolean)
-     .filter((value, index, self) => self.indexOf(value) === index)
-     .map(removeTextInParentheses)
-     .join(", ")
+  const locationText = [
+    province.PRO,
+    municipality.DMUN50,
+    population.NENTSI50,
+    neighborhood.NNUCLE50
+  ]
+    .filter(Boolean)
+    .filter((value, index, self) => self.indexOf(value) === index)
+    .map(removeTextInParentheses)
+    .join(", ")
 
 
   return (
@@ -74,67 +94,137 @@ export function RequestCard({ user, showRealEstateLogo, type, transaction, count
         display: 'flex',
         padding: 0,
         margin: '-5px 15px 20px -20px',
-        height: '230px'
+        height: 'auto',
       }}
     >
 
-      <span style={{ flex: '1 0 45%', marginLeft: '10px', marginRight: '10px', padding: 0 }}>
-        {/* CENTER */}
+      <span style={{ flex: '1 0 40%', marginLeft: '10px', marginRight: '10px', padding: 0 }}>
+        {/* LEFT */}
         <span style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-          {/* TOP, CENTER */}
+          {/* TOP, LEFT */}
           <Card style={{ flex: '1 0 auto', display: 'flex', flexDirection: 'column', margin: '0px 0px 8px 0px' }}>
-            <div style={{ display: 'inline-flex', margin: '10px 10px 8px 5px' }}>
+            <div style={{ display: 'inline-flex', padding: '25px', margin: '10px 10px 8px 5px' }}>
+              {
+                <>
+                  <Chip label={transaction} color="primary" variant="contained" size="small" style={{ marginRight: '15px' }} />
+                  <Chip label={type} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />
+                  {furnished && <Chip label={furnished} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />}
+                </>
+              }
+              <h3 style={{ margin: '5px 5px 5px 5px', marginBottom: '5px',  flexGrow: 1 }}>{title}</h3>
             </div>
-            <h4 style={{ margin: '5px 5px 5px 5px', marginBottom: '5px', flexGrow: 1 }}>{ }</h4>
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px', flexGrow: 1 }}>
-              <LocationOnOutlinedIcon style={{ marginRight: '5px' }} />
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px', padding: '25px', flexGrow: 1 }}>
+              <LocationOnOutlinedIcon style={{ marginRight: '10px' }} />
               <h6 style={{ margin: '0px' }}>{locationText}</h6>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', margin: '0px', padding: 0, marginBottom: '5px', flexGrow: 1 }}>
-              <FullscreenOutlinedIcon />
-              <h5 style={{ margin: '0px', marginLeft: '5px', marginRight: '50px' }}>{minM2} m2</h5>
-              <BedOutlinedIcon style={{ marginRight: '10px' }} />
-              <h5 style={{ margin: '0px', marginLeft: '5px', marginRight: '50px' }}>{maxM2} m2</h5>
-              <BedOutlinedIcon style={{ marginRight: '10px' }} />
-              <h5 style={{ margin: '0px' }}>{rooms}</h5>
-              {baths ?
-                <div style={{ display: 'flex', alignItems: 'center', margin: '0px', padding: 0, marginBottom: '5px', marginLeft: "60px", flexGrow: 1 }}>
-                  <BathtubIcon style={{ marginRight: '10px' }} />
-                  <h5 style={{ margin: '0px' }}>{baths}</h5>
-                </div> :
-                <div></div>
-              }
-              {garages ?
-                <div style={{ display: 'flex', alignItems: 'center', margin: '0px', padding: 0, marginBottom: '5px', flexGrow: 1 }}>
-                  <DirectionsCarIcon style={{ marginRight: '10px' }} />
-                  <h5 style={{ margin: '0px' }}>{garages}</h5>
-                </div> :
-                <div></div>
-              }
+
+            <div style={{ display: 'flex', justifyContent: 'space-between', margin: '0px', padding: '25px', marginBottom: '5px' }}>
+              <div style= {{ display: 'flex', alignItems: 'center'}}>
+                <FullscreenOutlinedIcon style={{ marginRight: '10px' }} />
+                <h5>Min {minM2} m2</h5>
+              </div>
+              <div style= {{ display: 'flex', alignItems: 'center'}}>
+                <FullscreenOutlinedIcon style={{ marginRight: '10px' }} />
+                <h5>Max {maxM2} m2</h5>
+              </div>
+              <div style= {{ display: 'flex', alignItems: 'center'}}>
+                <BedOutlinedIcon style={{ marginRight: '10px' }} />
+                <h5>{rooms}</h5>
+              </div>
+              <div style= {{ display: 'flex', alignItems: 'center'}}>
+                {baths ?
+                  <div style={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+                    <BathtubIcon style={{ marginRight: '10px' }} />
+                    <h5 style={{ margin: '0px' }}>{baths}</h5>
+                  </div> :
+                  <div></div>
+                }
+              </div>
+              <div style= {{ display: 'flex', alignItems: 'center'}}>
+                {garages ?
+                  <div style={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+                    <DirectionsCarIcon style={{ marginRight: '10px' }} />
+                    <h5 style={{ margin: '0px' }}>{garages}</h5>
+                  </div> :
+                  <div></div>
+                }</div>
             </div>
           </Card>
 
 
-          {/* BOTTOM, CENTER */}
+          {/* BOTTOM, LEFT */}
           <Card style={{ flex: '0 0 auto', display: 'flex', flexDirection: 'column' }}>
             <div style={{ marginTop: '0px', marginLeft: '5px', padding: "4px" }}>
               <h4 style={{ margin: '0px', padding: 0, color: "#1976d2", display: "flex", justifyContent: 'space-between', alignItems: "center" }}>
                 <div>Precio Minimo: {minPrice} {currencySymbol} </div>
                 <div>Precio Máximo: {maxPrice} {currencySymbol} </div>
-                <Button onClick={() => navigate(`/housingdetails/${_id}`)} color="primary" variant="outlined">Editar</Button>
+                <div style={{display: 'flex'}}>
+                    <EditIcon style={{ cursor: 'pointer' }} onClick={() => navigate(`/housingdetails/${_id}`)} />
+                    <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => deleteRequest({_id})} />
+                </div>
               </h4>
             </div>
           </Card>
         </span>
       </span>
       <span style={{ flex: '1 0 29%' }}>
-        {/* LEFT SIDE */}
-        <Card style={{ height: 230 }}>
+        {/* CENTER SIDE */}
+        <Card style={{ height: '100%' }}>
+          {/* TEXT ESPECIFICATIONS */}
+
+          <div style={{ padding: "8px 8px 8px 8px" }}>
+            <Grid container spacing={2}>
+              <Grid item xs={7}>
+                {floorLevel && (
+                  <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>Nivel de piso:</Typography>
+                )}
+                {facing && (
+                  <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>Orientación:</Typography>
+                )}
+                {propertyAge && (
+                  <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>Antigüedad del inmueble:</Typography>
+                )}
+                {condition && (
+                  <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>Condición:</Typography>
+                )}
+                {furnished && (
+                  <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>Amueblado:</Typography>
+                )}
+                {kitchenEquipment && (
+                  <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>Equipamiento de cocina:</Typography>
+                )}
+              </Grid>
+              <Grid item xs={5}>
+                {floorLevel && <Typography variant="subtitle1">{floorLevel}</Typography>}
+                {facing && <Typography variant="subtitle1">{facing}</Typography>}
+                {propertyAge && <Typography variant="subtitle1">{propertyAge}</Typography>}
+                {condition && <Typography variant="subtitle1">{condition}</Typography>}
+                {furnished && <Typography variant="subtitle1">{furnished}</Typography>}
+                {kitchenEquipment && <Typography variant="subtitle1">{kitchenEquipment}</Typography>}
+              </Grid>
+            </Grid>
+          </div>
+
+          <Divider style={{ margin: "10px" }} />
+
+          {/* BOOLEAN ESPECIFICATIONS */}
+          <Grid container spacing={0}>
+            {booleanItems.map((item, index) => (
+              item && (
+                <Grid item xs={6} key={index}>
+                  <Typography>
+                    <Checkbox checked={true} />
+                    {item.label && <span>{item.label}</span>} {item.value && <span>{item.value}</span>}
+                  </Typography>
+                </Grid>
+              )
+            ))}
+          </Grid>
         </Card>
       </span>
       <span>
         {/* RIGHT */}
-        <Card style={{ padding: "15px 3px 5px 3px", display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', width: "150px" }}>
+        <Card style={{ padding: "50% 3px 5px 3px", display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', width: "150px" }}>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '10px' }}>
             {user.realEstateLogo && showRealEstateLogo && user.profilePicture ? (
               <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
@@ -154,7 +244,7 @@ export function RequestCard({ user, showRealEstateLogo, type, transaction, count
           </div>
 
           <div style={{ alignSelf: 'center', marginTop: '10px' }}>
-            <h4 style={{ fontWeight: 'bold', textAlign: 'center', margin: '0px' }}>
+            <h4 style={{ padding: '20px 0px 20px 0px ', fontWeight: 'bold', textAlign: 'center', margin: '0px' }}>
               {user.name} {user.surname}
             </h4>
           </div>
