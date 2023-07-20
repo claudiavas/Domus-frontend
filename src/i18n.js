@@ -10,9 +10,9 @@ i18n
   .use(LanguageDetector)
   .init({
     resources: {
-      en: Enus,
+ //     en: Enus,
       es: Eses,
-      "es-419": Es419
+   //   "es-419": Es419
     },
     fallbackLng: "es",
     debug: true,

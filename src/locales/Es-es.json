@@ -1,4 +1,7 @@
 {
+    "translation": {
+        "prueba": "prueba555"
+    },
     "housing": {
         "type": {
             "apartment": "piso",
