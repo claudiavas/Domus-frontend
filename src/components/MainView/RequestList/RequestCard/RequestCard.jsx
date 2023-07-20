@@ -14,6 +14,7 @@ import { PhoneNumber } from '../../Contact/PhoneNumber';
 import { WhatsAppButton } from '../../Contact/WhatsappButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useTranslation } from 'react-i18next';
 
 
 export function RequestCard({ user, title, showRealEstateLogo, type, transaction, country, province, municipality, population, neighborhood,
@@ -22,6 +23,7 @@ export function RequestCard({ user, title, showRealEstateLogo, type, transaction
   closets, airConditioned, heating, elevator, outsideView, garden, pool, terrace, storage,
   accessible, _id }) {
 
+  const {t} = useTranslation();
   const navigate = useNavigate()
   const showThumbsValue = false;
 
