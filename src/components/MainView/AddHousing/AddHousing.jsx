@@ -93,11 +93,15 @@ export const AddHousing = () => {
       const response = await addHousing(formData);
       console.log("response", response);
       const housingId = response.house._id;
-      navigate(`/housingdetails/${housingId}`)
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    navigate(`/housingdetails/${housingId}`)
+  }, [housingId]);
+
 
   //   } catch (error) {
   //     error.inner.forEach((err) => {
