@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from "react-router-dom";
 import { Grid, Typography, TextField, Input, Card, Chip, Divider, Checkbox } from '@mui/material/';
 import Paper from '@mui/material/Paper';
@@ -36,6 +37,7 @@ export const HousingDetails = () => {
   const { housing } = useContext(HousingContext);
   console.log("housing en HousingDetails", housing)
   const { profile } = useContext(AuthContext);
+  const {t} = useTranslation();
 
   const housingData = housing.find((item) => item._id === _id);
 
