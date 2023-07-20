@@ -22,9 +22,9 @@ export const HousingProvider = ({ children }) => {
     fetchHousing();
   }, [housing]);  
 
-  useEffect(() => {
-    console.log("housing", housing)
-  }, [housing]);
+  // useEffect(() => {
+  //   console.log("housing", housing)
+  // }, [housing]);
   
   
 

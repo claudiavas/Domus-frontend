@@ -47,8 +47,8 @@ export function PasswordRecovery() {
   }, []);
 
   useEffect(() => {
-    console.log("userId obtenido delpayload: ", userId);
-    console.log("email obtenido del payload: ", email);
+    // console.log("userId obtenido delpayload: ", userId);
+    // console.log("email obtenido del payload: ", email);
   }, [userId, email]);
 
   const findUser = async () => {
