@@ -13,18 +13,18 @@
             "rent": "rent",
             "vacation_rentals": "vacation rentals"
         },
-        "Floor Level": {
+        "floorLevel": {
             "top_floor": "top floor",
             "intermediate_floor": "intermediate floor",
             "ground_floor": "ground floor"
         },
-        "Facing": {
+        "facing": {
             "north": "north",
             "south": "south",
             "east": "east",
             "west": "west"
         },
-        "PropertyAge": {
+        "propertyAge": {
             "new": "new",
             "up_to_5 years": "up to 5 years",
             "6_to_10 years": "6 to 10 years",

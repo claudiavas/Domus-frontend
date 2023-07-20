@@ -98,6 +98,16 @@ export const HousingDetails = () => {
   const halfLength = Math.ceil(booleanItems.length / 2);
   const firstHalf = booleanItems.slice(0, halfLength);
   const secondHalf = booleanItems.slice(halfLength);
+  
+  const transaction = housingData.transaction
+  const type = housingData.type
+  const furnished = housingData.furnished
+  const floorLevel = housingData.floorLevel
+  const facing = housingData.facing
+  const propertyAge = housingData.propertyAge
+  const condition = housingData.condition
+  const kitchenEquipment = housingData.kitchenEquipment
+
 
   const handleDeleteHousing = async (_id, status) => {
     updateHousing(_id, { status: "DELETED" });

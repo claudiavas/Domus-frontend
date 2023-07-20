@@ -13,18 +13,18 @@
             "rent": "alquiler",
             "vacation_rentals": "alquiler vacacional"
         },
-        "Floor Level": {
-            "top_floor": "último piso",
-            "intermediate_floor": "piso intermedio",
-            "ground_floor": "primer piso"
+        "floorLevel": {
+            "Top_floor": "último piso",
+            "Intermediate_floor": "piso intermedio",
+            "Ground_floor": "primer piso"
         },
-        "Facing": {
+        "facing": {
             "north": "norte",
             "south": "sur",
             "east": "este",
             "west": "oeste"
         },
-        "PropertyAge": {
+        "propertyAge": {
             "new": "nuevo",
             "up_to_5 years": "hasta 5 años",
             "6_to_10 years": "6 a 10 años",
