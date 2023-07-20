@@ -34,7 +34,7 @@ export const AddHousing = () => {
   const [selectedPopulation, setSelectedPopulation] = useState([]);
   const [selectedNeighborhood, setSelectedNeighborhood] = useState([]);
   const [selectedZipCode, setSelectedZipCode] = useState([]);
-  const [housingId, setHousingId] = useState([]);
+  const [housingId, setHousingId] = useState("");
 
   const [formData, setFormData] = useState({
     country: 'España',
@@ -84,23 +84,29 @@ export const AddHousing = () => {
   //     resolver: yupResolver(validationSchema)
   //   });
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    console.log(formData, formData)
-    // Borrar los errores previos antes de la validación
-    // clearErrors();   
+  const createHousing = async () => {
     try {
-      // await validationSchema.validate(formData, { abortEarly: false });
       const response = await addHousing(formData);
-      console.log("response", response);
       setHousingId(response.house._id);
+      setHousing(prevHousing => [...prevHousing, response.house]);
     } catch (error) {
       console.error(error);
     }
+  };  
+  
+  
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    await createHousing();
+    // Borrar los errores previos antes de la validación
+    // clearErrors();   
   };
 
   useEffect(() => {
-    housingId && navigate(`/housingdetails/${housingId}`)
+    console.log("housingId", housingId)
+    if (housingId && typeof housingId === 'string' && housingId.trim() !== '') {
+      navigate(`/housingdetails/${housingId}`);
+    }
   }, [housingId]);
 
 

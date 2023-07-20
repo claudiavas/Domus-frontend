@@ -20,7 +20,7 @@ export const HousingProvider = ({ children }) => {
 
   useEffect(() => {
     fetchHousing();
-  }, []);  
+  }, [housing]);  
 
   useEffect(() => {
     console.log("housing", housing)
