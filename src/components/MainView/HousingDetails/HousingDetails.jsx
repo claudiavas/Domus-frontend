@@ -345,7 +345,7 @@ export const HousingDetails = () => {
 
         {housingData.user._id === profile._id &&
           <Link to={`/updatehousing/${_id}`} state={{ housingData }}>
-            <Box sx={{ position: 'fixed', right: '20px', bottom: '20px', zIndex: '9999' }}>
+            <Box sx={{ position: 'fixed', right: '90px', bottom: '20px', zIndex: '9999' }}>
               <Fab color="secondary" aria-label="edit">
                  <EditIcon />
               </Fab>
@@ -355,7 +355,7 @@ export const HousingDetails = () => {
           {/* DELETE HOUSING ICON */}
 
       {housingData.user._id === profile._id &&
-            <Box sx={{ position: 'fixed', right: '100px', bottom: '20px', zIndex: '9999' }}>
+            <Box sx={{ position: 'fixed', right: '160px', bottom: '20px', zIndex: '9999' }}>
               <Fab color="error" aria-label="eliminar propiedad">
                 <DeleteIcon onClick={() => handleDeleteHousing(_id)}/>
               </Fab>
