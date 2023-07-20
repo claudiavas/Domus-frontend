@@ -126,9 +126,9 @@ export const HousingDetails = () => {
 
           <Card style={{ height: "100%" }}>
             <div style={{ padding: "8px 8px 8px 8px", display: 'inline-flex' }}>
-              <Chip label={housingData.transaction} color="primary" variant="contained" size="small" style={{ marginRight: '15px' }} />
-              <Chip label={housingData.type} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />
-              {housingData.furnished && <Chip label={housingData.furnished} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />}
+              <Chip label={t(`transaction.${transaction}`, {ns:"housing"})} color="primary" variant="contained" size="small" style={{ marginRight: '15px' }} />
+              <Chip label={t(`transaction.${type}`, {ns:"housing"})} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />
+              {housingData.furnished && <Chip label={t(`transaction.${furnished}`, {ns:"housing"})} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />}
             </div>
 
 
@@ -213,12 +213,12 @@ export const HousingDetails = () => {
                   )}
                 </Grid>
                 <Grid item xs={5}>
-                  {housingData.floorLevel && <Typography variant="subtitle1">{housingData.floorLevel}</Typography>}
-                  {housingData.facing && <Typography variant="subtitle1">{housingData.facing}</Typography>}
-                  {housingData.propertyAge && <Typography variant="subtitle1">{housingData.propertyAge}</Typography>}
-                  {housingData.condition && <Typography variant="subtitle1">{housingData.condition}</Typography>}
-                  {housingData.furnished && <Typography variant="subtitle1">{housingData.furnished}</Typography>}
-                  {housingData.kitchenEquipment && <Typography variant="subtitle1">{housingData.kitchenEquipment}</Typography>}
+                  {housingData.floorLevel && <Typography variant="subtitle1">{t(`transaction.${floorLevel}`, {ns:"housing"})}</Typography>}
+                  {housingData.facing && <Typography variant="subtitle1">{t(`transaction.${facing}`, {ns:"housing"})}</Typography>}
+                  {housingData.propertyAge && <Typography variant="subtitle1">{t(`transaction.${propertyAge}`, {ns:"housing"})}</Typography>}
+                  {housingData.condition && <Typography variant="subtitle1">{t(`transaction.${condition}`, {ns:"housing"})}</Typography>}
+                  {housingData.furnished && <Typography variant="subtitle1">{t(`transaction.${furnished}`, {ns:"housing"})}</Typography>}
+                  {housingData.kitchenEquipment && <Typography variant="subtitle1">{t(`transaction.${kitchenEquipment}`, {ns:"housing"})}</Typography>}
                 </Grid>
               </Grid>
             </div>
