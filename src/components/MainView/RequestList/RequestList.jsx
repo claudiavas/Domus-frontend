@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 import { RequestCard } from './RequestCard/RequestCard';
 import { getActiveRequest } from '../../apiService/apiService';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import Box from '@mui/material/Box';
+import Fab from '@mui/material/Fab';
+import IconButton from "@mui/material/IconButton";
 
 
-export function RequestList({myHousingSwitch}) {
+export function RequestList({ myHousingSwitch }) {
   const [requesting, setRequest] = useState([]);
   const [loading, setLoading] = useState(true);
   console.log("requesting", requesting)
@@ -62,7 +66,7 @@ export function RequestList({myHousingSwitch}) {
           garages={request.garages}
           condition={request.condition}
           furnished={request.furnished}
-          kitchenEquipment={request.kitchenEquipment}  
+          kitchenEquipment={request.kitchenEquipment}
           closets={request.closets}
           airConditioned={request.airConditioned}
           heating={request.heating}
@@ -76,6 +80,14 @@ export function RequestList({myHousingSwitch}) {
         />
         // </Link>
       ))}
+      <Box sx={{ position: 'fixed', right: '20px', bottom: '20px', zIndex: '9999' }}>
+        <Fab color="action" aria-label="regresar">
+          {/* <IconButton aria-label="Volver" onClick={() => history.goBack()}> */}
+          <IconButton aria-label="Volver" onClick={() => (navigate(`/mainview`))}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </Fab>
+      </Box>
     </span>
   );
 }
