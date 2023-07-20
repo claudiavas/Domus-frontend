@@ -34,6 +34,7 @@ export const AddHousing = () => {
   const [selectedPopulation, setSelectedPopulation] = useState([]);
   const [selectedNeighborhood, setSelectedNeighborhood] = useState([]);
   const [selectedZipCode, setSelectedZipCode] = useState([]);
+  const [housingId, setHousingId] = useState([]);
 
   const [formData, setFormData] = useState({
     country: 'España',
@@ -92,7 +93,7 @@ export const AddHousing = () => {
       // await validationSchema.validate(formData, { abortEarly: false });
       const response = await addHousing(formData);
       console.log("response", response);
-      const housingId = response.house._id;
+      setHousingId(response.house._id);
     } catch (error) {
       console.error(error);
     }
