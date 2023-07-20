@@ -134,7 +134,7 @@ export const HousingDetails = () => {
         {/* FIRST COLUMN */}
 
         {/* CHIPS */}
-        <Grid item xs={12} md={6} lg={6} >
+        <Grid item xs={12} md={6} lg={5} >
 
           <Card style={{ height: "100%" }}>
             <div style={{ padding: "8px 8px 8px 8px", display: 'inline-flex' }}>
@@ -172,7 +172,7 @@ export const HousingDetails = () => {
         </Grid>
 
         {/* SECOND COLUMN */}
-        <Grid item xs={12} md={6} lg={4} style={{ position: 'sticky', top: 0, zIndex: 999, height: '100%' }}>
+        <Grid item xs={12} md={6} lg={5} style={{ position: 'sticky', top: 0, zIndex: 999, height: '100%' }}>
           {/* MAIN ICONS */}
           <Card style={{ padding: "8px 8px 8px 8px", height: "100%" }}>
             <div style={{ display: 'flex', alignItems: 'center', margin: '0px', padding: 0, marginBottom: '5px', flexGrow: 1 }}>
@@ -238,7 +238,7 @@ export const HousingDetails = () => {
             <Divider style={{ margin: "10px" }} />
 
             {/* BOOLEAN ESPECIFICATIONS */}
-            <Grid container spacing={1}>
+            <Grid container spacing={0.5}>
               {booleanItems.map((item, index) => (
                 item && (
                   <Grid item xs={6} key={index}>
@@ -325,11 +325,11 @@ export const HousingDetails = () => {
                 </div>
               )}
               <Tooltip title={user.email} arrow>
-                <div style={{ display: 'flex', alignItems: 'center', margin: '0 0 5px 0' }}>
-                  <IconButton component="a" href={`mailto:${user.email}`} size="small" color="primary" style={{ margin: '0 5px 0 0' }}>
+                <div style={{ display: 'flex', alignItems: 'center', margin: '0 0 2px 0' }}>
+                  <IconButton component="a" href={`mailto:${user.email}`} size="extra-small" color="primary" style={{ margin: '0 1px 0 0' }}>
                     <EmailOutlinedIcon fontSize="small" />
                   </IconButton>
-                  <Typography variant="body2">{user.email}</Typography>
+                    <Typography style={{fontSize: "11px"}} variant="body2">{user.email}</Typography>
                 </div>
               </Tooltip>
             </div>
