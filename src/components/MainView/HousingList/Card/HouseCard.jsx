@@ -77,8 +77,8 @@ export default function HouseCard({ _id, user, showRealEstateLogo, province, mun
               {
                 <>
                   <Chip label={t(`transaction.${transaction}`, {ns:"housing"})} size="small" style={{ marginRight: '15px' }} />
-                  <Chip label={t(`transaction.${type}`, {ns:"housing"})} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />
-                  {furnished && <Chip label={t(`transaction.${furnished}`, {ns:"housing"})} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />}
+                  <Chip label={t(`type.${type}`, {ns:"housing"})} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />
+                  {furnished && <Chip label={t(`furnished.${furnished}`, {ns:"housing"})} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />}
                 </>
               }
             </div>

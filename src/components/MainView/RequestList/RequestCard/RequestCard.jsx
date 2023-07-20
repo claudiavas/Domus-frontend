@@ -107,8 +107,8 @@ export function RequestCard({ user, title, showRealEstateLogo, type, transaction
               {
                 <>
                   <Chip label={t(`transaction.${transaction}`, {ns:"housing"})} color="primary" variant="contained" size="small" style={{ marginRight: '15px' }} />
-                  <Chip label={t(`transaction.${type}`, {ns:"housing"})} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />
-                  {furnished && <Chip label={t(`transaction.${furnished}`, {ns:"housing"})} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />}
+                  <Chip label={t(`type.${type}`, {ns:"housing"})} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />
+                  {furnished && <Chip label={t(`furnished.${furnished}`, {ns:"housing"})} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />}
                 </>
               }
               <h3 style={{ margin: '5px 5px 5px 5px', marginBottom: '5px',  flexGrow: 1 }}>{title}</h3>
@@ -195,12 +195,12 @@ export function RequestCard({ user, title, showRealEstateLogo, type, transaction
                 )}
               </Grid>
               <Grid item xs={5}>
-                {floorLevel && <Typography variant="subtitle1">{t(`transaction.${floorLevel}`, {ns:"housing"})}</Typography>}
-                {facing && <Typography variant="subtitle1">{t(`transaction.${facing}`, {ns:"housing"})}</Typography>}
-                {propertyAge && <Typography variant="subtitle1">{t(`transaction.${propertyAge}`, {ns:"housing"})}</Typography>}
-                {condition && <Typography variant="subtitle1">{t(`transaction.${condition}`, {ns:"housing"})}</Typography>}
-                {furnished && <Typography variant="subtitle1">{t(`transaction.${furnished}`, {ns:"housing"})}</Typography>}
-                {kitchenEquipment && <Typography variant="subtitle1">{t(`transaction.${transaction}`, {ns:"housing"})}</Typography>}
+                {floorLevel && <Typography variant="subtitle1">{t(`floorLevel.${floorLevel}`, {ns:"housing"})}</Typography>}
+                {facing && <Typography variant="subtitle1">{t(`facing.${facing}`, {ns:"housing"})}</Typography>}
+                {propertyAge && <Typography variant="subtitle1">{t(`propertyAge.${propertyAge}`, {ns:"housing"})}</Typography>}
+                {condition && <Typography variant="subtitle1">{t(`condition.${condition}`, {ns:"housing"})}</Typography>}
+                {furnished && <Typography variant="subtitle1">{t(`furnished.${furnished}`, {ns:"housing"})}</Typography>}
+                {kitchenEquipment && <Typography variant="subtitle1">{t(`kitchenEquipment.${kitchenEquipment}`, {ns:"housing"})}</Typography>}
               </Grid>
             </Grid>
           </div>
