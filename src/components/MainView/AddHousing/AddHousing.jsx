@@ -100,7 +100,7 @@ export const AddHousing = () => {
   };
 
   useEffect(() => {
-    navigate(`/housingdetails/${housingId}`)
+    housingId && navigate(`/housingdetails/${housingId}`)
   }, [housingId]);
 
 
