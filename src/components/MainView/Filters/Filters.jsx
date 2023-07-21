@@ -75,6 +75,7 @@ function Filters(props) {
       <Divider />
       <h3 style={{ marginLeft: '1em' }}>Equipamiento</h3>
       <CheckboxesFilters />
+      <br></br><br></br>
     </div>
 
   )
