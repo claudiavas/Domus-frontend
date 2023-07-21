@@ -123,7 +123,7 @@ export function MainView(props) {
 
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex'}}>
 
       <AppBar
         position="fixed"
@@ -169,8 +169,8 @@ export function MainView(props) {
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            display: { xs: 'none', sm: 'block'  },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, marginTop: "60px"},
           }}
           open
         >
@@ -179,7 +179,7 @@ export function MainView(props) {
       </Box>
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)`, margin: 0 } }}
+        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
 
