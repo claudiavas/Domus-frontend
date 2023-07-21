@@ -653,7 +653,7 @@ export function CheckboxesFilters() {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <FormControl sx={{ marginLeft:'1em', marginBottom:'3em' }} component="fieldset" variant="standard">
+      <FormControl sx={{ marginLeft:'1em', marginBottom:'33%' }} component="fieldset" variant="standard">
         <FormGroup>
           <FormControlLabel
             control={
