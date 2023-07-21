@@ -78,7 +78,7 @@ export const getActiveRequest = async () => {
   return data;
 } 
 
-export const deleteRequest = async (_id, body) => {
+export const updateRequest = async (_id, body) => {
   const { data } = await axios.put(`${BackendUrl}/api/request/${_id}`, body);
   return data;
 }

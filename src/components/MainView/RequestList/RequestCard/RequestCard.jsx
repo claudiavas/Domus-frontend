@@ -15,6 +15,7 @@ import { WhatsAppButton } from '../../Contact/WhatsappButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useTranslation } from 'react-i18next';
+import { updateRequest } from '../../../apiService/apiService'
 
 
 export function RequestCard({ user, title, showRealEstateLogo, type, transaction, country, province, municipality, population, neighborhood,
@@ -26,13 +27,9 @@ export function RequestCard({ user, title, showRealEstateLogo, type, transaction
   const { t } = useTranslation();
   const navigate = useNavigate()
   const showThumbsValue = false;
-
   const { profile } = useContext(AuthContext);
-  //const translations = useContext(TranslationContext);
 
-  // console.log("translations.type:", translations.type);
 
-  //const precioxm2 = (price / squareMeters).toFixed(0);
 
   const booleanItems = [
     airConditioned && { label: 'Aire acondicionado', value: airConditioned },
@@ -75,6 +72,8 @@ export function RequestCard({ user, title, showRealEstateLogo, type, transaction
   const removeTextInParentheses = (text) => {
     return text.replace(/\([^()]*\)/g, "").trim()
   };
+  
+
 
   const locationText = [
     province.PRO,
@@ -87,6 +86,11 @@ export function RequestCard({ user, title, showRealEstateLogo, type, transaction
     .map(removeTextInParentheses)
     .join(", ")
 
+    const handleDeleteRequest = async (_id, status) => {
+      updateRequest(_id, { status: "DELETED" });
+        navigate("/");
+        alert("Requerimiento eliminado correctamente")
+    }
 
   return (
     <Box
@@ -113,8 +117,7 @@ export function RequestCard({ user, title, showRealEstateLogo, type, transaction
                   {furnished && <Chip label={t(`furnished.${furnished}`, { ns: "housing" })} color="primary" variant="outlined" size="small" style={{ marginRight: '15px' }} />}
                 </>
               }
-
-            </div>
+           </div>
             <div>
               <h3 style={{ margin: '5px 5px 5px 5px', marginBottom: '5px', flexGrow: 1 }}>{title}</h3>
               <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px', padding: '25px', flexGrow: 1 }}>
@@ -164,8 +167,14 @@ export function RequestCard({ user, title, showRealEstateLogo, type, transaction
                 <div>Precio Minimo: {minPrice} {currencySymbol} </div>
                 <div>Precio Máximo: {maxPrice} {currencySymbol} </div>
                 <div style={{ display: 'flex' }}>
-                  <EditIcon style={{ cursor: 'pointer' }} onClick={() => navigate(`/housingdetails/${_id}`)} />
-                  <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => deleteRequest({ _id })} />
+                {
+                    user._id === profile._id &&
+                  <>
+                    <EditIcon style={{ cursor: 'pointer' }} onClick={() => navigate(`/housingdetails/${_id}`)} />
+                    <DeleteIcon style={{ cursor: 'pointer' }} onClick={handleDeleteRequest} />
+                  </>
+                }
+
                 </div>
               </h4>
             </div>
@@ -289,7 +298,6 @@ export function RequestCard({ user, title, showRealEstateLogo, type, transaction
             </Tooltip>
 
           </div>
-
         </Card>
       </span>
     </Box >
