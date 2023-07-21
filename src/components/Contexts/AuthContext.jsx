@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
    // Verificar si el usuario tiene un token en el localStorage
    useEffect(() => {
     const token = localStorage.getItem('token');
-    console.log("token", token);
+    // console.log("token", token);
     if (token) {
       setIsLoggedIn(true);
       fetchPayload(token)
@@ -43,13 +43,13 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    console.log("payload", payload)
+    // console.log("payload", payload)
     fetchProfile(payload);
     console.log("isLoggedIn", isLoggedIn)
   }, [payload]);
 
   useEffect(() => {
-    console.log("profile", profile)
+    // console.log("profile", profile)
   }, [profile]);
 
 

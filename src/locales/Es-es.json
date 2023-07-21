@@ -36,7 +36,9 @@
             "Up_to_5 years": "hasta 5 años",
             "6_to_10 years": "6 a 10 años",
             "11_to_20 years": "11 a 20 años",
-            "More_than_20 years": "más de 20 años"
+            "More_than_20 years": "más de 20 años",
+            "new": "nuevo",
+            "up_to_5 years": "hasta 5 años"
         },
         "condition": {
             "new": "nuevo",

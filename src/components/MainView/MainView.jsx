@@ -27,8 +27,8 @@ export function MainView(props) {
 
   const navigate = useNavigate()
   const { profile } = useContext(AuthContext);
-  const [myHousingSwitch, setMyHousingSwitch] = useState();
-  const [myRequestsSwitch, setMyRequestsSwitch] = useState();
+  const [myHousingSwitch, setMyHousingSwitch] = useState(false);
+  const [myRequestsSwitch, setMyRequestsSwitch] = useState(false);
 
   // Responsive Drawer
   const { window } = props;
@@ -114,7 +114,7 @@ export function MainView(props) {
 // Lógica para filtrar las viviendas del usuario logueado
   const handleMyHousingSwitch = () => {
     setMyHousingSwitch((prevValue) => !prevValue);
-    console.log("myHousingSwitch:", myHousingSwitch)
+    // console.log("myHousingSwitch:", myHousingSwitch)
   };
 
   const handleMyRequestsSwitch = () => {
