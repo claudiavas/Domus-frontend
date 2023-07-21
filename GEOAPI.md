@@ -21,13 +21,13 @@ Municipality: Municipio
 Population: Población
     ENDPOINT: https://apiv1.geoapi.es/poblaciones?CPRO=##&CMUM=###&type=JSON&key=&sandbox=0
     PARÁMETROS: CPRO, CMUM
-    CÓDIGO: CUN (numérico, 7 dígitos)
+    CÓDIGO: CUN
     NOMBRE: NENTSI50 (string)
 
 Neighborhood: Núcleo
     ENDPOINT: https://apiv1.geoapi.es/nucleos?CPRO=##&CMUM=###&NENTSI50=NOMBRE%20NOMBRE&type=JSON&key=&sandbox=0
     PARÁMETROS: CPRO, CMUM, NENTSI50
-    CÓDIGO: ??
+    CÓDIGO: CUN (numérico, 7 dígitos)
     NOMBRE: NNUCLE50 (string)
 
 zipCode: Código Postal
