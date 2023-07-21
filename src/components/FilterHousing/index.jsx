@@ -344,6 +344,7 @@ export function LocationFilter() {
         <InputLabel id="province-label">Provincia*</InputLabel>
         <Select
           labelId="province-label"
+          label="Provincia*"
           name="province"
           value={formData.province || ''}
           onChange={handleChange}
@@ -362,6 +363,7 @@ export function LocationFilter() {
         <InputLabel id="municipality-label">Municipio*</InputLabel>
         <Select
           labelId="municipality-label"
+          label="Municipio*"
           name="municipality"
           value={formData.municipality || ''}
           onChange={handleChange}
@@ -380,6 +382,7 @@ export function LocationFilter() {
         <InputLabel id="population-label">Población*</InputLabel>
         <Select
           labelId="population-label"
+          label="Población*"
           name="population"
           value={formData.population || ''}
           onChange={handleChange}
@@ -398,6 +401,7 @@ export function LocationFilter() {
         <InputLabel id="neighborhood-label">Barrio*</InputLabel>
         <Select
           labelId="neighborhood-label*"
+          label="Barrio*"
           name="neighborhood"
           value={formData.neighborhood || ''}
           onChange={handleChange}

@@ -26,6 +26,56 @@ export function InmueblesProvider({ children }) {
   const [neighborhood, setNeighborhood] = useState();
   const [population, setPopulation] = useState();
 
+  const resetFilters = () => {
+    setMeter(0);
+    setRoom('');
+    setBaths('');
+    setGarage('');
+    setMinPrice('');
+    setMaxPrice('');
+    setCheckbox({
+      closet: false,
+      air_condicioned: false,
+      heating: false,
+      elevator: false,
+      outside_view: false,
+      garden: false,
+      pool: false,
+      terrace: false,
+      storage: false,
+      accessible: false,
+    });
+    setProvince('');
+    setMunicipality('');
+    setNeighborhood('');
+    setPopulation('');
+  };
+
+  const value = {
+    meter,
+    setMeter,
+    room,
+    setRoom,
+    resetFilters,
+    baths,
+    setBaths,
+    garage,
+    setGarage,
+    minPrice,
+    setMinPrice,
+    maxPrice,
+    setMaxPrice,
+    checkbox,
+    setCheckbox,
+    province,
+    setProvince,
+    municipality,
+    setMunicipality,
+    neighborhood,
+    setNeighborhood,
+    population,
+    setPopulation,
+  };
   return (
     <HousingContextFilter.Provider value={{ room, setRoom, baths, setBaths, meter, setMeter, garage, setGarage, minPrice, setMinPrice, maxPrice, setMaxPrice, checkbox, setCheckbox, province, setProvince, municipality, setMunicipality, neighborhood, setNeighborhood, population, setPopulation  }}>
       {children}

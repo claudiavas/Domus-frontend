@@ -1,9 +1,12 @@
 import { Box, Button, Divider, Fab, IconButton, Toolbar } from "@mui/material";
 import { BathFilter, LocationFilter, PriceFilterMin, SquareMeters, RoomFilter, GaragesFilter, CheckboxesFilters, PriceFilterMax } from "../../FilterHousing";
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
-import { width } from "@mui/system";
+import HousingContextFilter from "../../FilterHousing/HousingContextFilter";
+import { useContext } from "react";
 
 function Filters(props) {
+
+  const { resetFilters } = useContext(HousingContextFilter);
 
   return (
 
@@ -48,6 +51,7 @@ function Filters(props) {
             sx={{
               fontSize: '14px', // Ajusta el tamaño del ícono
             }}
+            onClick={resetFilters} // Mueve el evento onClick aquí
           >
             <FilterAltOffIcon />
           </IconButton>
@@ -75,7 +79,7 @@ function Filters(props) {
       <Divider />
       <h3 style={{ marginLeft: '1em' }}>Equipamiento</h3>
       <CheckboxesFilters />
-      <div style{{ paddingTop: '2vh'}}></div>
+      <div style={{ paddingTop: '2vh' }}></div>
     </div>
 
   )
