@@ -3,10 +3,11 @@ import axios from "axios";
 
 import dotenv from "dotenv";
 
-const BackendUrl = process.env.BackendUrl;
-
 // Cargar variables de entorno de .env
 dotenv.config();
+
+const BackendUrl = import.meta.env.VITE_BACKEND_URL;
+
 
 //HOUSING
 
