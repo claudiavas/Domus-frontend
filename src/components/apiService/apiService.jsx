@@ -1,8 +1,10 @@
 import axios from "axios";
+import BackendUrl from "../../configGlobal";
 
-// const BackendUrl = "https://localhost:8000";
-// const BackendUrl = "https://verde-backend-production.up.railway.app";
-const BackendUrl = "https://verde-backend-production-b5b9.up.railway.app/";
+import dotenv from "dotenv";
+
+// Cargar variables de entorno de .env
+dotenv.config();
 
 //HOUSING
 

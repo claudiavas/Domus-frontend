@@ -1,0 +1,1 @@
+export const BackendUrl = import.meta.env.BACKEND_URL || 'http://localhost:8000';
