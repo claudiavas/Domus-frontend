@@ -1,7 +1,9 @@
 import axios from "axios";
-import BackendUrl from "../../configGlobal";
+// import BackendUrl from "../../configGlobal";
 
 import dotenv from "dotenv";
+
+const BackendUrl = process.env.BackendUrl;
 
 // Cargar variables de entorno de .env
 dotenv.config();
